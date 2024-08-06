@@ -2,7 +2,7 @@ import { Box, Modal } from "@mui/material";
 import { push, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
-
+import { FaRegCircleCheck } from "react-icons/fa6";
 import { BsFillPeopleFill } from "react-icons/bs";
 // import { db } from "../../Firebase";
 import { toast, ToastContainer } from "react-toastify";
@@ -66,11 +66,6 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
     setIsMonth(true);
     setIsYear(false);
   };
-
-  console.log(firstDate);
-
-  console.log(secondDate);
-
   const addYearly = () => {
     setIsMonth(false);
     setIsYear(true);
@@ -122,7 +117,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                 </p>
                 <div className="w-[100%] flex flex-col justify-center items-center mt-2 gap-3">
                   <div
-                    className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-black text-white font-[500] relative"
+                    className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#3fb621] text-white font-[500] relative"
                     onClick={() => addMonthly()}
                   >
                     {isMonth && (
@@ -132,7 +127,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                   </div>
 
                   <div
-                    className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-black text-white font-[500] relative"
+                    className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#3fb621] text-white font-[500] relative"
                     onClick={() => addYearly()}
                   >
                     {isYear && (
@@ -171,7 +166,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
 
                 {/* <div className="w-[100%] flex flex-col justify-center items-center mt-4 gap-3">
               <div
-                className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-black text-white font-[500]"
+                className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#3fb621] text-white font-[500]"
                 onClick={() =>
                   AddSubscription(
                     firstDate,
@@ -186,7 +181,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
             </div> */}
                 <div className="w-[100%] h-[45px] flex justify-evenly items-center mt-3">
                   <button
-                    className="w-[45%] h-[45px] outline-none bg-[black] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                    className="w-[45%] h-[45px] outline-none bg-[#3fb621] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                     onClick={() => {
                       callBack(), setIsSubscribe(false);
                     }}
@@ -194,7 +189,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                     {t("Cancel")}
                   </button>
                   <button
-                    className="w-[45%] h-[45px] outline-none bg-[black] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                    className="w-[45%] h-[45px] outline-none bg-[#3fb621] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                     onClick={() =>
                       createNewCard(
                         { ...data, firstDate, secondDate },
@@ -244,7 +239,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                   />
                   <div className="w-[100%] h-[45px] flex justify-evenly items-center">
                     <button
-                      className="w-[45%] h-[45px] outline-none bg-[black] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                      className="w-[45%] h-[45px] outline-none bg-[#3fb621] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                       onClick={() => {
                         callBack(), setIsSubscribe(false);
                       }}
@@ -253,7 +248,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                     </button>
                     {conexParent != "superAdmin" ? (
                       <button
-                        className="w-[45%] h-[45px] outline-none bg-[black] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                        className="w-[45%] h-[45px] outline-none bg-[#3fb621] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                         onClick={() =>
                           createNewCard(
                             data,
@@ -268,7 +263,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                       </button>
                     ) : (
                       <button
-                        className="w-[45%] h-[45px] outline-none bg-[black] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                        className="w-[45%] h-[45px] outline-none bg-[#3fb621] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                         onClick={() =>
                           // createNewCard(
                           //   data,

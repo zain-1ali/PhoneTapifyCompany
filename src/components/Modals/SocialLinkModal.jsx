@@ -662,7 +662,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                       {checkAdded(linkInfo?.linkID) ? (
                         <>
                           <div
-                            className="h-[38px] w-[110px] rounded-full cursor-pointer font-[500] flex justify-center items-center ml-1 bg-black text-white"
+                            className="h-[38px] w-[110px] rounded-full cursor-pointer font-[500] flex justify-center items-center ml-1 bg-[#3fb621] text-white"
                             onClick={() =>
                               updateNewLink(
                                 {
@@ -1306,12 +1306,12 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                   </div>
 
                   {/* ------------------------------------------Photos icons------------------------------------  */}
-                  <div className="mt-10">
+                  {/* <div className="mt-10">
                     <h2 className="font-medium text-[#4F4F4F]">
                       {t("Photos")}
                     </h2>
                     <div className="  grid sm:grid-cols-3 grid-cols-1 gap-x-4">
-                      {/* flex justify-around flex-wrap */}
+                      
                       {photos?.map((elm) => {
                         return (
                           <div
@@ -1348,7 +1348,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                                       )
                                     : t(elm.title)}
 
-                                  {/* {elm.name} */}
+                                 {elm.name}  // always comment
                                 </p>
                               </div>
                               <div className="h-[32px] w-[64px] bg-white  flex justify-center items-center border rounded-2xl hover:bg-[#f7f7f7]">
@@ -1359,13 +1359,13 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         );
                       })}
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* ------------------------------------------video icons------------------------------------  */}
-                  <div className="mt-10">
+                  {/* <div className="mt-10">
                     <h2 className="font-medium text-[#4F4F4F]">{t("Video")}</h2>
                     <div className="  grid sm:grid-cols-3 grid-cols-1 gap-x-4">
-                      {/* flex justify-around flex-wrap */}
+                       flex justify-around flex-wrap // always comment
                       {Video?.map((elm) => {
                         return (
                           <div
@@ -1393,7 +1393,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                                       )
                                     : t(elm.title)}
 
-                                  {/* {elm.name} */}
+                                   {elm.name} // always comment
                                 </p>
                               </div>
                               <div className="h-[32px] w-[64px] bg-white  flex justify-center items-center border rounded-2xl hover:bg-[#f7f7f7]">
@@ -1404,7 +1404,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         );
                       })}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </>
             )}

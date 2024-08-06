@@ -291,7 +291,7 @@ const EditMember = () => {
               <div className="sm:w-[70%] w-[100%] h-[70px] sm:mb-[0px] mb-[15px]  sm:rounded-t-[35px] sm:rounded-[0px] rounded-[44px] bg-white flex justify-center items-center ">
                 <div className="sm:w-[70%] w-[92%] h-[45px] sm:mb-[0px]   sm:rounded-t-[35px] sm:rounded-[0px] rounded-[44px] bg-white flex">
                   <div
-                    className="w-[25%] h-[100%]  sm:rounded-tl-[35px] sm:rounded-[0px] rounded-[44px]  sm:border-r cursor-pointer hover:bg-black hover:text-white flex justify-center items-center"
+                    className="w-[25%] h-[100%]  sm:rounded-tl-[35px] sm:rounded-[0px] rounded-[44px]  sm:border-r cursor-pointer hover:bg-[#3fb621] hover:text-white flex justify-center items-center"
                     onClick={() => handleRoute("about")}
                   >
                     <FaUser className="text-[16px] ml-2 " />
@@ -305,7 +305,7 @@ const EditMember = () => {
                   </div>
 
                   <div
-                    className="w-[25%] h-[100%]  sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-black flex items-center justify-center hover:text-white text-black"
+                    className="w-[25%] h-[100%]  sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#3fb621] flex items-center justify-center hover:text-white text-black"
                     onClick={() => handleRoute("content")}
                   >
                     <IoMdMenu className="text-[16px] ml-2 " />
@@ -317,7 +317,7 @@ const EditMember = () => {
                     </p>
                   </div>
                   <div
-                    className="w-[25%] h-[100%]   sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-black flex items-center justify-center hover:text-white text-black"
+                    className="w-[25%] h-[100%]   sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#3fb621] flex items-center justify-center hover:text-white text-black"
                     onClick={() => handleRoute("qr")}
                   >
                     <BsQrCode className="text-[16px] ml-2 " />
@@ -329,7 +329,7 @@ const EditMember = () => {
                     </p>
                   </div>
                   <div
-                    className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-black flex items-center justify-center hover:text-white text-black"
+                    className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#3fb621] flex items-center justify-center hover:text-white text-black"
                     onClick={() => handleRoute("lead")}
                   >
                     <FaFilter className="text-[16px] ml-2 " />
@@ -346,11 +346,11 @@ const EditMember = () => {
             {screen >= 450 ? (
               <div className="sm:w-[70%] w-[98%] h-[55px] sm:mb-[0px]   sm:rounded-t-[35px] sm:rounded-[0px] rounded-[44px] bg-white flex">
                 <div
-                  className="w-[25%] h-[100%]  sm:rounded-tl-[35px] sm:rounded-[0px] rounded-[44px]  sm:border-r cursor-pointer hover:bg-black hover:text-white flex justify-center items-center"
+                  className="w-[25%] h-[100%]  sm:rounded-tl-[35px] sm:rounded-[0px] rounded-[44px]  sm:border-r cursor-pointer hover:bg-[#3fb621] hover:text-white flex justify-center items-center"
                   onClick={() => handleRoute("about")}
                   style={
                     route?.isAbout
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -365,11 +365,11 @@ const EditMember = () => {
                 </div>
 
                 <div
-                  className="w-[25%] h-[100%]  sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-black flex items-center justify-center hover:text-white text-black"
+                  className="w-[25%] h-[100%]  sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#3fb621] flex items-center justify-center hover:text-white text-black"
                   onClick={() => handleRoute("content")}
                   style={
                     route?.isContent
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -382,11 +382,11 @@ const EditMember = () => {
                   </p>
                 </div>
                 <div
-                  className="w-[25%] h-[100%]   sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-black flex items-center justify-center hover:text-white text-black"
+                  className="w-[25%] h-[100%]   sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#3fb621] flex items-center justify-center hover:text-white text-black"
                   onClick={() => handleRoute("qr")}
                   style={
                     route?.isQr
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -399,11 +399,11 @@ const EditMember = () => {
                   </p>
                 </div>
                 <div
-                  className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-black flex items-center justify-center hover:text-white text-black"
+                  className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#3fb621] flex items-center justify-center hover:text-white text-black"
                   onClick={() => handleRoute("lead")}
                   style={
                     route?.isLead
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >

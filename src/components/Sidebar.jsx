@@ -80,16 +80,16 @@ const Sidebar = () => {
       <div className="h-[94vh]  w-[100%] flex flex-col justify-between items-center">
         <div className="h-[75%]  w-[90%] flex flex-col">
           <div className="h-[15%]  w-[100%] flex items-center justify-center mt-3">
-            <img src={logo} alt="conex" className="h-[30px] w-[123px]" />
+            <img src={logo} alt="conex" className="h-[30px] w-[160px]" />
             {/* <h2 class=" text-xl font-medium ml-2 text-black">Inventory</h2> */}
           </div>
           <div className="h-max  w-[100%]   mt-5 ">
             <div
-              className="hover:bg-[black] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer "
+              className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer "
               onClick={() => navigate("/home")}
               style={
                 currentPath.includes("/home") || currentPath.includes("/edit")
-                  ? { backgroundColor: "black", color: "white" }
+                  ? { backgroundColor: "#3fb621", color: "white" }
                   : null
               }
             >
@@ -111,11 +111,11 @@ const Sidebar = () => {
             {conexParent != "superAdmin" && (
               <>
                 <div
-                  className="hover:bg-[black] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/subteams")}
                   style={
                     currentPath.includes("/subteams")
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -131,11 +131,11 @@ const Sidebar = () => {
                 </div>
 
                 <div
-                  className="hover:bg-[black] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/leads")}
                   style={
                     currentPath.includes("/leads")
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -150,11 +150,11 @@ const Sidebar = () => {
                 </div>
 
                 <div
-                  className="hover:bg-[black] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/analytics")}
                   style={
                     currentPath.includes("/analytics")
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -169,11 +169,11 @@ const Sidebar = () => {
                 </div>
 
                 <div
-                  className="hover:bg-[black] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/company")}
                   style={
                     pathName === "/company"
-                      ? { backgroundColor: "black", color: "white" }
+                      ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
                 >
@@ -193,7 +193,7 @@ const Sidebar = () => {
         </div>
         <div className="h-[10%]  w-[90%] flex flex-col justify-end">
           <div
-            className="h-[36px]  w-[95px]  flex items-center justify-center rounded-[34px] cursor-pointer gap-2 ml-2 border bg-black"
+            className="h-[36px]  w-[95px]  flex items-center justify-center rounded-[34px] cursor-pointer gap-2 ml-2 border bg-[#3fb621]"
             onClick={() => handledeleteModal()}
           >
             {" "}

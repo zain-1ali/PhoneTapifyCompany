@@ -263,7 +263,7 @@ const Home = () => {
                   <MdArrowDropDown className="text-2xl ml-1" />
                 </div> */}
                   <div
-                    className="w-[185px] h-[100%] rounded-[36px] bg-black shadow-xl flex justify-center items-center cursor-pointer"
+                    className="w-[185px] h-[100%] rounded-[36px] bg-[#3fb621] shadow-xl flex justify-center items-center cursor-pointer"
                     onClick={() => handleModal()}
                   >
                     <p className="font-[400] text-[14px] text-white mr-1 text-center">

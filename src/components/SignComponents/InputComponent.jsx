@@ -38,7 +38,7 @@ const InputComponent = ({ type, handleSubmit }) => {
   return (
     <div className="sm:w-[45%] w-[100%] h-[97%] sm:border rounded-[60px] bg-white relative">
       <div className="w-[100%] flex justify-center flex-col items-center mt-[15px]">
-        <img src={logo} alt="" className="w-[189px] h-[46px]" />
+        <img src={logo} alt="" className="w-[210px] h-[40px]" />
         <p className="font-[400] text-[12px]">
           {}
           Connect Smarter and Grow Faster
@@ -107,7 +107,7 @@ const InputComponent = ({ type, handleSubmit }) => {
           </div>
         ) : null}
         <div
-          className="sm:w-[83%] w-[90%] sm:h-[60px] h-[50px] rounded-[46px]  bg-[black] text-[white] pl-[15px] mt-4 font-[500] text-[22px] flex justify-center items-center cursor-pointer"
+          className="sm:w-[83%] w-[90%] sm:h-[60px] h-[50px] rounded-[46px]  bg-[#3fb621] text-[white] pl-[15px] mt-4 font-[500] text-[22px] flex justify-center items-center cursor-pointer"
           onClick={() => {
             type === "forget"
               ? handleSubmit(

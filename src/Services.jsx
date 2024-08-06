@@ -46,13 +46,11 @@ const getOneYearAfterTimestampInSeconds = () => {
 // ------------------------------------------------Login User-----------------------------------------------
 
 export const handleLogin = (data, navigate) => {
-  console.log("testing");
 
   if (data?.email && data?.password) {
     const starCountRef = ref(db, `/Admin`);
     onValue(starCountRef, async (snapshot) => {
       const admin = await snapshot.val();
-
       if (data?.email === admin?.email && data?.password === admin?.password) {
         localStorage.setItem("connexUid", "superAdmin");
         localStorage.setItem("conexParent", "superAdmin");
@@ -133,12 +131,18 @@ export const handleLogin = (data, navigate) => {
           })
           .catch((error) => {
             console.log(error.message);
+            
             if (error.message === "Firebase: Error (auth/user-not-found).") {
               toast.error("User not Found !");
             } else if (
               error.message === "Firebase: Error (auth/wrong-password)."
             ) {
               toast.error("Wrong Password !");
+            }
+            else if (
+              error.message === "Firebase: Error (auth/invalid-credential)."
+            ) {
+              toast.error("Invalid Crendetials !");
             }
           });
       }
@@ -246,151 +250,88 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               ? Object.values(companyProfile?.links)
               : "";
           console.log(companyLinks);
+          let newAccountData = {
+            platform: "web",
+            address: "",
+            backgroundColor: "#000000",
+            bio: "",
+            city: "",
+            color: "#000000",
+            coverUrl: "",
+            darkTheme: "0",
+            directMode: false,
+            dob: "",
+            email: data.email,
+            fcmToken: "",
+            gender: "",
+            id: user.uid,
+            isActivateTag: false,
+            isCover: false,
+            isCustomLink: false,
+            isDeleted: false,
+            isEmail: true,
+            isFirstLink: false,
+            isProVersion: false,
+            isProfile: false,
+            isProfilePhoto: false,
+            isReqByMe: false,
+            isReqByOther: false,
+            isShareProfile: false,
+            isSubscribe: false,
+            job: "",
+            language: "en",
+            logoUrl: "",
+            name: data?.name,
+            parentID: cnxId,
+            parentId: "",
+            phone: "",
+            profileOn: 1,
+            profileUrl: "",
+            socialTextColor: "#FF000000",
+            title: "",
+            totalViews: 0,
+            username: data?.name + randNum(),
+            website: "",
+            workPlace: "",
+            formHeader: "Contact me!",
+            leadForm: {
+              Fname: true,
+              company: true,
+              email: true,
+              job: true,
+              note: true,
+              phone: true,
+            },
+            isAdmin: false,
+            companyId: cnxId,
+            isCompany: false,
+            qrLogoUrl: "",
+            qrColor: "#000000",
+            leadMode: false,
+            textColor: "",
+            profilePictureLock: false,
+            logoLock: false,
+            nameLock: false,
+            phoneLock: false,
+            bioLock: false,
+            locationLock: false,
+            coverLock: false,
+          };
+          if(companyLinks)
+          {
+            newAccountData.links =companyLinks;
+          }
           update(
             ref(db, `Users/${user.uid}`),
-            companyLinks
-              ? {
-                  platform: "web",
-                  address: "",
-                  backgroundColor: "#000000",
-                  bio: "",
-                  city: "",
-                  color: "#000000",
-                  coverUrl: "",
-                  darkTheme: "0",
-                  directMode: false,
-                  dob: "",
-                  email: data.email,
-                  fcmToken: "",
-                  gender: "",
-                  id: user.uid,
-                  isActivateTag: false,
-                  isCover: false,
-                  isCustomLink: false,
-                  isDeleted: false,
-                  isEmail: true,
-                  isFirstLink: false,
-                  isProVersion: false,
-                  isProfile: false,
-                  isProfilePhoto: false,
-                  isReqByMe: false,
-                  isReqByOther: false,
-                  isShareProfile: false,
-                  isSubscribe: false,
-                  job: "",
-                  language: "en",
-                  links: companyLinks,
-                  logoUrl: "",
-                  name: data?.name,
-                  parentID: cnxId,
-                  parentId: "",
-                  phone: "",
-                  profileOn: 1,
-                  profileUrl: "",
-                  socialTextColor: "#FF000000",
-                  title: "",
-                  totalViews: 0,
-                  username: data?.name + randNum(),
-                  website: "",
-                  workPlace: "",
-                  formHeader: "Contact me!",
-                  leadForm: {
-                    Fname: true,
-                    company: true,
-                    email: true,
-                    job: true,
-                    note: true,
-                    phone: true,
-                  },
-                  isAdmin: false,
-                  companyId: cnxId,
-                  isCompany: false,
-                  qrLogoUrl: "",
-                  qrColor: "#000000",
-                  leadMode: false,
-                  textColor: "",
-                  profilePictureLock: false,
-                  logoLock: false,
-                  nameLock: false,
-                  phoneLock: false,
-                  bioLock: false,
-                  locationLock: false,
-                  coverLock: false,
-                }
-              : {
-                  platform: "web",
-                  address: "",
-                  backgroundColor: "#000000",
-                  bio: "",
-                  city: "",
-                  color: "#000000",
-                  coverUrl: "",
-                  darkTheme: "0",
-                  directMode: false,
-                  dob: "",
-                  email: data.email,
-                  fcmToken: "",
-                  gender: "",
-                  id: user.uid,
-                  isActivateTag: false,
-                  isCover: false,
-                  isCustomLink: false,
-                  isDeleted: false,
-                  isEmail: true,
-                  isFirstLink: false,
-                  isProVersion: true,
-                  isProfile: false,
-                  isProfilePhoto: false,
-                  isReqByMe: false,
-                  isReqByOther: false,
-                  isShareProfile: false,
-                  isSubscribe: false,
-                  job: "",
-                  language: "en",
-                  logoUrl: "",
-                  name: data?.name,
-                  parentID: cnxId,
-                  parentId: "",
-                  phone: "",
-                  profileOn: 1,
-                  profileUrl: "",
-                  socialTextColor: "#FF000000",
-                  title: "",
-                  totalViews: 0,
-                  username: data?.name + randNum(),
-                  website: "",
-                  workPlace: "",
-                  formHeader: "Contact me!",
-                  leadForm: {
-                    Fname: true,
-                    company: true,
-                    email: true,
-                    job: true,
-                    note: true,
-                    phone: true,
-                  },
-                  isAdmin: false,
-                  companyId: cnxId,
-                  isCompany: false,
-                  isCompanyActive: true,
-                  qrLogoUrl: "",
-                  qrColor: "#000000",
-                  leadMode: false,
-                  textColor: "",
-                  profilePictureLock: false,
-                  logoLock: false,
-                  nameLock: false,
-                  phoneLock: false,
-                  bioLock: false,
-                  locationLock: false,
-                  coverLock: false,
-                }
+            newAccountData
           ).then(() => {
             axios
               .post(`${baseUrl}createAccount`, {
                 companyId: cnxId,
                 email: data?.email,
                 password: data?.password,
+                pkgStartDate : data?.firstDate ?? "N/A",
+                pkgExpDate : data?.secondDate ?? "N/A",
                 token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
               })
               .then((res) => {
@@ -486,6 +427,8 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               .post(`${baseUrl}createAccount`, {
                 email: data?.email,
                 password: data?.password,
+                pkgStartDate : data?.firstDate ?? "N/A",
+                pkgExpDate : data?.secondDate ?? "N/A",
                 token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
               })
               .then((res) => {
