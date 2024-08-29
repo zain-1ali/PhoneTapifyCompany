@@ -12,8 +12,8 @@ import bgplhldr from "../../imgs/bgplhldr.png";
 import { MdOutlineCancel, MdOutlineMail } from "react-icons/md";
 
 import { FaExchangeAlt } from "react-icons/fa";
-import { FiPhone } from "react-icons/fi";
-import { IoBriefcaseOutline } from "react-icons/io5";
+import { IoOptionsOutline } from "react-icons/io5";
+import { FaStarHalfStroke } from "react-icons/fa6";
 import csv from "../../imgs/csv.png";
 import zap from "../../imgs/zap.png";
 import { TfiDownload } from "react-icons/tfi";
@@ -21,7 +21,7 @@ import { FaRegMessage } from "react-icons/fa6";
 import DownloadCsv from "../DownloadCsv";
 import { useTranslation } from "react-i18next";
 
-const SingleLeadModal = ({ leadModal, handleLeadModal, singleLead }) => {
+const SingleReviewModal = ({ reviewModal, handleReviewModal, singleReview }) => {
   const style2 = {
     position: "absolute",
     top: "50%",
@@ -37,13 +37,13 @@ const SingleLeadModal = ({ leadModal, handleLeadModal, singleLead }) => {
     borderRadius: "18px",
     // p: "32px",
   };
-console.log(singleLead)
+console.log(singleReview)
   const { t } = useTranslation();
   return (
     <div>
       <Modal
-        open={leadModal}
-        onClose={() => handleLeadModal()}
+        open={reviewModal}
+        onClose={() => handleReviewModal()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -52,15 +52,15 @@ console.log(singleLead)
             <div className="w-[99%] flex justify-end mt-1">
               <MdOutlineCancel
                 className="text-2xl cursor-pointer"
-                onClick={() => handleLeadModal()}
+                onClick={() => handleReviewModal()}
               />
             </div>
             <div className="w-[100%] flex justify-center mt-[10px]">
               <div className="w-[75%] flex justify-between items-center">
                 <img
                   src={
-                    singleLead?.contactImage
-                      ? singleLead?.contactImage
+                    singleReview?.contactImage
+                      ? singleReview?.contactImage
                       : prsnPlshldr
                   }
                   alt=""
@@ -71,7 +71,7 @@ console.log(singleLead)
 
                 <img
                   src={
-                    singleLead?.userImage ? singleLead?.userImage : prsnPlshldr
+                    singleReview?.userImage ? singleReview?.userImage : prsnPlshldr
                   }
                   alt=""
                   className="h-[130px] w-[130px] rounded-full object-cover"
@@ -82,31 +82,31 @@ console.log(singleLead)
             <div className="w-[100%] flex justify-center mt-[40px]">
               <div className="w-[70%] flex justify-between ">
                 <div className=" w-[40%]">
-                  <h2 className="font-[400] text-[24px]">{singleLead?.name}</h2>
+                  <h2 className="font-[400] text-[24px]">{singleReview?.name}</h2>
                   <div className="flex items-center mt-4">
                     <div className="flex justify-center items-center h-[32px] w-[32px] rounded-full bg-[#F3F3F3]">
                       <MdOutlineMail />
                     </div>
                     <p className="text-[#818181] text-[12px] font-[400] ml-2">
-                      {singleLead?.email}
+                      {singleReview?.email}
                     </p>
                   </div>
 
                   <div className="flex items-center mt-4">
                     <div className="flex justify-center items-center h-[32px] w-[32px] rounded-full bg-[#F3F3F3]">
-                      <IoBriefcaseOutline />
+                      <IoOptionsOutline />
                     </div>
                     <p className="text-[#818181] text-[12px] font-[400] ml-2">
-                      {singleLead?.job}
+                      {singleReview?.option}
                     </p>
                   </div>
 
                   <div className="flex items-center mt-4">
                     <div className="flex justify-center items-center h-[32px] w-[32px] rounded-full bg-[#F3F3F3]">
-                      <FiPhone />
+                      <FaStarHalfStroke />
                     </div>
                     <p className="text-[#818181] text-[12px] font-[400] ml-2">
-                      {singleLead?.phone}
+                      {singleReview?.stars}
                     </p>
                   </div>
 
@@ -117,8 +117,8 @@ console.log(singleLead)
                       </div>
                     </div>
                     <div className="w-[80%]">
-                      <p className="text-[#818181] text-[12px] font-[400] ml-2">
-                        {singleLead?.message}
+                      <p className="text-[#818181] mt-2 text-[12px] font-[400] ml-2">
+                        {singleReview?.feedback}
                       </p>
                     </div>
                   </div>
@@ -126,8 +126,8 @@ console.log(singleLead)
                 <div className=" w-[40%]">
                   <div className="w-[100%] flex justify-center">
                     <h2 className="font-[400] text-[18px]">
-                      {singleLead ? (
-                        <DownloadCsv data={[singleLead]} />
+                      {singleReview ? (
+                        <DownloadCsv data={[singleReview]} />
                       ) : (
                         t("Export as")
                       )}
@@ -143,7 +143,7 @@ console.log(singleLead)
                   <div className="h-[113px] rounded-[18px] border shadow-lg mt-2 flex justify-center flex-col items-center cursor-pointer">
                     <img src={csv} alt="" className="h-[35px] w-[35px]" />
                     <div className="flex text-[14px] font-[500] mt-1">
-                      <DownloadCsv data={[singleLead]} />{" "}
+                      <DownloadCsv data={[singleReview]} />{" "}
                       <TfiDownload className="text-lg ml-1" />
                     </div>
                   </div>
@@ -157,4 +157,4 @@ console.log(singleLead)
   );
 };
 
-export default SingleLeadModal;
+export default SingleReviewModal;

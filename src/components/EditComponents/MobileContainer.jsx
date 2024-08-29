@@ -12,7 +12,7 @@ const MobileContainer = ({ id }) => {
       </p>
       <button
         className="w-[90px] h-[30px] mt-1 rounded-[11px] border-black border font-[500] text-[12px]"
-        onClick={() => window.open(`https://www.test.connexcard.com/${id}`)}
+        onClick={() => window.open(`http://localhost:8000/${id}`)}
       >
         {t("View Card")}
       </button>

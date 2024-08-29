@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import SubTeams from "./pages/SubTeams";
 import Leads from "./pages/Leads";
+import Reviews from "./pages/Reviews";
 import Analytics from "./pages/Analytics";
 import EditMember from "./pages/EditMember";
 import Company from "./pages/Company";
@@ -65,6 +66,14 @@ function App() {
               element={
                 <RequireAuth>
                   <Leads />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/reviews"
+              element={
+                <RequireAuth>
+                  <Reviews />
                 </RequireAuth>
               }
             />

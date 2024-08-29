@@ -582,6 +582,7 @@ export const getAllChilds = async (callBackFunc, setloading) => {
         user.otherTags = [];
    
         if (user.profileType && !user.otherTags.includes(user.profileType)) {
+          console.log(user.profileType)
           user.otherTags.push(user.profileType);
         }
 
@@ -596,12 +597,12 @@ export const getAllChilds = async (callBackFunc, setloading) => {
       
         if (subUsersSnapshot.exists()) {
           const subUsersData = subUsersSnapshot.val();
-          // console.log(subUsersData);
+          console.log(subUsersData);
       
           for (const key in subUsersData) {
             if (subUsersData.hasOwnProperty(key)) {
               const subUser = subUsersData[key];
-              // console.log("Tag Type:", subUser.profileType); // Accessing tagType
+              console.log("Tag Type:", subUser.profileType); // Accessing tagType
       
               if (subUser.profileType && !user.otherTags.includes(subUser.profileType)) {
                 user.otherTags.push(subUser.profileType);
@@ -624,45 +625,6 @@ export const getAllChilds = async (callBackFunc, setloading) => {
     setloading(false);
   }
 };
-export const getChildProfiles = async (parentId, callBackFunc) => {
-  try {
-    console.log(parentId);
-    
-    // Fetch users based on parentID
-    const starCountRef = query(
-      ref(db, "/Users"),
-      orderByChild("accountID"),
-      equalTo(parentId)
-    );
-
-    const snapshot = await get(starCountRef);
-
-    if (snapshot.exists()) {
-      const childs = snapshot.val();
-
-      // Filter out records where accountID is equal to the record ID
-      const filteredUserList = Object.keys(childs)
-        // .filter(key => key !== childs[key]?.accountID)  // Correct comparison
-        .map(key => ({
-          id: key,
-          ...childs[key]
-        }));
-
-      // Execute the callback function with the filtered user list
-      callBackFunc(filteredUserList);
-      // console.log(filteredUserList);
-    }  else {
-      callBackFunc([]);
-      // console.log("No users found.");
-    }
-  } catch (error) {
-    console.error("Error fetching users or sub-users:", error);
-  } finally {
-    // setloading(false);
-  }
-};
-
-
 
 // export const getAllChilds = async (callBackFunc, setloading, cb) => {
 //   setloading(true);
@@ -2171,7 +2133,7 @@ export const getContacts = (id, cb) => {
   });
 };
 
-// ------------------------------------------------Get single child reviews-----------------------------------------------
+// ------------------------------------------------Get single child profile-----------------------------------------------
 
 export const getReviews = (id, cb) => {
   const starCountRef = query(
@@ -2775,16 +2737,11 @@ export const getTeamAnalytics = async (Ids, callBackFunc, setloading) => {
               overallClicks: 0,
               overallContactsMe: 0,
               overallLinksEng: 0,
-              overallReviews: 0,
               tContactsMeCrntMnth: 0,
               tContactsMeCrntWk: 0,
               tContactsMeCrntYear: 0,
               tContactsMePastWk: 0,
               tContactsMeToday: 0,
-              tReviewsToday: 0,
-              tReviewsCrntWk: 0,
-              tReviewsCrntMnth: 0,
-              tReviewsCrntYear: 0,
               totalClicks: 0,
               totalClicksCrntMnth: 0,
               totalClicksCrntYear: 0,
@@ -2797,8 +2754,7 @@ export const getTeamAnalytics = async (Ids, callBackFunc, setloading) => {
       } finally {
         setloading(false);
       }
-    } 
-    else {
+    } else {
       callBackFunc({
         analyticsObject: {
           currentDay: 0,
@@ -2811,16 +2767,11 @@ export const getTeamAnalytics = async (Ids, callBackFunc, setloading) => {
           overallClicks: 0,
           overallContactsMe: 0,
           overallLinksEng: 0,
-          overallReviews: 0,
           tContactsMeCrntMnth: 0,
           tContactsMeCrntWk: 0,
           tContactsMeCrntYear: 0,
           tContactsMePastWk: 0,
           tContactsMeToday: 0,
-          tReviewsToday: 0,
-          tReviewsCrntWk: 0,
-          tReviewsCrntMnth: 0,
-          tReviewsCrntYear: 0,
           totalClicks: 0,
           totalClicksCrntMnth: 0,
           totalClicksCrntYear: 0,
@@ -2842,16 +2793,11 @@ export const getTeamAnalytics = async (Ids, callBackFunc, setloading) => {
         overallClicks: 0,
         overallContactsMe: 0,
         overallLinksEng: 0,
-        overallReviews: 0,
         tContactsMeCrntMnth: 0,
         tContactsMeCrntWk: 0,
         tContactsMeCrntYear: 0,
         tContactsMePastWk: 0,
         tContactsMeToday: 0,
-        tReviewsToday: 0,
-        tReviewsCrntWk: 0,
-        tReviewsCrntMnth: 0,
-        tReviewsCrntYear: 0,
         totalClicks: 0,
         totalClicksCrntMnth: 0,
         totalClicksCrntYear: 0,

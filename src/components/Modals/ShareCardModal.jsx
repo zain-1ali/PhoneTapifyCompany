@@ -50,7 +50,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
 
   //   let profileUrl = import.meta.env.VITE_PROFILE_URL;
   //   let orgUrl = import.meta.env.VITE_PROFILE_URL_ADMIN;
-  let shareUrl = `test.connexcard.com/${userId}`;
+  let shareUrl = `http://localhost:8000/${userId}`;
   //   console.log(vizzRole);
   //   console.log(shareUrl);
   const { t } = useTranslation();

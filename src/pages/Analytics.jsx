@@ -13,6 +13,7 @@ import {
   getSingleChildAnalytics,
   getTeamAnalytics,
   splitString,
+  getChildProfiles,
 } from "../Services";
 import { Checkbox, Menu, MenuItem, Tooltip } from "@mui/material";
 import prsnPlshldr from "../imgs/prsnPlshldr.png";
@@ -58,7 +59,16 @@ const Analytics = () => {
     setAllProfilesIds(returnIds(Object.values(obj)));
   };
 
-  console.log(allProfilesIds);
+  let [childProfiles, setChildProfiles] = useState(null);
+  const [childProfilesIds, setChildProfilesIds] = useState([]);
+
+  let getChildProfilesData = (obj) => {
+    console.log(obj)
+    setChildProfiles(Object.values(obj));
+    setChildProfilesIds(returnIds(Object.values(obj)));
+  };
+
+  // console.log(allProfilesIds);
 
   const [anchorEl, setAnchorEl] = useState(null);
   let [loading, setloading] = useState(false);
@@ -94,6 +104,18 @@ const Analytics = () => {
     setAnchorEl3(null);
   };
 
+
+  const [anchorEl4, setAnchorEl4] = useState(null);
+
+  const open4 = Boolean(anchorEl4);
+
+  const handleClickListItem4 = (event) => {
+    setAnchorEl4(event.currentTarget);
+  };
+  const handleClose4 = () => {
+    setAnchorEl4(null);
+  };
+
   let [companyId, setCompanyId] = useState("");
   let conexParent = localStorage.getItem("conexParent");
   let connexUid = localStorage.getItem("connexUid");
@@ -102,7 +124,7 @@ const Analytics = () => {
   let [analytics, setAnalytics] = useState({});
   let [filter, setfilter] = useState("Total");
 
-  console.log(analytics);
+  // console.log(analytics);
   useEffect(() => {
     if (conexParent) {
       setCompanyId(conexParent);
@@ -114,6 +136,15 @@ const Analytics = () => {
   useEffect(() => {
     getAllChilds(getAllProfiles, () => console.log("test"));
   }, []);
+
+  useEffect(() => {
+    setSelectedUser(companyProfile?.[companyId])
+  }, [companyProfile?.[companyId]?.id])
+
+  useEffect(() => {
+    console.log("child profile test34")
+    getChildProfiles(selectedUser?.id, getChildProfilesData, () => console.log("child profile test"));
+  }, [selectedUser?.id]);
 
   useEffect(() => {
     getSingleChild(companyId, setCompanyProfile);
@@ -142,7 +173,7 @@ const Analytics = () => {
 
   // }, [allProfilesIds]);
 
-  console.log(selectedUser);
+  // console.log(selectedUser);
 
   useEffect(() => {
     getSingleChildAnalytics(companyId, setAnalytics, setloading);
@@ -191,6 +222,20 @@ const Analytics = () => {
         } else if (filter === "Today") {
           return data?.linksEngToday;
         }
+      } else if (value === "reviews") {
+        if (filter === "Total") {
+          return data?.overallReviews;
+        } else if (filter === "Past 1 week") {
+          return data?.tReviewsCrntWk;
+        } else if (filter === "Past 1 Month") {
+          return data?.tReviewsCrntMnth;
+        } else if (filter === "Past 1 Year") {
+          return data?.tReviewsCrntYear;
+        } else if (filter === "Today") {
+          return data?.tReviewsToday;
+        } else {
+          return 0;
+        }
       }
     } else {
       return 0;
@@ -229,7 +274,7 @@ const Analytics = () => {
   const [isNameFilter, setIsNameFilter] = useState(true);
 
   const data = {
-    labels: [t("Total Clicks"), t("Total Views"), t("Total Leads")],
+    labels: [t("Total Clicks"), t("Total Views"), t("Total Leads"), t("Total Reviews")],
     datasets: [
       {
         // label: [t("Total Clicks"), t("Total Views"), t("Total Leads")],
@@ -237,9 +282,10 @@ const Analytics = () => {
           returnAnalyticsData(filter, "links", analytics),
           returnAnalyticsData(filter, "views", analytics),
           returnAnalyticsData(filter, "leads", analytics),
+          returnAnalyticsData(filter, "reviews", analytics),
         ],
-        backgroundColor: ["#0f42d1", "#d10f25", "#2cf525"],
-        borderColor: ["#0f42d1", "#d10f25", "#2cf525"],
+        backgroundColor: ["#0f42d1", "#d10f25", "#2cf525", "#ac8b42"],
+        borderColor: ["#0f42d1", "#d10f25", "#2cf525", "#ac8b42"],
         borderWidth: 1,
       },
     ],
@@ -353,7 +399,7 @@ const Analytics = () => {
                   id="company-menu"
                   aria-haspopup="listbox"
                   aria-controls="company-menu"
-                  onClick={!isNameFilter ? handleClickListItem3 : () => {}}
+                  onClick={!isNameFilter ? handleClickListItem3 : () => { }}
                   className="w-[140px] h-[100%]  flex justify-evenly items-center cursor-pointer opacity-[25%] "
                   style={{ opacity: isNameFilter ? "25%" : "100%" }}
                 >
@@ -363,6 +409,9 @@ const Analytics = () => {
                   <MdArrowDropDown className="text-2xl" />
                 </div>
               </div>
+
+
+              { /************** team menus *****************/}
               <Menu
                 id="company-menu"
                 anchorEl={anchorEl3}
@@ -403,7 +452,9 @@ const Analytics = () => {
                 })}
               </Menu>
 
-              <div className="w-[220px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer">
+
+              { /************** User menus *****************/}
+              <div className="w-[220px] h-[100%] rounded-[36px] mr-4 bg-white shadow-xl flex justify-evenly items-center cursor-pointer">
                 <Checkbox
                   // {...label}
                   checked={isNameFilter}
@@ -421,18 +472,18 @@ const Analytics = () => {
                   id="lang-button"
                   aria-haspopup="listbox"
                   aria-controls="lang-menu"
-                  onClick={isNameFilter ? handleClickListItem : () => {}}
+                  onClick={isNameFilter ? handleClickListItem : () => { }}
                   className="w-[179px] h-[100%]  flex justify-evenly items-center cursor-pointer"
                   style={{ opacity: isNameFilter ? "100%" : "25%" }}
                 >
                   <p className="font-[500] text-[15px]">
                     {selectedUser
                       ? splitString(
-                          selectedUser?.name
-                            ? selectedUser?.name
-                            : companyProfile?.[companyId]?.name,
-                          11
-                        )
+                        selectedUser?.name
+                          ? selectedUser?.name
+                          : companyProfile?.[companyId]?.name,
+                        11
+                      )
                       : "Select User"}
                   </p>
                   <MdArrowDropDown className="text-2xl" />
@@ -515,7 +566,72 @@ const Analytics = () => {
                     );
                   })}
                 </Menu>
+
               </div>
+
+              { /************** Sub Users (Tags) menus *****************/}
+              
+              {childProfiles?.length > 0 && (
+                <div className="w-[220px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer">
+      
+                  <div
+                  component="nav"
+                  id="profiles-button"
+                  aria-haspopup="listbox"
+                  aria-controls="profiles-menu"
+                  onClick={isNameFilter ? handleClickListItem4 : () => { }}
+                  className="w-[179px] h-[100%]  flex justify-evenly items-center cursor-pointer"
+                  style={{ opacity: isNameFilter ? "100%" : "25%" }}
+                >
+                  <p className="font-[500] text-[15px]">
+                    {selectedUser
+                      ? splitString(
+                        selectedUser?.name
+                          ? selectedUser?.name
+                          : companyProfile?.[companyId]?.name,
+                        11
+                      )
+                      : "Select Tag"}
+                  </p>
+                  <MdArrowDropDown className="text-2xl" />
+                </div>
+
+                  <Menu
+                    id="profiles-menu"
+                    anchorEl4={anchorEl4}
+                    open={open4}
+                    onClose={handleClose4}
+                    MenuListProps={{
+                      "aria-labelledby": "profiles-button",
+                      role: "listbox",
+                    }}
+                  >
+                    {childProfiles?.map((elm, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          onClick={() => {
+                            getSingleChildAnalytics(
+                              elm?.id,
+                              setAnalytics,
+                              setloading
+                            );
+                          }}
+                          sx={{ display: "flex" }}
+                        >
+                          <img
+                            src={elm?.profileUrl ? elm?.profileUrl : prsnPlshldr}
+                            alt=""
+                            className="h-[27px] w-[27px] object-cover"
+                          />
+                          <p className="font-[500] ml-2 text-base">{elm?.name}</p>
+                        </MenuItem>
+                      );
+                    })}
+                  </Menu>
+
+                </div>
+              )}
             </div>
           </div>
 
@@ -600,7 +716,7 @@ const Analytics = () => {
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The number of times people submit the form">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
@@ -618,8 +734,8 @@ const Analytics = () => {
                       <div
                         className="h-[75px]  w-[75px] mt-1"
                         style={{
-                          height: "90px",
-                          width: "90px",
+                          height: "80px",
+                          width: "80px",
                         }}
                       >
                         <Doughnut
@@ -634,12 +750,52 @@ const Analytics = () => {
                   </div>
                 </div>
               )}
+
               {loading ? (
                 <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                  <Tooltip title="The number of times people submit the review">
+                    <div className="w-[100%] h-[25%]  flex items-end">
+                      <p className="flex font-[500] text-[16] ml-4 items-center">
+                        {t("Reviews")}
+                        <FiInfo className="ml-1 text-[11px] cursor-pointer" />
+                      </p>
+                    </div>
+                  </Tooltip>
+                  <div className="w-[100%] h-[75%]  flex justify-around items-center">
+                    <h2 className="font-[700] text-[48px] w-[35%]">
+                      {returnAnalyticsData(filter, "reviews", analytics)}
+                    </h2>
+
+                    <div className="w-[35%]">
+                      <div
+                        className="h-[75px]  w-[75px] mt-1"
+                        style={{
+                          height: "80px",
+                          width: "80px",
+                        }}
+                      >
+                        <Doughnut
+                          data={returnGraphData(
+                            returnAnalyticsData(filter, "reviews", analytics),
+                            returnAnalyticsData("Total", "reviews", analytics),
+                            "#ac8b42"
+                          )}
+                        ></Doughnut>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {loading ? (
+                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
+                  <MoonLoader size="40" />
+                </div>
+              ) : (
+                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The total number of times someone open your links">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
@@ -657,8 +813,8 @@ const Analytics = () => {
                       <div
                         className="h-[75px]  w-[75px] mt-1"
                         style={{
-                          height: "90px",
-                          width: "90px",
+                          height: "80px",
+                          width: "80px",
                         }}
                       >
                         <Doughnut
@@ -674,11 +830,11 @@ const Analytics = () => {
                 </div>
               )}
               {loading ? (
-                <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
+                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The Total number of times someone land on your Connex Profile">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
@@ -696,8 +852,8 @@ const Analytics = () => {
                       <div
                         className="h-[75px]  w-[75px] mt-1"
                         style={{
-                          height: "90px",
-                          width: "90px",
+                          height: "80px",
+                          width: "80px",
                         }}
                       >
                         <Doughnut

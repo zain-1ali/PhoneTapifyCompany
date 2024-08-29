@@ -11,7 +11,7 @@ import { RxCross2 } from "react-icons/rx";
 import { createNewCard } from "../../Services";
 import { useTranslation } from "react-i18next";
 
-const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
+const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, companyTags }) => {
   const { t } = useTranslation();
   // --------------------------------------------------Create Single self profile----------------------------------
 
@@ -19,6 +19,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
     name: "",
     email: "",
     password: "",
+    tagId: "",
   });
 
   let conexParent = localStorage.getItem("conexParent");
@@ -99,6 +100,7 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
     setFirstDate(null);
     setSecondDate(null);
     handleModal();
+    updateChildList();
   };
   return (
     <div>
@@ -227,7 +229,22 @@ const CreateNewCard = ({ modal, handleModal, companyProfile }) => {
                     }
                     value={data?.email}
                   />
-
+                  {conexParent != "superAdmin" && (
+                    <select
+                        className="w-[100%] h-[45px] outline-none bg-[#F2F2F2] rounded-[36px] p-[10px] text-sx"
+                        onChange={(e) =>
+                          setData({ ...data, tagId: e.target.value })
+                        }
+                      >
+                        <option value="" disabled selected>-- Select Tag --</option>
+                        {companyTags.map((tag, index) => (
+                          tag.type == "Digital Card" && (
+                          <option key={index} value={tag.id}>
+                            {tag.tagId} ({tag.type})
+                          </option> )
+                        ))}
+                      </select>
+                    )}
                   <input
                     type="text"
                     className="w-[100%] h-[45px] outline-none bg-[#F2F2F2] rounded-[36px] p-[10px] placeholder:text-xs"

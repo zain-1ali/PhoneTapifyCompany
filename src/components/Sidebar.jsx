@@ -12,6 +12,7 @@ import { FaFilter } from "react-icons/fa6";
 import { SiGoogleanalytics } from "react-icons/si";
 import { BsFillBuildingsFill } from "react-icons/bs";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { BiSolidMessageRoundedDots } from "react-icons/bi";
 import { handleLogout } from "../Services";
 import DeleteModal from "./Modals/DeleteModal";
 import { BsBuildingsFill } from "react-icons/bs";
@@ -145,6 +146,25 @@ const Sidebar = () => {
                     </div>
                     <p className="ml-[10px] text-[13px] font-[600]">
                       {t("Leads Generated")}
+                    </p>
+                  </div>
+                </div>
+                
+                <div
+                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  onClick={() => navigate("/reviews")}
+                  style={
+                    currentPath.includes("/reviews")
+                      ? { backgroundColor: "#3fb621", color: "white" }
+                      : null
+                  }
+                >
+                  <div className=" flex items-center rounded-md ml-2 w-[100%]">
+                    <div className="w-[19%]  ">
+                    <BiSolidMessageRoundedDots className=" text-xl ml-2 " />
+                    </div>
+                    <p className="ml-[10px] text-[13px] font-[600]">
+                      {t("Google Reviews")}
                     </p>
                   </div>
                 </div>

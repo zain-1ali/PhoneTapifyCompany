@@ -12,12 +12,15 @@ import { useNavigate } from "react-router-dom";
 import bgplhldr from "../imgs/bgplhldr.png";
 import prsnPlshldr from "../imgs/prsnPlshldr.png";
 import lgoplchldr from "../imgs/lgoplchldr.jpg";
-import { changeProfileStatus, deleteSingleChild } from "../Services";
+import { changeProfileStatus, deleteSingleChild, updateCompanyToken } from "../Services";
+
 import ShareCardModal from "./Modals/ShareCardModal";
 import DeleteModal from "./Modals/DeleteModal";
+import SelectEditType from "./Modals/SelectEditType";
 import { useTranslation } from "react-i18next";
 
-const MemberCard = ({ profile, companyProfile }) => {
+
+const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let navigate = useNavigate();
   var screen = window.innerWidth;
   let [shareModal, setshareModal] = useState(false);
@@ -30,6 +33,32 @@ const MemberCard = ({ profile, companyProfile }) => {
   let [deleteModal, setdeleteModal] = useState(false);
   let handledeleteModal = () => {
     setdeleteModal(!deleteModal);
+  };
+
+  let [editModal, seteditModal] = useState(false);
+  let [editTypeModal, setEditTypeModal] = useState(false);
+  
+  let handleeditModal = () => {
+    setEditTypeModal(!editTypeModal);
+  };
+  let handledEditType = (action) => {
+    if (action === "cancel") {
+      setEditTypeModal(!editTypeModal);
+    } else if (conexParent === "superAdmin") {
+      navigate(`/edit/${profile?.id}`);
+    } else {
+      console.log(action);
+  
+      if (action === "Digital Card") {
+        navigate(`/edit/${profile?.id}`);
+      } else {
+        updateCompanyToken(companyProfile?.id, profile?.id);
+      }
+    }
+  };
+  let callback = () => {
+    console.log("member deleted");
+    updateChildList();
   };
   let conexParent = localStorage.getItem("conexParent");
   const { t } = useTranslation();
@@ -44,8 +73,25 @@ const MemberCard = ({ profile, companyProfile }) => {
         deleteModal={deleteModal}
         handledeleteModal={handledeleteModal}
         text={t("Are you sure to delete this profile?")}
-        func={() => deleteSingleChild(userId, teams)}
+        func={() => deleteSingleChild(userId, teams, callback)}
       />
+      <SelectEditType
+        editTypeModal={editTypeModal}
+        text={t("Select profile do you want to edit")}
+        handledEditType={handledEditType}
+        tags={profile?.otherTags}
+      />
+
+      <DeleteModal
+        deleteModal={editModal}
+        handledeleteModal={seteditModal}
+        text={t("Are you sure to edit this profile?")}
+        func={ 
+          conexParent === "superAdmin" ? () => navigate(`/edit/${profile?.id}`) 
+          : () => updateCompanyToken(companyProfile?.id, profile?.id)
+        }
+      />
+
       <div className="rounded-t-3xl h-[154px]  w-[100%] relative ">
         <img
           src={
@@ -138,10 +184,10 @@ const MemberCard = ({ profile, companyProfile }) => {
                 </div>
 
                 {conexParent != "superAdmin2" ? (
-                  <div
-                    className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
-                    onClick={() => navigate(`/edit/${profile?.id}`)}
-                  >
+                 <div
+                 className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
+                 onClick={  (profile?.otherTags?.length == 1 && profile?.otherTags?.includes("Digital Card")) ? () =>  handledEditType("Digital Card") : handleeditModal}
+               >
                     <FiEdit className="text-[#3D3C3C] sm:text-[14px] text-[17px]" />
                     <p className="font-[500] sm:text-[9px] text-[12px] text-[#3D3C3C] mt-1">
                       {t("Edit")}

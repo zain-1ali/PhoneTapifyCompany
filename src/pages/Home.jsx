@@ -23,21 +23,32 @@ import {
   getAllChilds,
   getAllCompanies,
   getSingleChild,
+  fetchCompanyTags,
 } from "../Services";
 import ShareCardModal from "../components/Modals/ShareCardModal";
 import { MoonLoader } from "react-spinners";
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // import { changeLanguage } from "i18next";
 
 const Home = () => {
   let [openMenu, setopenMenu] = useState(false);
   let [allProfiles, setAllProfiles] = useState([]);
+  let [companyTags, setCompanyTags] = useState([]);
   const navigate = useNavigate();
 
   let getAllProfiles = (obj) => {
     setAllProfiles(Object.values(obj));
+  };
+  let getCompanyTags = (obj) => {
+    console.log(obj)
+    const filteredTags = Object.values(obj).filter(item => {
+      return (!item.profileID || item.profileID === "") && item.status === false;
+  });
+  console.log(filteredTags)
+  setCompanyTags(filteredTags);
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -56,14 +67,26 @@ const Home = () => {
   let [modal, setModal] = useState(false);
   let [loading, setloading] = useState(false);
   let handleModal = () => {
-    setModal(!modal);
+    if(conexParent !== "superAdmin" && companyTags.length == 0)
+    {
+      toast.error('You have reached the max limit of your profiles. Please buy more tags.');
+    }
+    else{
+      setModal(!modal);
+    }
+    
   };
+  let updateChildList = () => {
+    getAllChilds(getAllProfiles, setloading);
+  }
+  
 
   useEffect(() => {
     if (conexParent === "superAdmin") {
       getAllCompanies(getAllProfiles, setloading);
     } else {
       getAllChilds(getAllProfiles, setloading);
+      fetchCompanyTags(getCompanyTags, setloading);
     }
   }, []);
 
@@ -79,6 +102,7 @@ const Home = () => {
     }
   }, []);
 
+  
   const getCompanyProfile = (data) => {
     if (data) {
       setCompanyProfile(data);
@@ -106,9 +130,9 @@ const Home = () => {
   //   }
   // }, [companyProfile?.[companyId]?.id]);
 
-  console.log(companyProfile?.[companyId]);
+  // console.log(companyProfile?.[companyId]);
 
-  console.log(allProfiles);
+  // console.log(allProfiles);
 
   // ---------------------------------------Search functionality--------------------------------------------
 
@@ -142,7 +166,9 @@ const Home = () => {
       <CreateNewCard
         modal={modal}
         handleModal={handleModal}
+        updateChildList = {updateChildList}
         companyProfile={companyProfile}
+        companyTags = {companyTags}
       />
       {screen >= 450 ? <Sidebar /> : null}
       {loading ? (
@@ -235,7 +261,7 @@ const Home = () => {
                           />
                           <p className="font-[500] ml-2 text-base">English</p>
                         </MenuItem>
-                        <MenuItem
+                        {/* <MenuItem
                           // key={index}
                           // disabled={index === 0}
                           // selected={index === selectedIndex}
@@ -254,7 +280,7 @@ const Home = () => {
                             className="h-[27px] w-[27px] object-cover rounded-full"
                           />
                           <p className="font-[500] ml-2 text-base">French</p>
-                        </MenuItem>
+                        </MenuItem> */}
                       </Menu>
                     </>
                   )}
@@ -303,11 +329,12 @@ const Home = () => {
             </div>
 
             <div className="w-[100%] flex justify-start gap-x-[6%] flex-wrap sm:mt-[40px] mt-[20px] sm:h-[78%] h-[68%] overflow-y-scroll">
-              {filtered?.map((profile) => {
+              {filtered?.map((profile, index) => {
                 return (
                   <MemberCard
                     profile={profile}
                     companyProfile={companyProfile?.[companyId]}
+                    updateChildList = {updateChildList}
                   />
                 );
               })}

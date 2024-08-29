@@ -12,29 +12,29 @@ import NavbarFooter from "./NavbarFooter";
 import CreateNewTeam from "../components/Modals/CreateNewTeam";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { getAllChilds, getAllTeams, getContacts } from "../Services";
+import { getAllChilds, getAllTeams, getReviews } from "../Services";
 import prsnPlshldr from "../imgs/prsnPlshldr.png";
-import SingleLeadModal from "../components/Modals/SingleLeadModal";
+import SingleReviewModal from "../components/Modals/SingleReviewModal";
 // import DeleteContact from "../components/Modals/DeleteContactModal";
 import DeleteContactModal from "../components/Modals/DeleteContactModal";
 import DownloadCsv from "../components/DownloadCsv";
 import { useTranslation } from "react-i18next";
 
-const Leads = () => {
-  let [leads, setLeads] = useState([]);
+const Reviews = () => {
+  let [reviews, setReviews] = useState([]);
   var screen = window.innerWidth;
   const { t } = useTranslation();
 
   let connexUid = localStorage.getItem("connexUid");
   useEffect(() => {
-    getContacts(connexUid, setLeads);
+    getReviews(connexUid, setReviews);
   }, []);
 
-  let [leadModal, setleadModal] = useState(false);
-  let handleLeadModal = () => {
-    setleadModal(!leadModal);
+  let [reviewModal, setreviewModal] = useState(false);
+  let handleReviewModal = () => {
+    setreviewModal(!reviewModal);
   };
-  let [lead, setLead] = useState({});
+  let [review, setReview] = useState({});
   let [deleteModal, setdeleteModal] = useState(false);
 
   const handleDeleteModal = () => {
@@ -43,8 +43,8 @@ const Leads = () => {
 
   let [filtered, setfiltered] = useState([{}]);
   useEffect(() => {
-    setfiltered(leads);
-  }, [leads]);
+    setfiltered(reviews);
+  }, [reviews]);
 
   //---------------------------------------------------(search functionality)-----------------------------------------------
 
@@ -53,7 +53,7 @@ const Leads = () => {
   let [search, setsearch] = useState("");
 
   useEffect(() => {
-    const result = leads?.filter((contact) => {
+    const result = reviews?.filter((contact) => {
       return contact?.name?.toLowerCase()?.match(search.toLowerCase());
     });
 
@@ -74,9 +74,9 @@ const Leads = () => {
     getAllTeams(getTeams, setloading);
   }, []);
 
-  let removeLastLead = () => {
-    if (leads?.length < 2) {
-      setLeads([]);
+  let removeLastReview = () => {
+    if (review?.length < 2) {
+      setReviews([]);
       setfiltered([]);
     }
   };
@@ -105,9 +105,9 @@ const Leads = () => {
 
   useEffect(() => {
     if (teamId === "all") {
-      setfiltered(leads);
+      setfiltered(reviews);
     } else {
-      const filtered = leads?.filter((item) =>
+      const filtered = reviews?.filter((item) =>
         getMemberbyId(item?.userid)?.teams?.includes(teamId)
       );
       setfiltered(filtered);
@@ -116,9 +116,9 @@ const Leads = () => {
 
   useEffect(() => {
     if (userId === "all") {
-      setfiltered(leads);
+      setfiltered(reviews);
     } else {
-      const filtered = leads?.filter((item) => item?.userid === userId);
+      const filtered = reviews?.filter((item) => item?.userid === userId);
       setfiltered(filtered);
     }
   }, [userId]);
@@ -161,7 +161,7 @@ const Leads = () => {
       const lastDate = convertDateToMilli(endDate);
       console.log(firstDate);
       console.log(lastDate);
-      const filterOnDate = leads?.filter((elm) => {
+      const filterOnDate = reviews?.filter((elm) => {
         return elm?.date >= firstDate && elm?.date <= lastDate;
       });
       console.log(filterOnDate);
@@ -183,7 +183,7 @@ const Leads = () => {
   const appendBucketPath = (path) => {
     let url = "";
     if (path !== "") {
-      const filterUrl = path.replace("gs://connexcard-8ad69.appspot.com/", "");
+      const filterUrl = path?.replace("gs://connexcard-8ad69.appspot.com/", "");
       url = `https://firebasestorage.googleapis.com/v0/b/connexcard-8ad69.appspot.com/o/${filterUrl}?alt=media`;
     }
     return url;
@@ -194,13 +194,13 @@ const Leads = () => {
       <DeleteContactModal
         deleteModal={deleteModal}
         handledeleteModal={handleDeleteModal}
-        lead={lead}
-        cb={removeLastLead}
+        review={review}
+        cb={removeLastReview}
       />
-      <SingleLeadModal
-        leadModal={leadModal}
-        handleLeadModal={handleLeadModal}
-        singleLead={lead}
+      <SingleReviewModal
+        reviewModal={reviewModal}
+        handleReviewModal={handleReviewModal}
+        singleReview={review}
       />
 
       {screen >= 450 ? <Sidebar /> : null}
@@ -228,9 +228,9 @@ const Leads = () => {
                     : null
                 }
               >
-                {t("Leads Generated")}
+                {t("Google Reviews")}
                 <span className="font-[500] sm:text-[10px] text-[12px] text-[#9B9B9B]">
-                  ({leads?.length})
+                  ({reviews?.length})
                 </span>
               </p>
             </div>
@@ -293,7 +293,7 @@ const Leads = () => {
                           value={userId}
                         >
                           <option value="all">All</option>
-                          {Object.values(allProfiles)?.filter(elm => elm.tagType === "Digital Card").map((elm) => {
+                          {Object.values(allProfiles)?.filter(elm => elm.profileType === "Google Review").map((elm) => {
                             return <option value={elm?.id}>{elm?.name}</option>;
                           })}
                         </select>
@@ -336,7 +336,7 @@ const Leads = () => {
                             setStartDate(""),
                             setEndDate(""),
                             handleClose2(),
-                            setfiltered(leads);
+                            setfiltered(reviews);
                         }}
                       >
                         Reset Filter
@@ -402,6 +402,11 @@ const Leads = () => {
                   <p className="font-[500] text-[16px]"> {t("Email")}</p>
                 </div>
               ) : null}
+               {screen >= 450 ? (
+                <div className="w-[11%] ">
+                  <p className="font-[500] text-[16px]"> {t("Option")}</p>
+                </div>
+              ) : null}
               <div className="w-[15%] ">
                 <p
                   className="font-[500] sm:text-[16px] text-[12px]"
@@ -411,7 +416,7 @@ const Leads = () => {
                       : null
                   }
                 >
-                  {t("Connected with")}
+                  {t("Given to")}
                 </p>
               </div>
               {screen >= 450 ? (
@@ -425,57 +430,64 @@ const Leads = () => {
                 </p>
               </div>
             </div>
-            {filtered?.map((contact) => {
+            {filtered?.map((rev) => {
               return (
                 <div
                   className="w-[95%] h-[83px] rounded-[37px] bg-[white] flex justify-around items-center shadow-xl mt-4 cursor-pointer"
                   onClick={() =>
-                    setLead({
-                      ...contact,
-                      contactImage: appendBucketPath(contact?.image),
-                      userImage: getMemberbyId(contact?.userid)?.profileUrl,
+                    setReview({
+                      ...rev,
+                      revImage: appendBucketPath(rev?.image),
+                      userImage: getMemberbyId(rev?.userid)?.profileUrl,
                     })
                   }
                 >
                   <div className="flex items-center w-[16%]">
                     <img
                       src={
-                        contact?.image
-                          ? appendBucketPath(contact?.image)
+                        rev?.image
+                          ? appendBucketPath(rev?.image)
                           : prsnPlshldr
                       }
                       alt=""
                       className="h-[46px] w-[46px] rounded-full object-cover"
                     />
                     <p className="text-[12px] font-[500] ml-[5px]">
-                      {contact?.name}
+                      {rev?.name}
                     </p>
                   </div>
                   {screen >= 450 ? (
                     <div className="w-[16%] ml-2">
                       <p className="font-[500] text-[12px] w-[100%] break-all">
-                        {contact?.email}
+                        {rev?.email}
                       </p>
                     </div>
                   ) : null}
-                  <div className="flex items-center w-[16%] ">
+                  {screen >= 450 ? (
+                    <div className="w-[10%] ml-2">
+                      <p className="font-[500] text-[12px] w-[100%] break-all">
+                        {rev?.option}
+                      </p>
+                    </div>
+                  ) : null}
+                  <div className="flex items-center w-[18%] ">
                     <img
                       src={
-                        getMemberbyId(contact?.userid)?.profileUrl
-                          ? getMemberbyId(contact?.userid)?.profileUrl
+                        getMemberbyId(rev?.userid)?.profileUrl
+                          ? getMemberbyId(rev?.userid)?.profileUrl
                           : prsnPlshldr
                       }
                       alt=""
                       className="h-[46px] w-[46px] rounded-full object-cover"
                     />
                     <p className="text-[12px] font-[500] ml-[5px]">
-                      {getMemberbyId(contact?.userid)?.name}
+                      {getMemberbyId(rev?.userid)?.name}
                     </p>
                   </div>
                   {screen >= 450 ? (
                     <div className="w-[15%]">
                       <p className="font-[500] text-[12px]">
-                        {returnDate(contact?.timestamp ?? "")}
+                        {returnDate(rev?.timestamp ?? "")}
                       </p>
                     </div>
                   ) : null}
@@ -483,7 +495,7 @@ const Leads = () => {
                     <div onClick={() => handleDeleteModal()}>
                       <FaRegTrashCan className="text-2xl ml-3" />
                     </div>
-                    <div className=" flex" onClick={() => handleLeadModal()}>
+                    <div className=" flex" onClick={() => handleReviewModal()}>
                       <FaEye className="text-2xl ml-3" />
                     </div>
                   </div>
@@ -500,4 +512,4 @@ const Leads = () => {
   );
 };
 
-export default Leads;
+export default Reviews;
