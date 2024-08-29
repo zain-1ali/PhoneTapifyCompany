@@ -26,9 +26,13 @@ const Reviews = () => {
   const { t } = useTranslation();
 
   let connexUid = localStorage.getItem("connexUid");
+  let [teamId, setTeamId] = useState("all");
+  let [userId, setUserId] = useState("all");
   useEffect(() => {
-    getReviews(connexUid, setReviews);
-  }, []);
+    console.log(userId)
+    userId ? getReviews(userId, setReviews) : getReviews(connexUid, setReviews);;
+    // getReviews(connexUid, setReviews);
+  }, [userId]);
 
   let [reviewModal, setreviewModal] = useState(false);
   let handleReviewModal = () => {
@@ -48,7 +52,7 @@ const Reviews = () => {
 
   //---------------------------------------------------(search functionality)-----------------------------------------------
 
-  console.log(filtered);
+  // console.log(filtered);
 
   let [search, setsearch] = useState("");
 
@@ -80,8 +84,7 @@ const Reviews = () => {
       setfiltered([]);
     }
   };
-  let [teamId, setTeamId] = useState("all");
-  let [userId, setUserId] = useState("all");
+  
 
   // -----------------------getting all users----------------------
   let [allProfiles, setAllProfiles] = useState([]);

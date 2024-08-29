@@ -293,7 +293,7 @@ const Leads = () => {
                           value={userId}
                         >
                           <option value="all">All</option>
-                          {Object.values(allProfiles)?.filter(elm => elm.tagType === "Digital Card").map((elm) => {
+                          {Object.values(allProfiles)?.filter(elm => elm.profileType === "Digital Card").map((elm) => {
                             return <option value={elm?.id}>{elm?.name}</option>;
                           })}
                         </select>

@@ -111,7 +111,7 @@ const Sidebar = () => {
             </div>
             {conexParent != "superAdmin" && (
               <>
-                <div
+                {/* <div
                   className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/subteams")}
                   style={
@@ -129,7 +129,7 @@ const Sidebar = () => {
                       {t("Sub Teams")}
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 <div
                   className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"

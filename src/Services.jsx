@@ -647,13 +647,9 @@ export const getChildProfiles = async (parentId, callBackFunc) => {
           id: key,
           ...childs[key]
         }));
-
-      // Execute the callback function with the filtered user list
       callBackFunc(filteredUserList);
-      // console.log(filteredUserList);
     }  else {
       callBackFunc([]);
-      // console.log("No users found.");
     }
   } catch (error) {
     console.error("Error fetching users or sub-users:", error);
@@ -2174,13 +2170,15 @@ export const getContacts = (id, cb) => {
 // ------------------------------------------------Get single child reviews-----------------------------------------------
 
 export const getReviews = (id, cb) => {
+  console.log(id);
   const starCountRef = query(
     ref(db, "/Reviews"),
-    orderByChild("parentId"),
+    orderByChild("userid"),
     equalTo(id)
   );
   onValue(starCountRef, async (snapshot) => {
     const data = await snapshot.val();
+    console.log(data);
     cb(Object.values(data));
     console.log("my data", data);
 
@@ -2740,15 +2738,15 @@ export const getTeamAnalytics = async (Ids, callBackFunc, setloading) => {
 
           membersArray.forEach((obj) => {
             for (let key in obj) {
-              if (summedData[key] === undefined && key !== "links") {
+              if (summedData[key] === undefined && key !== "links" && key !== "reviewOptions") {
                 summedData[key] = 0;
               }
 
-              if (summedData[key] === undefined && key === "links") {
+              if (summedData[key] === undefined && (key === "links" || key === "reviewOptions")) {
                 summedData[key] = [];
               }
 
-              if (key !== "links") {
+              if (key !== "links" && key !== "reviewOptions") {
                 summedData[key] += obj[key];
               } else {
                 summedData[key] = [...summedData[key], ...obj[key]];
@@ -2760,6 +2758,7 @@ export const getTeamAnalytics = async (Ids, callBackFunc, setloading) => {
             analyticsObject: {
               ...summedData,
               links: summedData?.links?.flat(),
+              reviewOptions: summedData?.reviewOptions?.flat(),
             },
           });
         } else {

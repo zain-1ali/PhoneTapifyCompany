@@ -106,13 +106,12 @@ const Analytics = () => {
 
 
   const [anchorEl4, setAnchorEl4] = useState(null);
-
-  const open4 = Boolean(anchorEl4);
-
+  const open4 = Boolean(anchorEl4)
   const handleClickListItem4 = (event) => {
     setAnchorEl4(event.currentTarget);
   };
   const handleClose4 = () => {
+    console.log("close4")
     setAnchorEl4(null);
   };
 
@@ -121,6 +120,7 @@ const Analytics = () => {
   let connexUid = localStorage.getItem("connexUid");
   let [companyProfile, setCompanyProfile] = useState({});
   let [selectedUser, setSelectedUser] = useState({});
+  let [selectedProfile, setSelectedProfile] = useState({});
   let [analytics, setAnalytics] = useState({});
   let [filter, setfilter] = useState("Total");
 
@@ -143,7 +143,8 @@ const Analytics = () => {
 
   useEffect(() => {
     console.log("child profile test34")
-    getChildProfiles(selectedUser?.id, getChildProfilesData, () => console.log("child profile test"));
+    setChildProfiles({});
+    getChildProfiles(selectedUser?.accountID, getChildProfilesData, () => console.log("child profile test"));
   }, [selectedUser?.id]);
 
   useEffect(() => {
@@ -273,22 +274,46 @@ const Analytics = () => {
 
   const [isNameFilter, setIsNameFilter] = useState(true);
 
-  const data = {
-    labels: [t("Total Clicks"), t("Total Views"), t("Total Leads"), t("Total Reviews")],
-    datasets: [
-      {
-        // label: [t("Total Clicks"), t("Total Views"), t("Total Leads")],
-        data: [
-          returnAnalyticsData(filter, "links", analytics),
+  if(selectedUser?.profileType === "Google Review")
+  {
+    var GraphColors = ["#d10f25", "#ac8b42"];
+    var graphLines =
+        [          
           returnAnalyticsData(filter, "views", analytics),
-          returnAnalyticsData(filter, "leads", analytics),
-          returnAnalyticsData(filter, "reviews", analytics),
-        ],
-        backgroundColor: ["#0f42d1", "#d10f25", "#2cf525", "#ac8b42"],
-        borderColor: ["#0f42d1", "#d10f25", "#2cf525", "#ac8b42"],
+          returnAnalyticsData(filter, "reviews", analytics) // Corrected this line
+        ];
+    var GraphLables = [t("Total Views"), t("Total Reviews")];
+  }
+  else if(selectedUser?.profileType === "Open House" || selectedUser?.profileType === "Open House")
+  {
+    var GraphColors = ["#0f42d1", "#d10f25"];
+    var graphLines = [          
+          returnAnalyticsData(filter, "views", analytics),
+          returnAnalyticsData(filter, "links", analytics) // Corrected this line
+        ];
+    var GraphLables = [t("Total Clicks"), t("Total Views")];
+  }
+  else
+  {
+    var GraphColors = ["#0f42d1", "#d10f25", "#2cf525"];
+    var GraphLables = [t("Total Clicks"), t("Total Views"), t("Total Leads")];
+    var graphLines = [
+      returnAnalyticsData(filter, "links", analytics),
+      returnAnalyticsData(filter, "views", analytics),
+      returnAnalyticsData(filter, "leads", analytics)
+    ];
+  }
+  
+  const data = {
+    labels: GraphLables,
+     datasets: [
+      {
+        data: graphLines,
+        backgroundColor: GraphColors,
+        borderColor: GraphColors,
         borderWidth: 1,
-      },
-    ],
+      }
+    ],    
   };
 
   const options = {
@@ -325,6 +350,20 @@ const Analytics = () => {
       const existing = acc?.find((item) => item.linkID === curr.linkID);
       if (existing) {
         existing.clicks += curr.clicks;
+      } else {
+        acc?.push({ ...curr });
+      }
+      return acc;
+    }, []);
+    return merged;
+  };
+
+
+  const mergeDuplicatesOptions = (arr) => {
+    const merged = arr?.reduce((acc, curr) => {
+      const existing = acc?.find((item) => item?.option === curr?.option);
+      if (existing) {
+        existing.counts += curr?.counts;
       } else {
         acc?.push({ ...curr });
       }
@@ -383,7 +422,7 @@ const Analytics = () => {
                   );
                 })}
               </Menu>
-              <div className="w-[200px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer mr-4 ">
+              {/* <div className="w-[200px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer mr-4 ">
                 <Checkbox
                   checked={!isNameFilter}
                   onChange={() => changeSelectedStat(false)}
@@ -408,11 +447,11 @@ const Analytics = () => {
                   </p>
                   <MdArrowDropDown className="text-2xl" />
                 </div>
-              </div>
+              </div> */}
 
 
               { /************** team menus *****************/}
-              <Menu
+              {/* <Menu
                 id="company-menu"
                 anchorEl={anchorEl3}
                 open={open3}
@@ -450,7 +489,7 @@ const Analytics = () => {
                     </MenuItem>
                   );
                 })}
-              </Menu>
+              </Menu> */}
 
 
               { /************** User menus *****************/}
@@ -547,7 +586,8 @@ const Analytics = () => {
                         // onClick={(event) => handleMenuItemClick(event, index)}
                         onClick={() => {
                           setSelectedUser(elm),
-                            //   handleClose(),
+                          setSelectedProfile(elm),
+                              handleClose(),
                             getSingleChildAnalytics(
                               elm?.id,
                               setAnalytics,
@@ -571,9 +611,8 @@ const Analytics = () => {
 
               { /************** Sub Users (Tags) menus *****************/}
               
-              {childProfiles?.length > 0 && (
+              {childProfiles?.length > 1 && (
                 <div className="w-[220px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer">
-      
                   <div
                   component="nav"
                   id="profiles-button"
@@ -584,10 +623,10 @@ const Analytics = () => {
                   style={{ opacity: isNameFilter ? "100%" : "25%" }}
                 >
                   <p className="font-[500] text-[15px]">
-                    {selectedUser
+                    {selectedProfile
                       ? splitString(
-                        selectedUser?.name
-                          ? selectedUser?.name
+                        selectedProfile?.name
+                          ? selectedProfile?.name
                           : companyProfile?.[companyId]?.name,
                         11
                       )
@@ -595,10 +634,10 @@ const Analytics = () => {
                   </p>
                   <MdArrowDropDown className="text-2xl" />
                 </div>
-
+                    <div className="menu-wrapper">
                   <Menu
                     id="profiles-menu"
-                    anchorEl4={anchorEl4}
+                    anchorEl={anchorEl4}
                     open={open4}
                     onClose={handleClose4}
                     MenuListProps={{
@@ -611,6 +650,8 @@ const Analytics = () => {
                         <MenuItem
                           key={index}
                           onClick={() => {
+                            setSelectedProfile(elm),
+                            handleClose4(),
                             getSingleChildAnalytics(
                               elm?.id,
                               setAnalytics,
@@ -624,12 +665,12 @@ const Analytics = () => {
                             alt=""
                             className="h-[27px] w-[27px] object-cover"
                           />
-                          <p className="font-[500] ml-2 text-base">{elm?.name}</p>
+                          <p className="font-[500] ml-2 text-base">{`${elm?.name} (${elm?.profileType})`}</p>
                         </MenuItem>
                       );
                     })}
                   </Menu>
-
+                    </div>
                 </div>
               )}
             </div>
@@ -676,13 +717,41 @@ const Analytics = () => {
               </div>
               <div className="h-[32%] pb-2 mt-3 w-[100%] shadow-xl rounded-[37px] bg-white flex flex-col items-center">
                 <p className="w-[100%] text-center text-sm mt-1">
-                  {t("Total link clicks to date")}
+                {selectedUser?.profileType === "Google Review" ?
+                  t("Total reviews counts to date")
+                  :
+                  t("Total link clicks to date")
+                }
                 </p>
                 <div
                   className="h-[90%] w-[100%] flex justify-center items-center"
                   style={{ overflowY: "scroll" }}
                 >
-                  {analytics ? (
+
+
+                  { 
+                  // if other tag is review, show total reviews
+                  selectedUser?.profileType === "Google Review" ? analytics ? (
+                    <div
+                      className="w-[95%] h-[100%]  flex  gap-x-4  flex-wrap "
+                      style={{ overflowY: "scroll" }}
+                    >
+                      {mergeDuplicatesOptions(
+                        Object.values(analytics)?.[0]?.reviewOptions
+                      )?.map((elm) => {
+                        return (
+                          <div className="w-[22%] h-[45px] rounded-lg border mt-3 flex items-center justify-around">
+                            <p className="text-sm">{elm?.option}</p>
+                            <p>{elm?.counts}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p>{t("No Reviews to show")}</p>
+                  )
+                  :  // if other tag than reviews, show links clicks
+                  analytics ? (
                     <div
                       className="w-[95%] h-[100%]  flex  gap-x-4  flex-wrap "
                       style={{ overflowY: "scroll" }}
@@ -710,13 +779,14 @@ const Analytics = () => {
               </div>
             </div>
             {/* ) : null} */}
-            <div className="h-[100%] sm:w-[34%] w-[100%] flex flex-col justify-between">
-              {loading ? (
+            <div className={`h-[100%] sm:w-[34%] w-[100%] flex flex-col ${selectedUser?.profileType === "Digital Card" ? "justify-between" : "justify-start"}`}>
+              
+              {(!selectedUser?.profileType || selectedUser?.profileType == "Digital Card") && ( loading ? (
                 <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[31%] w-[100%] mb-2 mt-2 bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The number of times people submit the form">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
@@ -749,14 +819,14 @@ const Analytics = () => {
                     </div>
                   </div>
                 </div>
-              )}
+              ))}
 
-              {loading ? (
+              { selectedUser?.profileType == "Google Review" && ( loading ? (
                 <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[31%] w-[100%] mb-2 mt-2 bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The number of times people submit the review">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
@@ -789,13 +859,15 @@ const Analytics = () => {
                     </div>
                   </div>
                 </div>
-              )}
-              {loading ? (
-                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
+              ))}
+
+
+              {selectedUser?.profileType != "Google Review" && ( loading ? (
+                <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[31%] w-[100%] mb-2 mt-2 bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The total number of times someone open your links">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
@@ -828,13 +900,14 @@ const Analytics = () => {
                     </div>
                   </div>
                 </div>
-              )}
+              ))}
+
               {loading ? (
-                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
+                <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
               ) : (
-                <div className="h-[24%] w-[100%] bg-white rounded-[37px] shadow-xl ">
+                <div className="h-[31%] w-[100%] mb-2 mt-2 bg-white rounded-[37px] shadow-xl ">
                   <Tooltip title="The Total number of times someone land on your Connex Profile">
                     <div className="w-[100%] h-[25%]  flex items-end">
                       <p className="flex font-[500] text-[16] ml-4 items-center">
