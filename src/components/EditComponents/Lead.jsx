@@ -183,37 +183,37 @@ const Lead = ({ uid }) => {
             <div className="h-[70%] w-[90%]  flex flex-col justify-between">
               <div className="w-[100%] flex justify-between ">
                 <div
-                  className="w-[30%] h-[48px] rounded-[36px] border border-[#3fb621] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#3fb621]] flex justify-center items-center hover:text-[#3fb621] cursor-pointer"
+                  className="w-[30%] h-[48px] rounded-[36px] border border-[#000000] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#000000]] flex justify-center items-center hover:text-[#000000] cursor-pointer"
                   onClick={() => changeVisibility(setNameVisible, nameVisible)}
                   style={
                     nameVisible === true
-                      ? { backgroundColor: "#3fb621", color: "white" }
+                      ? { backgroundColor: "#000000", color: "white" }
                       : null
                   }
                 >
                   {t("Full Name")}
                 </div>
                 <div
-                  className="w-[30%] h-[48px] rounded-[36px] border border-[#3fb621] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#3fb621]] flex justify-center items-center hover:text-[#3fb621] cursor-pointer"
+                  className="w-[30%] h-[48px] rounded-[36px] border border-[#000000] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#000000]] flex justify-center items-center hover:text-[#000000] cursor-pointer"
                   onClick={() =>
                     changeVisibility(setEmailVisible, emailVisible)
                   }
                   style={
                     emailVisible === true
-                      ? { backgroundColor: "#3fb621", color: "white" }
+                      ? { backgroundColor: "#000000", color: "white" }
                       : null
                   }
                 >
                   {t("Email")}
                 </div>
                 <div
-                  className="w-[30%] h-[48px] rounded-[36px] border border-[#3fb621] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#3fb621]] flex justify-center items-center hover:text-[#3fb621] cursor-pointer text-center"
+                  className="w-[30%] h-[48px] rounded-[36px] border border-[#000000] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#000000]] flex justify-center items-center hover:text-[#000000] cursor-pointer text-center"
                   onClick={() =>
                     changeVisibility(setPhoneVisible, phoneVisible)
                   }
                   style={
                     phoneVisible === true
-                      ? { backgroundColor: "#3fb621", color: "white" }
+                      ? { backgroundColor: "#000000", color: "white" }
                       : null
                   }
                 >
@@ -223,35 +223,35 @@ const Lead = ({ uid }) => {
 
               <div className="w-[100%] flex justify-between ">
                 <div
-                  className="w-[30%] h-[48px] rounded-[36px] border border-[#3fb621] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#3fb621]] flex justify-center items-center hover:text-[#3fb621] cursor-pointer"
+                  className="w-[30%] h-[48px] rounded-[36px] border border-[#000000] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#000000]] flex justify-center items-center hover:text-[#000000] cursor-pointer"
                   onClick={() => changeVisibility(setJobVisible, jobVisible)}
                   style={
                     jobVisible === true
-                      ? { backgroundColor: "#3fb621", color: "white" }
+                      ? { backgroundColor: "#000000", color: "white" }
                       : null
                   }
                 >
                   {t("Job Title")}
                 </div>
                 <div
-                  className="w-[30%] h-[48px] rounded-[36px] border border-[#3fb621] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#3fb621]] flex justify-center items-center hover:text-[#3fb621] cursor-pointer"
+                  className="w-[30%] h-[48px] rounded-[36px] border border-[#000000] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#000000]] flex justify-center items-center hover:text-[#000000] cursor-pointer"
                   onClick={() =>
                     changeVisibility(setCompanyVisible, companyVisible)
                   }
                   style={
                     companyVisible === true
-                      ? { backgroundColor: "#3fb621", color: "white" }
+                      ? { backgroundColor: "#000000", color: "white" }
                       : null
                   }
                 >
                   {t("Company")}
                 </div>
                 <div
-                  className="w-[30%] h-[48px] rounded-[36px] border border-[#3fb621] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#3fb621]] flex justify-center items-center hover:text-[#3fb621] cursor-pointer"
+                  className="w-[30%] h-[48px] rounded-[36px] border border-[#000000] font-[500] sm:text-[12px] text-[10px] hover:bg-[[#000000]] flex justify-center items-center hover:text-[#000000] cursor-pointer"
                   onClick={() => changeVisibility(setNoteVisible, noteVisible)}
                   style={
                     noteVisible === true
-                      ? { backgroundColor: "#3fb621", color: "white" }
+                      ? { backgroundColor: "#000000", color: "white" }
                       : null
                   }
                 >
@@ -271,7 +271,7 @@ const Lead = ({ uid }) => {
           {t("Cancel")}
         </button>
         <button
-          className="w-[120px] h-[40px] rounded-[15px] ml-2 font-[600] text-[12px]  shadow-md bg-[#3fb621] text-white"
+          className="w-[120px] h-[40px] rounded-[15px] ml-2 font-[600] text-[12px]  shadow-md bg-[#000000] text-white"
           onClick={() =>
             updateLead(
               uid,

@@ -37,7 +37,7 @@ const SingleLeadModal = ({ leadModal, handleLeadModal, singleLead }) => {
     borderRadius: "18px",
     // p: "32px",
   };
-console.log(singleLead)
+// console.log(singleLead)
   const { t } = useTranslation();
   return (
     <div>

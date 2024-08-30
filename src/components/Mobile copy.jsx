@@ -121,7 +121,6 @@ const Mobile = ({
   let conexParent = localStorage.getItem("conexParent");
   let connexUid = localStorage.getItem("connexUid");
   let [companyProfile, setCompanyProfile] = useState({});
-  let [bioHidden, setBioHidden] = useState(true);
   useEffect(() => {
     if (conexParent) {
       setCompanyId(conexParent);
@@ -172,15 +171,15 @@ const Mobile = ({
       />
     );
   };
-  const buttonColor = color ? color : companyProfile?.color;
+
   const memoizedVideo = useMemo(() => {
     return customVideo ? <VideoComponent customVideo={customVideo} /> : null;
   }, [customVideo]);
 
   return (
     <div
-      className="w-[253px] h-[455px] border mt-2 overflow-y-scroll relative shadow-lg"
-    // style={{ backgroundColor: hexToRGBA(color) }}
+      className="w-[253px] h-[455px] rounded-[35px] border mt-2 overflow-y-scroll relative"
+      // style={{ backgroundColor: hexToRGBA(color) }}
     >
       {leadMode && (
         <div className="absolute w-[100%] flex justify-center items-center h-[455px]">
@@ -235,78 +234,272 @@ const Mobile = ({
           </div>
         </div>
       )}
-      <div className="w-[100%] h-[200px] relative">
-        {!profilePictureLock ? (
+      <div className="w-[100%] h-[150px] rounded-t-[35px] relative">
+        {!logoLock ? (
+          <img
+            src={logo ? logo : organizationLogo ? organizationLogo : lgoplchldr}
+            alt=""
+            className="h-[45px] w-[45px] rounded-full absolute bottom-[-20px] left-3 object-cover"
+          />
+        ) : (
+          <img
+            src={lgoplchldr}
+            alt=""
+            className="h-[45px] w-[45px] rounded-full absolute bottom-[-20px] left-3"
+          />
+        )}
+
+        <div className="w-[100%] flex justify-center absolute bottom-[-30px]">
+          {!profilePictureLock ? (
+            <img
+              src={
+                profile
+                  ? profile
+                  : organizationProfile
+                  ? organizationProfile
+                  : prsnPlshldr
+              }
+              alt=""
+              className="h-[82px] w-[82px] rounded-full object-cover"
+            />
+          ) : (
+            <img
+              src={prsnPlshldr}
+              alt=""
+              className="h-[82px] w-[82px] rounded-full"
+            />
+          )}
+        </div>
+        {!coverLock ? (
           <img
             src={
-              profile ? profile : organizationProfile ? organizationProfile : bgplhldr
+              cover ? cover : organizationCover ? organizationCover : bgplhldr
             }
             alt=""
-            className="w-[100%] h-[200px] object-cover"
+            className="w-[100%] h-[150px] rounded-t-[35px] object-cover"
           />
         ) : (
           <img
             src={bgplhldr}
             alt=""
-            className="w-[100%] h-[200px] object-cover"
+            className="w-[100%] h-[150px] rounded-t-[35px] object-cover"
           />
         )}
-
-       
-
       </div>
-      <div className="flex w-full justify-center -mt-[75px]">
-          <div className="flex flex-col items-center h-auto min-h-[100px] w-[210px] bg-white relative shadow-lg rounded-[4px] pb-[17px]">
 
+      <div
+        className="w-[100%] flex flex-col items-center mt-[40px]"
+        style={{ color: textColor ? textColor : companyProfile?.textColor }}
+      >
+        {!nameLock && (
+          <h2 className="font-[500] text-[16px] text-center">
+            {name ? splitString(name, 23) : companyProfile?.name}
+          </h2>
+        )}
+        {/* <p className="text-[#656363] font-[400] text-[11px] w-[90%] text-center">
+          Mern Stack developer at avicenne
+        </p> */}
 
-            {!logoLock ? (
+        <p
+          className=" font-[400] text-[11px] w-[90%] text-center"
+          style={{ color: textColor ? textColor : companyProfile?.textColor }}
+        >
+          {designation}
+        </p>
+
+        {/* {!locationLock && (
+          <p
+            className=" font-[400] text-[11px] w-[90%] text-center"
+            style={{ color: textColor }}
+          >
+            {address}
+          </p>
+        )} */}
+
+        {!bioLock && (
+          <p
+            className="font-[400] text-[11px] w-[90%] text-center"
+            style={{ color: textColor ? textColor : companyProfile?.textColor }}
+          >
+            {bio ? bio : companyProfile?.bio}
+          </p>
+        )}
+      </div>
+
+      <div className="w-[100%] flex flex-col items-center mt-2">
+        <div className="w-[65%] flex justify-center gap-3 items-center">
+          <div
+            className="h-[32px] w-[32px] flex justify-center items-center rounded-full"
+            style={{ backgroundColor: color ? color : companyProfile?.color }}
+          >
+            <i class="fa fa-users text-white"></i>
+          </div>
+          {!phoneLock && OrReturner(phone, companyProfile?.phone) && (
+            <div
+              className="h-[32px] w-[32px] flex justify-center items-center rounded-full"
+              style={{
+                backgroundColor: color ? color : companyProfile?.color,
+              }}
+            >
+              <i class="fa fa-phone text-white"></i>
+            </div>
+          )}
+          {email && (
+            <div
+              className="h-[32px] w-[32px] flex justify-center items-center rounded-full"
+              style={{ backgroundColor: color ? color : companyProfile?.color }}
+            >
+              <i class="fa fa-envelope text-white"></i>
+            </div>
+          )}
+          {!locationLock && OrReturner(address, companyProfile?.address) && (
+            <div
+              className="h-[32px] w-[32px] flex justify-center items-center rounded-full"
+              style={{
+                backgroundColor: color ? color : companyProfile?.color,
+                display: locationLock ? "none" : null,
+              }}
+            >
+              <i class="fa fa-map-marker text-white"></i>
+            </div>
+          )}
+        </div>
+        <div
+          className="w-[65%] h-[36px]  rounded-2xl text-white flex justify-center items-center text-[12px] mt-3"
+          style={{ backgroundColor: color ? color : companyProfile?.color }}
+        >
+          {t("Let's Connect")}
+        </div>
+        {returnWeblink() && (
+          <div
+            className="w-[80%] h-[36px]  rounded-2xl  flex  items-center text-[12px] mt-3 relative "
+            style={{
+              backgroundColor: "#e6e6e6",
+              display: !returnWeblink()?.shareable ? "none" : null,
+            }}
+          >
+            <div
+              className="h-[42px] w-[42px] rounded-full absolute left-[-10px] flex justify-center items-center "
+              style={{ backgroundColor: color ? color : companyProfile?.color }}
+            >
+              <BsGlobe2 className="text-2xl bg-white rounded-full" />
+            </div>
+            <p className="text-[11px] w-[65%] absolute left-[37px]">
+              {splitString(returnWeblink()?.value, 26)}
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="w-[100%] flex flex-col items-center mt-2">
+        {featuredImages?.length > 0 && (
+          <div
+            className="w-[83%] text-xs font-[300] mb-1"
+            style={{
+              color: textColor ? textColor : companyProfile?.textColor,
+            }}
+          >
+            Images:
+          </div>
+        )}
+        <div className="w-[83%] flex overflow-x-scroll gap-5">
+          {featuredImages?.map((elm) => {
+            return elm.id != photoValue?.id ? (
               <img
-                className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
+                src={appendBucketPath(elm?.imageUrl)}
                 alt=""
-                src={logo ? logo : organizationLogo ? organizationLogo : lgoplchldr}
+                srcset=""
+                className="h-[55px] w-[55px] rounded-md object-cover"
               />
             ) : (
               <img
-                src={lgoplchldr}
+                src={customPhoto ? customPhoto : photoValue?.image}
                 alt=""
-                className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
+                srcset=""
+                className="h-[55px] w-[55px] rounded-md object-cover border"
               />
-            )}
-            {!nameLock && (
-            <h2 className="max-h-[33px] overflow-hidden max-w-[90%] break-all font-bold mt-[5px] mb-0 text-[14px]">
-              {name ? splitString(name, 24) : companyProfile?.name}
-              </h2>
-            )}
-
-            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center">
-            {designation}
-            </p>
-            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center">
-            {companyProfile?.name}
-            </p>
-
-            <div className="w-[70%] p-[5px_4px] rounded-[14px] bg-[#F4F4F4] flex flex-col items-center mt-[15px]">
-              <div className="flex w-[94%] justify-between items-center">
-                <p className="m-0 text-[13px]">About Me</p>
-                <p id="plus_sign" 
-                className={`cursor-pointer ${bioHidden ? '' : 'hidden'}`} 
-                onClick={() => setBioHidden(false)}
-                >+</p>
-                <p id="minus_sign" 
-                className={`cursor-pointer ${bioHidden ? 'hidden' : ''}`}
-                onClick={() => setBioHidden(true)}
-                >-</p>
-              </div>
-              {!bioLock && (
-                <p id="about_text" className={`w-[95%] break-word overflow-hidden mt-[10px] text-[#959595] text-[12px] mb-[1px] ${bioHidden ? 'hidden' : ''}`}>
-                  {bio ? bio : companyProfile?.bio}
-                </p>
-              )}
-            </div>
-          </div>
+            );
+          })}
+          {!checkPhotoAdded && customPhoto && (
+            <img
+              src={customPhoto}
+              alt=""
+              srcset=""
+              className="h-[55px] w-[55px] rounded-md object-cover"
+            />
+          )}
         </div>
+      </div>
+
+      <div className="w-[100%] flex flex-col items-center mt-2">
+        {featuredVideos?.length > 0 && (
+          <div
+            className="w-[83%] text-xs font-[300] mb-1"
+            style={{
+              color: textColor ? textColor : companyProfile?.textColor,
+            }}
+          >
+            Video:
+          </div>
+        )}
+        <div className="w-[83%] flex overflow-x-scroll gap-5">
+          {featuredVideos?.map((elm) => {
+            return !customVideo || typeof customVideo != "object" ? (
+              <video
+                src={appendBucketPath(elm?.videoUrl)}
+                controls
+                className="max-h-[100px] h-[100%] w-[100%] rounded-xl"
+              />
+            ) : (
+              <video
+                src={URL.createObjectURL(customVideo)}
+                controls
+                className="max-h-[100px] h-[100%] w-[100%] rounded-xl"
+              />
+            );
+          })}
+          {!checkAddedVideo && customVideo && (
+            <div className="h-[100%]">
+              <div
+                className="w-[83%] text-xs font-[300] mb-1"
+                style={{
+                  color: textColor ? textColor : companyProfile?.textColor,
+                }}
+              >
+                Video:
+              </div>
+              {memoizedVideo}
+              {/* <video
+                src={URL.createObjectURL(customVideo)}
+                controls
+                className="h-[100%] w-[100%] rounded-xl"
+              /> */}
+            </div>
+            // <img
+            //   src={
+            //     typeof customVideo === "object"
+            //       ? URL.createObjectURL(customVideo)
+            //       : customVideo
+            //   }
+            //   alt=""
+            //   srcset=""
+            //   className="h-[55px] w-[55px] rounded-md object-cover"
+            // />
+          )}
+        </div>
+      </div>
 
       <div className="w-[100%] flex flex-col items-center mt-3">
+        {links?.length > 0 && (
+          <div
+            className="w-[83%] text-xs font-[300] mb-1"
+            style={{
+              color: textColor ? textColor : companyProfile?.textColor,
+            }}
+          >
+            Links:
+          </div>
+        )}
         <div className="w-[90%] grid grid-cols-4 ml-6 gap-y-3">
           {links?.map((elm) => {
             return linkInfo?.linkID != elm?.linkID ? (
@@ -378,28 +571,6 @@ const Mobile = ({
           )}
         </div>
       </div>
-
-
-      <div className="w-full sticky bottom-0 flex justify-between max-w-[420px] bg-[white] p-[0px_2%_10px_2%]">
-      <div method="get"className="w-[48%] flex justify-center">
-        <button
-          className="w-full h-[33px] mt-[10px] text-[11px] text-white rounded-[6px] flex justify-center items-center"
-          style={{ backgroundColor: buttonColor }}
-        >
-          Save Contact
-        </button>
-      </div>
-
-      <a 
-      className="w-[48%] h-[33px] mt-[10px] text-[11px] border-[1px] rounded-[6px] flex justify-center items-center"
-      style={{
-        borderColor: buttonColor,
-        color: buttonColor,
-      }}>
-        Exchange Contact
-      </a>
-    </div>
-
     </div>
   );
 };

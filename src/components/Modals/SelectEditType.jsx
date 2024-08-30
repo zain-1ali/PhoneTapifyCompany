@@ -57,7 +57,7 @@ const SelectEditType = ({ editTypeModal, handledEditType, text, tags }) => {
               tags?.map((tag, index) => (
                 <div
                   key={index} // Add a unique key for each element
-                  className="h-[30px] p-[8px] rounded-full border flex justify-center items-center text-sm ml-[5px] bg-[#3fb621] text-white cursor-pointer"
+                  className="h-[30px] p-[8px] rounded-full border flex justify-center items-center text-sm ml-[5px] bg-[#ffffff] text-black cursor-pointer"
                   onClick={() => {
                     handledEditType(tag);
                   }}

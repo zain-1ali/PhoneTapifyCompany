@@ -1007,7 +1007,7 @@ const About = ({ uid, handleCancelAbout }) => {
               {t("Cancel")}
             </button>
             <button
-              className="w-[120px] h-[40px] border rounded-[16px] bg-[#3fb621] text-[12px] font-[600] text-white"
+              className="w-[120px] h-[40px] border rounded-[16px] bg-[#000000] text-[12px] font-[600] text-white"
               onClick={() => {
                 updataAbout(uid, data, t),
                   getSingleChild(companyId, getCompanyData);

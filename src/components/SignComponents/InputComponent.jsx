@@ -107,7 +107,7 @@ const InputComponent = ({ type, handleSubmit }) => {
           </div>
         ) : null}
         <div
-          className="sm:w-[83%] w-[90%] sm:h-[60px] h-[50px] rounded-[46px]  bg-[#3fb621] text-[white] pl-[15px] mt-6 font-[500] text-[22px] flex justify-center items-center cursor-pointer"
+          className="sm:w-[83%] w-[90%] sm:h-[60px] h-[50px] rounded-[46px]  bg-[#000000] text-[white] pl-[15px] mt-6 font-[500] text-[22px] flex justify-center items-center cursor-pointer"
           onClick={() => {
             type === "forget"
               ? handleSubmit(

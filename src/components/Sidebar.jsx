@@ -4,7 +4,7 @@ import { BiHelpCircle } from "react-icons/bi";
 import { LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { BsBox2Fill } from "react-icons/bs";
-import logo from "../imgs/logo.png";
+import logo from "../imgs/logoWhite.png";
 import { FaKey } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
@@ -71,7 +71,7 @@ const Sidebar = () => {
   const pathName = window.location.pathname;
 
   return (
-    <div className="w-[20%] h-[100vh]  flex flex-col sticky shadow-2xl bg-white">
+    <div className="w-[20%] h-[100vh]  flex flex-col sticky shadow-2xl bg-black">
       <DeleteModal
         deleteModal={deleteModal}
         handledeleteModal={handledeleteModal}
@@ -86,7 +86,7 @@ const Sidebar = () => {
           </div>
           <div className="h-max  w-[100%]   mt-5 ">
             <div
-              className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer "
+              className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer "
               onClick={() => navigate("/home")}
               style={
                 currentPath.includes("/home") || currentPath.includes("/edit")
@@ -111,8 +111,8 @@ const Sidebar = () => {
             </div>
             {conexParent != "superAdmin" && (
               <>
-                {/* <div
-                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                <div
+                  className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/subteams")}
                   style={
                     currentPath.includes("/subteams")
@@ -129,10 +129,10 @@ const Sidebar = () => {
                       {t("Sub Teams")}
                     </p>
                   </div>
-                </div> */}
+                </div>
 
                 <div
-                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/leads")}
                   style={
                     currentPath.includes("/leads")
@@ -151,7 +151,7 @@ const Sidebar = () => {
                 </div>
                 
                 <div
-                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/reviews")}
                   style={
                     currentPath.includes("/reviews")
@@ -170,7 +170,7 @@ const Sidebar = () => {
                 </div>
 
                 <div
-                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/analytics")}
                   style={
                     currentPath.includes("/analytics")
@@ -189,7 +189,7 @@ const Sidebar = () => {
                 </div>
 
                 <div
-                  className="hover:bg-[#3fb621] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/company")}
                   style={
                     pathName === "/company"
@@ -211,9 +211,9 @@ const Sidebar = () => {
             )}
           </div>
         </div>
-        <div className="h-[10%]  w-[90%] flex flex-col justify-end">
+        <div className="h-[10%]  w-[90%] flex flex-col justify-end ">
           <div
-            className="h-[36px]  w-[95px]  flex items-center justify-center rounded-[34px] cursor-pointer gap-2 ml-2 border bg-[#3fb621]"
+            className="h-[36px]  w-[95px]  flex items-center  justify-center rounded-[34px] cursor-pointer gap-2 ml-2 hover:bg-[#000000] border border-transparent hover:border-[#ffffff] bg-[#3fb621]"
             onClick={() => handledeleteModal()}
           >
             {" "}

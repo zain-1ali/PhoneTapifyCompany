@@ -2153,6 +2153,7 @@ export const changeProfileStatus = (status, id) => {
 // ------------------------------------------------Get single child profile-----------------------------------------------
 
 export const getContacts = (id, cb) => {
+  console.log()
   const starCountRef = query(
     ref(db, "/Contacts"),
     orderByChild("parentId"),
@@ -2173,7 +2174,7 @@ export const getReviews = (id, cb) => {
   console.log(id);
   const starCountRef = query(
     ref(db, "/Reviews"),
-    orderByChild("userid"),
+    orderByChild("parentId"),
     equalTo(id)
   );
   onValue(starCountRef, async (snapshot) => {

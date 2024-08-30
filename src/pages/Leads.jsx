@@ -19,6 +19,7 @@ import SingleLeadModal from "../components/Modals/SingleLeadModal";
 import DeleteContactModal from "../components/Modals/DeleteContactModal";
 import DownloadCsv from "../components/DownloadCsv";
 import { useTranslation } from "react-i18next";
+import { combineSlices } from "@reduxjs/toolkit";
 
 const Leads = () => {
   let [leads, setLeads] = useState([]);
@@ -48,7 +49,6 @@ const Leads = () => {
 
   //---------------------------------------------------(search functionality)-----------------------------------------------
 
-  console.log(filtered);
 
   let [search, setsearch] = useState("");
 
@@ -107,6 +107,7 @@ const Leads = () => {
     if (teamId === "all") {
       setfiltered(leads);
     } else {
+      const sddf = getMemberbyId("vpvnD8aq14eDf5pi5g8tkUxNMqz1");
       const filtered = leads?.filter((item) =>
         getMemberbyId(item?.userid)?.teams?.includes(teamId)
       );
@@ -159,12 +160,10 @@ const Leads = () => {
     if (startDate != "" && endDate != "") {
       const firstDate = convertDateToMilli(startDate);
       const lastDate = convertDateToMilli(endDate);
-      console.log(firstDate);
-      console.log(lastDate);
+
       const filterOnDate = leads?.filter((elm) => {
         return elm?.date >= firstDate && elm?.date <= lastDate;
       });
-      console.log(filterOnDate);
       setfiltered(filterOnDate);
     }
   }, [startDate, endDate]);
@@ -182,13 +181,16 @@ const Leads = () => {
 
   const appendBucketPath = (path) => {
     let url = "";
-    if (path !== "") {
-      const filterUrl = path.replace("gs://connexcard-8ad69.appspot.com/", "");
+    if (path !== "" && path !== undefined) {
+      const filterUrl = path?.replace("gs://connexcard-8ad69.appspot.com/", "");
       url = `https://firebasestorage.googleapis.com/v0/b/connexcard-8ad69.appspot.com/o/${filterUrl}?alt=media`;
+    }
+    else
+    {
+      url = prsnPlshldr;
     }
     return url;
   };
-
   return (
     <div className="w-[100%] flex bg-[#F8F8F8] h-[100vh] max-h-[100vh] relative">
       <DeleteContactModal

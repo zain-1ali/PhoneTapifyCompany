@@ -47,7 +47,7 @@ const DeleteModal = ({ deleteModal, handledeleteModal, text, func }) => {
                 {t("Cancel")}
               </div>
               <div
-                className="h-[30px] w-[70px] rounded-full border flex justify-center items-center text-sm ml-[5px] bg-[#3fb621] text-white cursor-pointer"
+                className="h-[30px] w-[70px] rounded-full border flex justify-center items-center text-sm ml-[5px] bg-[#000000] text-white cursor-pointer"
                 onClick={() => {
                   func(), handledeleteModal();
                 }}

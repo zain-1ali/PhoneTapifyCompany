@@ -82,7 +82,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 {sliceString(shareUrl)}
               </p>
               <div
-                className="w-[95px] h-[37px] rounded-[36px] cursor-pointer bg-[#3fb621] flex justify-center items-center"
+                className="w-[95px] h-[37px] rounded-[36px] cursor-pointer bg-[#000000] flex justify-center items-center"
                 onClick={() => {
                   navigator.clipboard.writeText(shareUrl),
                     toast.success("Copied to clipboard");
@@ -103,7 +103,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 text={"Please find my Profile Link below:"}
                 hashtag="#React"
               >
-                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer">
+                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer">
                   <div className="flex justify-between items-center w-[85%] h-[80%]">
                     <div className="flex justify-between items-center w-[85%] h-[80%]">
                       {" "}
@@ -126,7 +126,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 text={"Please find my Profile Link below:"}
                 hashtag="#React"
               >
-                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer">
+                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer">
                   <div className="flex justify-between items-center w-[85%] h-[80%]">
                     <div className="flex justify-between items-center w-[85%] h-[80%]">
                       {" "}
@@ -148,7 +148,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 text={"Please find my Profile Link below:"}
                 hashtag="#React"
               >
-                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer">
+                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer">
                   <div className="flex justify-between items-center w-[85%] h-[80%]">
                     <div className="flex justify-between items-center w-[85%] h-[80%]">
                       {" "}
@@ -172,7 +172,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 text={"Please find my Profile Link below:"}
                 hashtag="#React"
               >
-                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer">
+                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer">
                   <div className="flex justify-between items-center w-[85%] h-[80%]">
                     <div className="flex justify-between items-center w-[85%] h-[80%]">
                       {" "}
@@ -194,7 +194,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 text={"Please find my Profile Link below:"}
                 hashtag="#React"
               >
-                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer">
+                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer">
                   <div className="flex justify-between items-center w-[85%] h-[80%]">
                     <div className="flex justify-between items-center w-[85%] h-[80%]">
                       {" "}
@@ -216,7 +216,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
                 text={"Please find my Profile Link below:"}
                 hashtag="#React"
               >
-                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer">
+                <div className="w-[128px] h-[37px] rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer">
                   <div className="flex justify-between items-center w-[85%] h-[80%]">
                     <div className="flex justify-between items-center w-[85%] h-[80%]">
                       {" "}

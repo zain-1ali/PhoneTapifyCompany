@@ -478,7 +478,7 @@ const CompanyProfile = ({ uid }) => {
                     {t("Icons Color")}
                   </h2>
                   <div className="sm:w-[254px] w-[70%] sm:h-[61px] h-[46px] rounded-[36px] bg-white mt-1 flex items-center justify-between">
-                    <div className="sm:h-[61px] h-[33px] w-[61px] rounded-full bg-[#3fb621]">
+                    <div className="sm:h-[61px] h-[33px] w-[61px] rounded-full bg-[#000000]">
                       <label
                         htmlFor="btnclr"
                         className="h-[100%] w-[100%] rounded-full flex justify-center items-center"
@@ -621,7 +621,7 @@ const CompanyProfile = ({ uid }) => {
                 </div>
 
                 <div
-                  className="sm:w-[160px] w-[210px] sm:h-[47px] h-[37px] shadow-lg rounded-[36px] bg-[#3fb621] flex justify-center items-center cursor-pointer"
+                  className="sm:w-[160px] w-[210px] sm:h-[47px] h-[37px] shadow-lg rounded-[36px] bg-[#000000] flex justify-center items-center cursor-pointer"
                   onClick={() =>
                     updateCompanyProfile(
                       uid,

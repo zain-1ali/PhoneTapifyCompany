@@ -37,7 +37,7 @@ const SingleReviewModal = ({ reviewModal, handleReviewModal, singleReview }) => 
     borderRadius: "18px",
     // p: "32px",
   };
-console.log(singleReview)
+
   const { t } = useTranslation();
   return (
     <div>

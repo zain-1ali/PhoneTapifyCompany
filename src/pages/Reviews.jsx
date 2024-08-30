@@ -29,10 +29,8 @@ const Reviews = () => {
   let [teamId, setTeamId] = useState("all");
   let [userId, setUserId] = useState("all");
   useEffect(() => {
-    console.log(userId)
-    userId ? getReviews(userId, setReviews) : getReviews(connexUid, setReviews);;
-    // getReviews(connexUid, setReviews);
-  }, [userId]);
+    getReviews(connexUid, setReviews);
+  }, []);
 
   let [reviewModal, setreviewModal] = useState(false);
   let handleReviewModal = () => {
@@ -110,6 +108,8 @@ const Reviews = () => {
     if (teamId === "all") {
       setfiltered(reviews);
     } else {
+      const df = getMemberbyId(userId);
+      console.log(reviews);
       const filtered = reviews?.filter((item) =>
         getMemberbyId(item?.userid)?.teams?.includes(teamId)
       );

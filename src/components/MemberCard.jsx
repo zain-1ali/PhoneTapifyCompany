@@ -47,8 +47,6 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
     } else if (conexParent === "superAdmin") {
       navigate(`/edit/${profile?.id}`);
     } else {
-      console.log(action);
-  
       if (action === "Digital Card") {
         navigate(`/edit/${profile?.id}`);
       } else {
@@ -57,7 +55,6 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
     }
   };
   let callback = () => {
-    console.log("member deleted");
     updateChildList();
   };
   let conexParent = localStorage.getItem("conexParent");
@@ -87,7 +84,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
         handledeleteModal={seteditModal}
         text={t("Are you sure to edit this profile?")}
         func={ 
-          conexParent === "superAdmin" ? () => navigate(`/edit/${profile?.id}`) 
+          conexParent === "superAdmin" ? navigate(`/edit/${profile?.id}`) 
           : () => updateCompanyToken(companyProfile?.id, profile?.id)
         }
       />

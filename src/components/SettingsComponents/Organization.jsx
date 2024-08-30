@@ -157,7 +157,7 @@ const Organization = ({ uid }) => {
 
         <div className="sm:w-[600px] w-[100%]  h-[46px] outline-none bg-white rounded-[36px] mt-3 flex justify-end">
           <div
-            className="w-[25%] h-[100%] rounded-[36px] bg-[#3fb621] flex justify-center items-center text-white cursor-pointer"
+            className="w-[25%] h-[100%] rounded-[36px] bg-[#000000] flex justify-center items-center text-white cursor-pointer"
             onClick={() => adminAccess(uid, email, setEmail, translator)}
           >
             {t("Invite")}

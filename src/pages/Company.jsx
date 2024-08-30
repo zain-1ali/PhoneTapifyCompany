@@ -236,11 +236,11 @@ const Company = () => {
               <div
                 className="w-[154px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-center items-center cursor-pointer"
                 // onClick={() => handlehelpModal()}
-                onClick={() =>
-                  window.open(
-                    "https://connexcard.store/pages/support-contact-us"
-                  )
-                }
+                // onClick={() =>
+                //   window.open(
+                //     "#"
+                //   )
+                // }
               >
                 <p className="font-[500] sm:text-[15px] text-[12px] ">
                   {t("Help")} ?

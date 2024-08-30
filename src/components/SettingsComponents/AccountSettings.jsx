@@ -243,7 +243,7 @@ const AccountSettings = ({ companyProfile }) => {
         </h2>
         <div className="w-[99%] pl-[4%] sm:h-[46px] h-[30px] outline-none bg-white rounded-[36px] mt-1 flex justify-end">
           <div
-            className="w-[25%] h-[100%] rounded-[36px] bg-[#3fb621] flex justify-center items-center text-white cursor-pointer sm:text-[16px] text-[12px]"
+            className="w-[25%] h-[100%] rounded-[36px] bg-[#000000] flex justify-center items-center text-white cursor-pointer sm:text-[16px] text-[12px]"
             onClick={() =>
               updataCompanyAbout(
                 companyProfile?.id,

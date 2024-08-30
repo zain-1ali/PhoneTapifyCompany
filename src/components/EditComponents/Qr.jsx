@@ -224,7 +224,7 @@ const Qr = ({ uid, handleCancelQr }) => {
           {t("Cancel")}
         </button>
         <button
-          className="w-[120px] h-[40px] rounded-[15px] ml-2 font-[600] text-[12px]  shadow-md bg-[#3fb621] text-white"
+          className="w-[120px] h-[40px] rounded-[15px] ml-2 font-[600] text-[12px]  shadow-md bg-[#000000] text-white"
           onClick={() =>
             updateQrInfo(
               uid,

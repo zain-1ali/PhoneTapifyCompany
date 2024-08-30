@@ -422,7 +422,7 @@ const Analytics = () => {
                   );
                 })}
               </Menu>
-              {/* <div className="w-[200px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer mr-4 ">
+              <div className="w-[200px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-evenly items-center cursor-pointer mr-4 ">
                 <Checkbox
                   checked={!isNameFilter}
                   onChange={() => changeSelectedStat(false)}
@@ -447,11 +447,11 @@ const Analytics = () => {
                   </p>
                   <MdArrowDropDown className="text-2xl" />
                 </div>
-              </div> */}
+              </div>
 
 
               { /************** team menus *****************/}
-              {/* <Menu
+              <Menu
                 id="company-menu"
                 anchorEl={anchorEl3}
                 open={open3}
@@ -489,7 +489,7 @@ const Analytics = () => {
                     </MenuItem>
                   );
                 })}
-              </Menu> */}
+              </Menu>
 
 
               { /************** User menus *****************/}
