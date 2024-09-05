@@ -39,13 +39,15 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let [editTypeModal, setEditTypeModal] = useState(false);
   
   let handleeditModal = () => {
+    if (conexParent === "superAdmin") { navigate(`/edit/${profile?.id}`);
+    } else {
     setEditTypeModal(!editTypeModal);
+    }
   };
   let handledEditType = (action) => {
     if (action === "cancel") {
       setEditTypeModal(!editTypeModal);
-    } else if (conexParent === "superAdmin") {
-      navigate(`/edit/${profile?.id}`);
+    } else if (conexParent === "superAdmin") { ()=> navigate(`/edit/${profile?.id}`);
     } else {
       if (action === "Digital Card") {
         navigate(`/edit/${profile?.id}`);
@@ -84,7 +86,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
         handledeleteModal={seteditModal}
         text={t("Are you sure to edit this profile?")}
         func={ 
-          conexParent === "superAdmin" ? navigate(`/edit/${profile?.id}`) 
+          conexParent === "superAdmin" ? () => navigate(`/edit/${profile?.id}`) 
           : () => updateCompanyToken(companyProfile?.id, profile?.id)
         }
       />

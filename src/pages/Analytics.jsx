@@ -273,8 +273,9 @@ const Analytics = () => {
   // console.log(Object.values(analytics)?.[0]);
 
   const [isNameFilter, setIsNameFilter] = useState(true);
-
-  if(selectedUser?.profileType === "Google Review")
+console.log(selectedProfile);
+console.log(selectedProfile?.profileType);
+  if(selectedProfile?.profileType === "Google Review")
   {
     var GraphColors = ["#d10f25", "#ac8b42"];
     var graphLines =
@@ -284,7 +285,7 @@ const Analytics = () => {
         ];
     var GraphLables = [t("Total Views"), t("Total Reviews")];
   }
-  else if(selectedUser?.profileType === "Open House" || selectedUser?.profileType === "Open House")
+  else if(selectedProfile?.profileType === "Open House" || selectedProfile?.profileType === "Open House")
   {
     var GraphColors = ["#0f42d1", "#d10f25"];
     var graphLines = [          
@@ -545,6 +546,7 @@ const Analytics = () => {
                         setloading
                       ),
                         setSelectedUser({ name: "All" });
+                        setSelectedProfile({ name: "All", profileType : "all" }),
                       handleClose();
                     }}
                     sx={{ display: "flex" }}
@@ -555,6 +557,7 @@ const Analytics = () => {
                   <MenuItem
                     onClick={() => {
                       setSelectedUser(companyProfile?.[companyId]),
+                      setSelectedProfile(companyProfile?.[companyId]),
                         getSingleChildAnalytics(
                           companyId,
                           setAnalytics,
@@ -717,7 +720,7 @@ const Analytics = () => {
               </div>
               <div className="h-[32%] pb-2 mt-3 w-[100%] shadow-xl rounded-[37px] bg-white flex flex-col items-center">
                 <p className="w-[100%] text-center text-sm mt-1">
-                {selectedUser?.profileType === "Google Review" ?
+                {selectedProfile?.profileType === "Google Review" ?
                   t("Total reviews counts to date")
                   :
                   t("Total link clicks to date")
@@ -731,7 +734,7 @@ const Analytics = () => {
 
                   { 
                   // if other tag is review, show total reviews
-                  selectedUser?.profileType === "Google Review" ? analytics ? (
+                  selectedProfile?.profileType === "Google Review" ? analytics ? (
                     <div
                       className="w-[95%] h-[100%]  flex  gap-x-4  flex-wrap "
                       style={{ overflowY: "scroll" }}
@@ -779,9 +782,9 @@ const Analytics = () => {
               </div>
             </div>
             {/* ) : null} */}
-            <div className={`h-[100%] sm:w-[34%] w-[100%] flex flex-col ${selectedUser?.profileType === "Digital Card" ? "justify-between" : "justify-start"}`}>
+            <div className={`h-[100%] sm:w-[34%] w-[100%] flex flex-col ${selectedProfile?.profileType === "Digital Card" ? "justify-between" : "justify-start"}`}>
               
-              {(!selectedUser?.profileType || selectedUser?.profileType == "Digital Card") && ( loading ? (
+              {(selectedProfile?.profileType == "all" || !selectedProfile?.profileType || selectedProfile?.profileType == "Digital Card") && ( loading ? (
                 <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
@@ -821,7 +824,7 @@ const Analytics = () => {
                 </div>
               ))}
 
-              { selectedUser?.profileType == "Google Review" && ( loading ? (
+              { selectedProfile?.profileType == "Google Review" && ( loading ? (
                 <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>
@@ -862,7 +865,7 @@ const Analytics = () => {
               ))}
 
 
-              {selectedUser?.profileType != "Google Review" && ( loading ? (
+              {selectedProfile?.profileType != "Google Review" && ( loading ? (
                 <div className="h-[31%] w-[100%] bg-white rounded-[37px] shadow-xl flex justify-center items-center">
                   <MoonLoader size="40" />
                 </div>

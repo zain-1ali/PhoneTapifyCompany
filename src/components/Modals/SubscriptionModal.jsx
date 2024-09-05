@@ -68,9 +68,9 @@ const SubscriptionModal = ({ subscribeModal, handlesubscribeModal, id }) => {
     setIsYear(false);
   };
 
-  console.log(firstDate);
+  // console.log(firstDate);
 
-  console.log(secondDate);
+  // console.log(secondDate);
 
   const addYearly = () => {
     setIsMonth(false);

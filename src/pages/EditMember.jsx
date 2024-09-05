@@ -68,7 +68,7 @@ const EditMember = () => {
   let navigate = useNavigate();
   let { uid } = useParams();
   let dispatch = useDispatch();
-  console.log(uid);
+  // console.log(uid);
   let [singleProfile, setsingleProfile] = useState({});
   let [route, setroute] = useState({
     isAbout: true,
@@ -113,7 +113,7 @@ const EditMember = () => {
     getSingleChild(uid, setsingleProfile);
   }, []);
 
-  console.log(singleProfile[uid]);
+  // console.log(singleProfile[uid]);
   const name = useSelector((state) => state.profileInfoSlice.name);
   const email = useSelector((state) => state.profileInfoSlice.email);
   const profile = useSelector((state) => state.profileInfoSlice.profileUrl);

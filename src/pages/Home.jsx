@@ -67,13 +67,16 @@ const Home = () => {
   let [modal, setModal] = useState(false);
   let [loading, setloading] = useState(false);
   let handleModal = () => {
-    if(conexParent !== "superAdmin" && companyTags.length == 0)
-    {
-      toast.error('You have reached the max limit of your profiles. Please buy more tags.');
-    }
-    else{
-      setModal(!modal);
-    }
+    // console.log("add");
+    // if(conexParent !== "superAdmin" && companyTags.length == 0)
+    // {
+    //   toast.error('You have reached the max limit of your profiles. Please buy more tags.');
+    // }
+    // else{
+    //   console.log("model open");
+    
+    // }
+    setModal(!modal);
     
   };
   let updateChildList = () => {
@@ -290,10 +293,10 @@ const Home = () => {
                 </div> */}
                   <div
                     className="w-[185px] h-[100%] rounded-[36px] bg-[#000000] shadow-xl flex justify-center items-center cursor-pointer"
-                    onClick={() => handleModal()}
+                    onClick={handleModal}
                   >
                     <p className="font-[400] text-[14px] text-white mr-1 text-center">
-                      {t("Add New Member")}
+                      { conexParent != "superAdmin" ? t("Add New Member") : t("Add New Company")}
                     </p>
 
                     {language === "en" && (

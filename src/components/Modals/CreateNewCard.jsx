@@ -112,7 +112,7 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
       >
         <Box sx={style2}>
           <div className="w-[100%] h-[100%] flex flex-col justify-evenly items-center">
-            {isSubscribe ? (
+            {/* {isSubscribe ? (
               <div className="h-[100%] w-[100%]">
                 <p className="text-center font-[500] mt-[20px]">
                   Select subscription plan
@@ -167,20 +167,20 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                 </div>
 
                 {/* <div className="w-[100%] flex flex-col justify-center items-center mt-4 gap-3">
-              <div
-                className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#000000] text-white font-[500]"
-                onClick={() =>
-                  AddSubscription(
-                    firstDate,
-                    secondDate,
-                    id,
-                    handlesubscribeModal
-                  )
-                }
-              >
-                Update
-              </div>
-            </div> */}
+                <div
+                  className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#000000] text-white font-[500]"
+                  onClick={() =>
+                    AddSubscription(
+                      firstDate,
+                      secondDate,
+                      id,
+                      handlesubscribeModal
+                    )
+                  }
+                >
+                  Update
+                </div>
+                </div> 
                 <div className="w-[100%] h-[45px] flex justify-evenly items-center mt-3">
                   <button
                     className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
@@ -206,10 +206,10 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                   </button>
                 </div>
               </div>
-            ) : (
+            ) : ( */}
               <>
                 <h2 className="text-center font-medium text-lg">
-                  {t("Create new card")}
+                  { conexParent != "superAdmin" ? t("Create New Card") : t("Create New Company")}
                 </h2>
                 <div className="w-[90%] h-[80%] flex flex-col justify-around">
                   <input
@@ -263,7 +263,8 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                     >
                       {t("Cancel")}
                     </button>
-                    {conexParent != "superAdmin" ? (
+                    {
+                    // conexParent != "superAdmin" ? (
                       <button
                         className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                         onClick={() =>
@@ -278,27 +279,29 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                       >
                         {t("Create")}
                       </button>
-                    ) : (
-                      <button
-                        className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
-                        onClick={() =>
-                          // createNewCard(
-                          //   data,
-                          //   callBack,
-                          //   conexParent != "superAdmin"
-                          //     ? Object.values(companyProfile)?.[0]
-                          //     : ""
-                          // )
-                          setIsSubscribe(true)
-                        }
-                      >
-                        {t("Next")}
-                      </button>
-                    )}
+                    // ) : (
+                    //   <button
+                    //     className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                    //     onClick={() =>
+                    //       // createNewCard(
+                    //       //   data,
+                    //       //   callBack,
+                    //       //   conexParent != "superAdmin"
+                    //       //     ? Object.values(companyProfile)?.[0]
+                    //       //     : ""
+                    //       // )
+                    //       setIsSubscribe(true)
+                    //     }
+                    //   >
+                    //     {t("Next")}
+                    //   </button>
+                    // )
+                    }
                   </div>
                 </div>
               </>
-            )}
+             {/* )
+            } */}
           </div>
         </Box>
       </Modal>

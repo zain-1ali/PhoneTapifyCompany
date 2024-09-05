@@ -233,9 +233,9 @@ const CompanyProfile = ({ uid }) => {
         setmyimg={setmylogolimg}
         setcrop={setCroplogo}
         crop={croplogo}
-        aspect={1 / 1}
+        // aspect={1 / 1}
         setReduxState={setLogoUrl}
-        isCircle={true}
+        isCircle={false}
       />
       {/* --------------------------------------------croper for profile image------------------------------------------------  */}
       <Cropper
@@ -248,7 +248,7 @@ const CompanyProfile = ({ uid }) => {
         crop={cropPrfl}
         aspect={1 / 1}
         setReduxState={setProfileurl}
-        isCircle={true}
+        isCircle={false}
       />
 
       {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
@@ -298,23 +298,23 @@ const CompanyProfile = ({ uid }) => {
               />
             </span>
             {logo ? (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  flex justify-center items-center flex-col relative">
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
-                  className="absolute right-[15px] top-0 text-red-500"
+                  className="absolute right-[0px] top-0 text-red-500"
                   onClick={() => dispatch(setLogoUrl(""))}
                 />
                 <img
                   src={logo}
                   alt=""
-                  className="h-[100%] w-[100%] object-cover rounded-full"
+                  className="max-h-[100%] max-w-[100%]"
                 />
               </div>
             ) : (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full bg-gray-100 flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  bg-gray-100 flex justify-center items-center flex-col relative">
                 <label
                   htmlFor="logoImg"
-                  className="absolute right-[15px] top-0"
+                  className="absolute right-[0px] top-0"
                 >
                   <GrAddCircle style={{ fontSize: "20px" }} />
 
@@ -362,23 +362,23 @@ const CompanyProfile = ({ uid }) => {
             </span>
 
             {profile ? (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border flex justify-center items-center flex-col relative">
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
-                  className="absolute right-[15px] top-0 text-red-500"
+                  className="absolute right-[0px] top-0 text-red-500"
                   onClick={() => dispatch(setProfileurl(""))}
                 />
                 <img
                   src={profile}
                   alt=""
-                  className="h-[100%] w-[100%] object-cover rounded-full"
+                  className="h-[100%] w-[100%] object-cover"
                 />
               </div>
             ) : (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full bg-gray-100 flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  bg-gray-100 flex justify-center items-center flex-col relative">
                 <label
                   htmlFor="prflImg"
-                  className="absolute right-[15px] top-0"
+                  className="absolute right-[0px] top-0"
                 >
                   <GrAddCircle style={{ fontSize: "20px" }} />
 
@@ -418,7 +418,7 @@ const CompanyProfile = ({ uid }) => {
               {/* <RiErrorWarningLine /> */}
             </span>
             {cover ? (
-              <div className="sm:w-[253px] w-[166px] sm:h-[150px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative">
+              <div className="sm:w-[253px] w-[166px] sm:h-[130px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative">
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
                   className="absolute right-[0px] top-[-3px] text-red-500"

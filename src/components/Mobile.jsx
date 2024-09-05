@@ -107,7 +107,7 @@ const Mobile = ({
     (state) => state.profileInfoSlice.featuredVideos
   );
 
-  console.log(featuredImages);
+  // console.log(featuredImages);
   const appendBucketPath = (path) => {
     let url = "";
     if (path !== "") {
@@ -141,7 +141,7 @@ const Mobile = ({
     getSingleChild(companyId, getCompanyData);
   }, [companyId]);
 
-  console.log(companyProfile);
+  // console.log(companyProfile);
 
   let returnWeblink = () => {
     let web = links?.find((elm) => {
@@ -151,9 +151,9 @@ const Mobile = ({
     return web;
   };
 
-  console.log(companyProfile);
+  // console.log(companyProfile);
 
-  console.log(textColor);
+  // csonsole.log(textColor);
 
   const { t } = useTranslation();
 

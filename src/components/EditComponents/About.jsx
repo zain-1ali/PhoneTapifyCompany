@@ -145,7 +145,7 @@ const About = ({ uid, handleCancelAbout }) => {
     (state) => state.profileInfoSlice.designation
   );
 
-  console.log(name);
+  // console.log(name);
 
   let [prflKey, setPrflKey] = useState(0);
   let [logoKey, setLogoKey] = useState(0);
@@ -290,7 +290,7 @@ const About = ({ uid, handleCancelAbout }) => {
     dispatch(setOrgLogo(data?.[companyId]?.logoUrl));
     dispatch(setOrganizationProfile(data?.[companyId]?.profileUrl));
     setCompanyProfile(data);
-    console.log(data);
+    // console.log(data);
   };
 
   let getSubscribeData = (data) => {
@@ -316,7 +316,7 @@ const About = ({ uid, handleCancelAbout }) => {
     setsubscribeModal(!subscribeModal);
   };
 
-  console.log(subscription);
+  // console.log(subscription);
 
   // convert time stamp to readable date
   const returnDate = (timestampInSeconds) => {
@@ -355,9 +355,9 @@ const About = ({ uid, handleCancelAbout }) => {
         setmyimg={setmylogolimg}
         setcrop={setCroplogo}
         crop={croplogo}
-        aspect={1 / 1}
+        // aspect={1 / 1}
         setReduxState={setLogoUrl}
-        isCircle={true}
+        isCircle={false}
       />
       {/* --------------------------------------------croper for profile image------------------------------------------------  */}
       <Cropper
@@ -370,7 +370,7 @@ const About = ({ uid, handleCancelAbout }) => {
         crop={cropPrfl}
         aspect={1 / 1}
         setReduxState={setProfileurl}
-        isCircle={true}
+        isCircle={false}
       />
 
       {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
@@ -818,10 +818,10 @@ const About = ({ uid, handleCancelAbout }) => {
               <RiErrorWarningLine />
             </span>
             {logo || organizationLogo ? (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border flex justify-center items-center flex-col relative">
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
-                  className="absolute right-[15px] top-0 text-red-500"
+                  className="absolute right-[0px] top-0 text-red-500"
                   onClick={() => {
                     dispatch(setLogoUrl("")), dispatch(setOrgLogo(""));
                   }}
@@ -829,14 +829,14 @@ const About = ({ uid, handleCancelAbout }) => {
                 <img
                   src={logo ? logo : organizationLogo}
                   alt=""
-                  className="h-[100%] w-[100%] object-cover rounded-full"
+                  className="max-h-[100%] max-w-[100%] "
                 />
               </div>
             ) : (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full bg-gray-100 flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] m-w-[70px] m-h-[70px] border  bg-gray-100 flex justify-center items-center flex-col relative">
                 <label
                   htmlFor="logoImg"
-                  className="absolute right-[15px] top-0"
+                  className="absolute right-[0px] top-0"
                 >
                   <GrAddCircle style={{ fontSize: "20px" }} />
 
@@ -863,10 +863,10 @@ const About = ({ uid, handleCancelAbout }) => {
             </span>
 
             {profile || organizationProfile ? (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  flex justify-center items-center flex-col relative">
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
-                  className="absolute right-[10px] top-0 text-red-500"
+                  className="absolute right-[0px] top-0 text-red-500"
                   onClick={() => {
                     dispatch(setProfileurl("")),
                       dispatch(setOrganizationProfile(""));
@@ -875,14 +875,14 @@ const About = ({ uid, handleCancelAbout }) => {
                 <img
                   src={profile ? profile : organizationProfile}
                   alt=""
-                  className="h-[100%] w-[100%] object-cover rounded-full"
+                  className="h-[100%] w-[100%] object-cover"
                 />
               </div>
             ) : (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border rounded-full bg-gray-100 flex justify-center items-center flex-col relative">
+              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border bg-gray-100 flex justify-center items-center flex-col relative">
                 <label
                   htmlFor="prflImg"
-                  className="absolute right-[15px] top-0"
+                  className="absolute right-[0px] top-0"
                 >
                   <GrAddCircle style={{ fontSize: "20px" }} />
 
@@ -908,7 +908,7 @@ const About = ({ uid, handleCancelAbout }) => {
               <RiErrorWarningLine />
             </span>
             {cover || organizationCover ? (
-              <div className="sm:w-[253px] w-[166px] sm:h-[150px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative">
+              <div className="sm:w-[253px] w-[166px] sm:h-[120px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative">
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
                   className="absolute right-[0px] top-[-3px] text-red-500"

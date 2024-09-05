@@ -69,7 +69,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     (state) => state.profileInfoSlice.featuredVideos
   );
 
-  console.log(links);
+  // console.log(links);
 
   const [photoValue, setPhotoValue] = useState({
     detail: "",
@@ -102,10 +102,10 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const [customVideo, setCustomVideo] = useState("");
   const [customVideoPrw, setCustomVideoPrw] = useState("");
 
-  console.log(featuredVideos);
+  // console.log(featuredVideos);
 
   let addAlreadyExistVideo = (link) => {
-    console.log("check", link);
+    // console.log("check", link);
     setCustomVideo("");
     setVideoValue({
       detail: "",
@@ -116,9 +116,9 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     let addedVideo = featuredVideos?.find((elm) => {
       return elm?.id === link?.id;
     });
-    console.log("my data", addedVideo);
+    // console.log("my data", addedVideo);
     if (addedVideo) {
-      console.log("work1");
+      // console.log("work1");
       setVideoValue({
         detail: addedVideo?.detail,
         title: addedVideo?.title,
@@ -127,11 +127,11 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
       });
       setCustomVideo(appendBucketPath(addedVideo?.videoUrl));
     } else {
-      console.log("work2");
+      // console.log("work2");
       setVideoValue({ ...link });
     }
   };
-  console.log(videoValue);
+  // console.log(videoValue);
 
   let checkAddedVideo = (linkid) => {
     if (featuredVideos) {
@@ -165,7 +165,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const [customPhoto, setCustomPhoto] = useState("");
 
   let addAlreadyExistPhoto = (link) => {
-    console.log("check", link);
+    // console.log("check", link);
     setCustomPhoto("");
     setPhotoValue({
       detail: "",
@@ -176,7 +176,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     let addedPhoto = featuredImages.find((elm) => {
       return elm?.id === link?.id;
     });
-    console.log("my data", addedPhoto);
+    // console.log("my data", addedPhoto);
     if (addedPhoto) {
       setPhotoValue({
         detail: addedPhoto?.detail,
@@ -299,7 +299,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     });
 
     if (addedLink) {
-      console.log("true");
+      // console.log("true");
       setLinkValue({
         value:
           addedLink?.linkID === 50
@@ -316,12 +316,12 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
         baseUrl: link?.baseUrl,
       });
     } else {
-      console.log("false");
+      // console.log("false");
       setLinkInfo({ ...link, image: link?.img });
     }
   };
 
-  console.log(photoValue);
+  // console.log(photoValue);
 
   let [customImg, setcustomImg] = useState("");
 
@@ -385,7 +385,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   //   }
   // };
 
-  console.log(linkInfo?.image);
+  // console.log(linkInfo?.image);
 
   let [companyId, setCompanyId] = useState("");
   let conexParent = localStorage.getItem("conexParent");
@@ -402,7 +402,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const ifCompany = (uid) => {
     return uid === companyId ? true : false;
   };
-  console.log(ifCompany());
+  // console.log(ifCompany());
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -419,7 +419,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     }
   };
   const mystring = "";
-  console.log(mystring?.slice(0, 5));
+  // console.log(mystring?.slice(0, 5));
 
   const [loading, setloading] = useState(false);
 
@@ -455,7 +455,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     return customVideo ? <VideoComponent customVideo={customVideo} /> : null;
   }, [customVideo]);
 
-  console.log(photoValue);
+  // console.log(photoValue);
   return (
     <>
       <Modal

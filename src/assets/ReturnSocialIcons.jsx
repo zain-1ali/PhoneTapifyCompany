@@ -126,6 +126,14 @@ export const contactIcons = [
     baseUrl: "mailto:",
   },
   {
+    name: "Email",
+    title: "Email",
+    img: email,
+    placeholder: "Email",
+    linkID: 11,
+    baseUrl: "mailto:",
+  },
+  {
     name: "Viber",
     title: "Viber",
     img: viber,
@@ -189,7 +197,7 @@ export const socialIcons = [
     title: "Twitch",
     img: twitch,
     placeholder: "Twitch Url",
-    linkID: 55,
+    linkID: 48,
     baseUrl: "",
   },
   {
@@ -215,7 +223,7 @@ export const socialIcons = [
     title: "Threads",
     img: threads,
     placeholder: "Threads Url",
-    linkID: 58,
+    linkID: 65,
     baseUrl: "",
   },
   {
@@ -262,8 +270,8 @@ export const media = [
     baseUrl: "",
   },
   {
-    name: "SoundCloud",
-    title: "SoundCloud",
+    name: "Sound Cloud",
+    title: "Sound Cloud",
     img: soundcloud,
     placeholder: "Link to SoundCloud",
     linkID: 28,
@@ -307,7 +315,7 @@ export const media = [
     title: "Vimeo",
     img: vimeo,
     placeholder: "Vimeo Username",
-    linkID: 31,
+    linkID: 30,
     baseUrl: "https://vimeo.com/",
   },
 ];
@@ -318,7 +326,7 @@ export const payment = [
     title: "CashApp",
     img: cashapp,
     placeholder: "Cash App username",
-    linkID: 56,
+    linkID: 46,
     baseUrl: "https://cash.app/",
   },
   {
@@ -358,8 +366,8 @@ export const more = [
     baseUrl: "",
   },
   {
-    name: "Google Map",
-    title: "Google Map",
+    name: "Google Maps",
+    title: "Google Maps",
     img: googlemaps,
     placeholder: "Google Map link",
     linkID: 39,
@@ -382,7 +390,7 @@ export const more = [
     baseUrl: "",
   },
   {
-    name: "AppStore",
+    name: "Appstore",
     title: "AppStore",
     img: appstore,
     placeholder: "AppStore link",
@@ -402,19 +410,11 @@ export const more = [
     title: "Website",
     img: website,
     placeholder: "web link",
-    linkID: 54,
-    baseUrl: "",
-  },
-  {
-    name: "Custom Link1",
-    title: "Custom",
-    img: custom,
-    placeholder: "Custom link",
     linkID: 49,
     baseUrl: "",
   },
   {
-    name: "Custom Link2",
+    name: "Website 1",
     title: "Custom",
     img: custom,
     placeholder: "Custom link",
@@ -422,7 +422,7 @@ export const more = [
     baseUrl: "",
   },
   {
-    name: "Custom Link3",
+    name: "Website 2",
     title: "Custom",
     img: custom,
     placeholder: "Custom link",
@@ -430,11 +430,75 @@ export const more = [
     baseUrl: "",
   },
   {
-    name: "Custom Link4",
+    name: "Website 3",
     title: "Custom",
     img: custom,
     placeholder: "Custom link",
     linkID: 52,
+    baseUrl: "",
+  },
+  {
+    name: "Website 4",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 53,
+    baseUrl: "",
+  },
+  {
+    name: "Website 5",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 54,
+    baseUrl: "",
+  },
+  {
+    name: "Website 5",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 54,
+    baseUrl: "",
+  },
+  {
+    name: "Website 6",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 55,
+    baseUrl: "",
+  },
+  {
+    name: "Website 7",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 56,
+    baseUrl: "",
+  },
+  {
+    name: "Website 8",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 57,
+    baseUrl: "",
+  },
+  {
+    name: "Website 9",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 58,
+    baseUrl: "",
+  },
+  {
+    name: "Website 10",
+    title: "Custom",
+    img: custom,
+    placeholder: "Custom link",
+    linkID: 59,
     baseUrl: "",
   },
 ];
@@ -444,13 +508,13 @@ export const photos = [
     name: "Photo 1",
     title: "Photo 1",
     image: photo,
-    id: 58,
+    id: 63,
   },
   {
     name: "Photo 2",
     title: "Photo 2",
     image: photo,
-    id: 59,
+    id: 64,
   },
   {
     name: "Photo 3",
@@ -572,6 +636,8 @@ export const returnIcons = (linkid) => {
     return line;
   } else if (linkID === 20) {
     return gmail;
+  } else if (linkID === 11) {
+    return email;
   } else if (linkID === 15) {
     return viber;
   } else if (linkID === 19) {
@@ -586,7 +652,7 @@ export const returnIcons = (linkid) => {
     return twitter;
   } else if (linkID === 24) {
     return linkedin;
-  } else if (linkID === 55) {
+  } else if (linkID === 48) {
     return twitch;
   } else if (linkID === 22) {
     return pinterest;
@@ -612,15 +678,18 @@ export const returnIcons = (linkid) => {
     return podcasts;
   } else if (linkID === 31) {
     return deezer;
+  } else if (linkID === 30) {
+    return vimeo;
   } else if (linkID === 39) {
     return googlemaps;
-  } else if (linkID === 56) {
+  } else if (linkID === 46) {
     return cashapp;
   } else if (linkID === 35) {
     return paypal;
   } else if (linkID === 38) {
     return calendly;
-  } else if (linkID === 49 || linkID === 50 || linkID === 51 || linkID === 52) {
+  } else if (linkID === 50 || linkID === 51 || linkID === 52 || linkID === 53 || linkID === 54
+    || linkID === 55 || linkID === 56 || linkID === 57 || linkID === 58 || linkID === 59) {
     return custom;
   } else if (linkID === 36) {
     return store;
@@ -636,9 +705,9 @@ export const returnIcons = (linkid) => {
     return appstore;
   } else if (linkID === 43) {
     return amazone;
-  } else if (linkID === 58) {
+  } else if (linkID === 65) {
     return threads;
-  } else if (linkID === 54) {
+  } else if (linkID === 49) {
     return website;
   }
 };

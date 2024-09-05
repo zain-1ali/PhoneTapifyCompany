@@ -30,8 +30,8 @@ let cnxUid = localStorage.getItem("connexUid");
 let conexParent = localStorage.getItem("conexParent");
 
 let cnxId = conexParent ? conexParent : cnxUid;
-let baseUrl = "http://localhost:8000/api/";
-// let baseUrl = "https://apis.connexcard.com/api/";
+// let baseUrl = "http://localhost:8000/api/";
+let baseUrl = "https://phonetapify-apis.mrpooltech.pk/api/";
 
 // ---------------------------Function to generate the timestamp in seconds for the current date-------------------
 const getCurrentTimestampInSeconds = () => {
@@ -404,10 +404,12 @@ export const createNewCard = async (data, callBack, companyProfile) => {
             handleTeamModal();
           });
         } else {
-          if ((!data?.firstDate, !data?.secondDate)) {
-            toast.error("Dates are required");
-            return;
-          }
+          // if ((!data?.firstDate, !data?.secondDate)) {
+          //   toast.error("Dates are required");
+          //   return;
+          // }
+          console.log("companyCreated")
+          console.log(user.uid)
           update(ref(db, `Users/${user.uid}`), {
             platform: "web",
             address: "",
@@ -478,8 +480,8 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               isTrialPeriod: false,
               packageName: "",
               platform: "web",
-              proVersionExpireyDate: data?.secondDate,
-              proVersionPurchaseDate: data?.firstDate,
+              proVersionExpireyDate: "",
+              proVersionPurchaseDate: "",
               transactionId: "",
             },
           }).then(() => {
@@ -497,7 +499,10 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               .catch((err) => {
                 console.log(err);
               });
-            toast.success("New user created sucessfuly");
+              conexParent != "superAdmin" ? 
+              toast.success("New user created sucessfuly") : 
+              toast.success("New company created sucessfuly")
+              ;
             handleTeamModal();
           });
         }
@@ -718,8 +723,8 @@ export const getSingleChild = (id, callBackFunc) => {
   onValue(starCountRef, async (snapshot) => {
     const data = await snapshot.val();
     callBackFunc(data);
-    console.log(data);
-    console.log("testing data");
+    // console.log(data);
+    // console.log("testing data");
     MediaKeyStatusMap;
     // setmylist(Object.values(data));
 
