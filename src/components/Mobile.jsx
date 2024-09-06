@@ -273,28 +273,51 @@ const Mobile = ({
               />
             )}
             {!nameLock && (
-            <h2 className="max-h-[33px] overflow-hidden max-w-[90%] break-all font-bold mt-[5px] mb-0 text-[14px]">
-              {name ? splitString(name, 24) : companyProfile?.name}
+            <h2 className="max-h-[60px] overflow-hidden max-w-[90%] break-word text-center font-bold mt-[5px] mb-0 text-[14px]"
+            style={{
+              color: textColor ? textColor : companyProfile?.textColor,
+            }}>
+
+              {name ? splitString(name, 36) : companyProfile?.name}
               </h2>
             )}
 
-            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center">
+            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
+            style={{
+              color: textColor ? textColor : companyProfile?.textColor,
+            }}
+            >
             {designation}
             </p>
-            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center">
+            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
+            style={{
+              color: textColor ? textColor : companyProfile?.textColor,
+            }}
+            >
             {companyProfile?.name}
             </p>
 
             <div className="w-[70%] p-[5px_4px] rounded-[14px] bg-[#F4F4F4] flex flex-col items-center mt-[15px]">
               <div className="flex w-[94%] justify-between items-center">
-                <p className="m-0 text-[13px]">About Me</p>
+                <p className="m-0 text-[13px]"
+                style={{
+                  color: textColor ? textColor : companyProfile?.textColor,
+                }}
+                >About Me</p>
                 <p id="plus_sign" 
                 className={`cursor-pointer ${bioHidden ? '' : 'hidden'}`} 
                 onClick={() => setBioHidden(false)}
+                style={{
+                  color: textColor ? textColor : companyProfile?.textColor,
+                }}
+
                 >+</p>
                 <p id="minus_sign" 
                 className={`cursor-pointer ${bioHidden ? 'hidden' : ''}`}
                 onClick={() => setBioHidden(true)}
+                style={{
+                  color: textColor ? textColor : companyProfile?.textColor,
+                }}
                 >-</p>
               </div>
               {!bioLock && (

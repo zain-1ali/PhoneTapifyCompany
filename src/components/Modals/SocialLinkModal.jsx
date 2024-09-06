@@ -262,11 +262,10 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     // p: linkModal ? "30px" : "2px",
     p: "30px",
   };
-
   let checkAdded = (linkid) => {
     if (links) {
       let ifAdded = links?.some((elm) => {
-        return elm?.linkID === linkid;
+        return parseInt(elm?.linkID) === linkid;
       });
       return ifAdded;
     }
@@ -586,10 +585,16 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         alt=""
                         className="h-[120px] w-[120px] rounded-3xl object-cover"
                       />
-                      {linkInfo?.linkID === 49 ||
-                      linkInfo?.linkID === 50 ||
-                      linkInfo?.linkID === 51 ||
-                      linkInfo?.linkID === 52 ? (
+                      {linkInfo?.linkID === 50 ||
+                    linkInfo?.linkID === 51 ||
+                    linkInfo?.linkID === 52 ||
+                    linkInfo?.linkID === 53 ||
+                    linkInfo?.linkID === 54 ||
+                    linkInfo?.linkID === 55 ||
+                    linkInfo?.linkID === 56 ||
+                    linkInfo?.linkID === 57 ||
+                    linkInfo?.linkID === 58 ||
+                    linkInfo?.linkID === 59  ? (
                         <label
                           for="qrimg"
                           class="absolute right-[-2px] top-[-2px] cursor-pointer"
@@ -632,10 +637,17 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                       }
                       value={linkValue?.value}
                     />
-                    {linkInfo?.linkID === 49 ||
+                    {
                     linkInfo?.linkID === 50 ||
                     linkInfo?.linkID === 51 ||
-                    linkInfo?.linkID === 52 ? (
+                    linkInfo?.linkID === 52 ||
+                    linkInfo?.linkID === 53 ||
+                    linkInfo?.linkID === 54 ||
+                    linkInfo?.linkID === 55 ||
+                    linkInfo?.linkID === 56 ||
+                    linkInfo?.linkID === 57 ||
+                    linkInfo?.linkID === 58 ||
+                    linkInfo?.linkID === 59  ? (
                       <>
                         <h2 className="text-sm font-medium mt-4">Title*</h2>
                         <input

@@ -22,7 +22,7 @@ import { TiSocialLinkedin } from "react-icons/ti";
 import { FaXTwitter } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 
-const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
+const ShareCardModal = ({ shareModal, handleShareModal, profileTag, vizzRole }) => {
   // Modal box style
   const style2 = {
     position: "absolute",
@@ -50,7 +50,7 @@ const ShareCardModal = ({ shareModal, handleShareModal, userId, vizzRole }) => {
 
   //   let profileUrl = import.meta.env.VITE_PROFILE_URL;
   //   let orgUrl = import.meta.env.VITE_PROFILE_URL_ADMIN;
-  let shareUrl = `http://localhost:8000/${userId}`;
+  let shareUrl = import.meta.env.VITE_APP_PROFILE_URL+profileTag;
   //   console.log(vizzRole);
   //   console.log(shareUrl);
   const { t } = useTranslation();

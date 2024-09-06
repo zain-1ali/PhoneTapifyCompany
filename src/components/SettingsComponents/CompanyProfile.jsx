@@ -218,7 +218,8 @@ const CompanyProfile = ({ uid }) => {
     setModal(!modal);
   };
 
-  let shareUrl = `test.connexcard.com/${uid}`;
+  // let shareUrl = `test.connexcard.com/${uid}`;
+  let shareUrl = import.meta.env.VITE_APP_PROFILE_URL+uid;
 
   const { t } = useTranslation();
 

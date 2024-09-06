@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bg from "../imgs/bg.jpg";
 // import prfl from "../imgs/nlogo.jpeg";
 import primg from "../imgs/nlogo.jpg";
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import bgplhldr from "../imgs/bgplhldr.png";
 import prsnPlshldr from "../imgs/prsnPlshldr.png";
 import lgoplchldr from "../imgs/lgoplchldr.jpg";
-import { changeProfileStatus, deleteSingleChild, updateCompanyToken } from "../Services";
+import { changeProfileStatus, deleteSingleChild, updateCompanyToken, FetchProfileTag } from "../Services";
 
 import ShareCardModal from "./Modals/ShareCardModal";
 import DeleteModal from "./Modals/DeleteModal";
@@ -26,6 +26,17 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let [shareModal, setshareModal] = useState(false);
   let [userId, setuserId] = useState("");
   const [teams, setTeams] = useState(null);
+  const [profileTag, setProfileTag] = useState(null);
+
+  let getProfileTag = (obj) => {
+    setProfileTag(Object.values(obj)[0]);
+  }; 
+
+  useEffect(() => {
+    FetchProfileTag(profile?.id, getProfileTag );
+  }, []);
+
+
   let handleShareModal = () => {
     setshareModal(!shareModal);
   };
@@ -66,7 +77,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
       <ShareCardModal
         shareModal={shareModal}
         handleShareModal={handleShareModal}
-        userId={userId}
+        profileTag={profileTag?.tagId ?? userId}
       />
       <DeleteModal
         deleteModal={deleteModal}

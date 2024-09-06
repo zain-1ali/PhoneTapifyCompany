@@ -31,7 +31,7 @@ let conexParent = localStorage.getItem("conexParent");
 
 let cnxId = conexParent ? conexParent : cnxUid;
 // let baseUrl = "http://localhost:8000/api/";
-let baseUrl = "https://phonetapify-apis.mrpooltech.pk/api/";
+let baseUrl = import.meta.env.VITE_APP_API_URL;
 
 // ---------------------------Function to generate the timestamp in seconds for the current date-------------------
 const getCurrentTimestampInSeconds = () => {
@@ -329,7 +329,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
             bioLock: false,
             locationLock: false,
             coverLock: false,
-            subscribe: false,
+            subscribed: false,
             profileType: tagType,
           };
           if (companyLinks) {
@@ -475,6 +475,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
             bioLock: false,
             locationLock: false,
             coverLock: false,
+            subscribed : false,
             isActiveCompany: true,
             subscription: {
               isTrialPeriod: false,
@@ -710,6 +711,20 @@ export const getAllCompanies = async (callBackFunc, setloading) => {
       setloading(false);
     }
 
+    MediaKeyStatusMap;
+  });
+};
+
+// ------------------------------------------------Get profile tag-----------------------------------------------
+export const FetchProfileTag = (id, callBackFunc) => { 
+  const starCountRef = query(
+    ref(db, "/Tag"),
+    orderByChild("profileID"),
+    equalTo(id)
+  );
+  onValue(starCountRef, async (snapshot) => {
+    const data = await snapshot.val();
+    callBackFunc(data);
     MediaKeyStatusMap;
   });
 };
