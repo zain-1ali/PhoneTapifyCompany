@@ -36,7 +36,7 @@ const CreateNewTeam = ({ modal, handleModal, singleTeam }) => {
   const [apiWorking, setapiWorking] = useState(false);
 
   let [imgKey, setImgKey] = useState(0);
-  console.log(singleTeam);
+  // console.log(singleTeam);
 
   let [data, setData] = useState({
     name: "",
@@ -93,7 +93,7 @@ const CreateNewTeam = ({ modal, handleModal, singleTeam }) => {
     }
   };
 
-  console.log(singleTeam);
+  // console.log(singleTeam);
 
   return (
     <div>

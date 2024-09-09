@@ -256,14 +256,16 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           // get tag and find type
           let tagType = "Digital Card";
           let tag = ref(db, `Tag/${data.tagId}`);
-          onValue(tag, async (snapshot) => {
-            const tagData = await snapshot.val();
+          onValue(tag, (snapshot) => {
+            const tagData = snapshot.val();
+            console.log(tagData)
             if (tagData) {
               console.log(tagData);
               tagType = tagData.type ?? "Digital Card";
             }
           });
-
+          // console.log(tagType);
+          // return;
           let newAccountData = {
             platform: "web",
             address: "",
@@ -345,6 +347,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               questionScript: "",
             };
             newAccountData.botScript = "";
+            // newAccountData.profileType = "Open House";
           }
           if (tagType === "Google Review") {
             newAccountData.reviewDetail = {
@@ -356,6 +359,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               email: "",
             };
             newAccountData.reviewType = "direct";
+            // newAccountData.profileType = "Google Review";
           }
           if (tagType === "Office Assist") {
             newAccountData.callActionDetail = [
@@ -370,6 +374,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
             };
             newAccountData.activeCallAction = "Ask Question";
             newAccountData.botScript = "";
+            // newAccountData.profileType = "Office Assist";
           }
           
           update(
@@ -1031,9 +1036,12 @@ export const updateCompanyToken = async (companyId, userId) => {
 // ------------------------------------------------Update lead Data-----------------------------------------------
 
 export const updateLead = async (id, formHeader, leadForm, success) => {
-  update(ref(db, `Users/${id}`), { formHeader, leadForm }).then(() => {
-    toast.success(success);
-  });
+
+
+    update(ref(db, `Users/${id}`), { formHeader, leadForm }).then(() => {
+      toast.success(success ?? "");
+    });
+  
 };
 
 // ------------------------------------------------Create New Team-----------------------------------------------
@@ -1207,28 +1215,37 @@ export const addTeamMember = async (
 // ------------------------------------------------Get single child profile-----------------------------------------------
 
 export const getAllTeamMembers = (arr, callBack, members) => {
-  callBack([]);
+  callBack([]); // Reset the callback on each call
+
   if (arr) {
-    console.log(arr);
-    Object.values(arr)?.map((elm) => {
+    const fetchedMembers = new Set(); // Use a set to track unique members
+
+    arr.forEach((elm) => {
       const starCountRef = query(
         ref(db, "/Users"),
         orderByChild("id"),
         equalTo(elm)
       );
+
       onValue(starCountRef, async (snapshot) => {
         const data = await snapshot.val();
-        if (data) {
-          callBack((prev) => [...prev, ...Object.values(data)]);
-        }
 
-        console.log(data);
-        console.log("testing data");
-        MediaKeyStatusMap;
+        if (data) {
+          const newMembers = Object.values(data).filter((member) => {
+            return !fetchedMembers.has(member.id); // Check if the member is already in the set
+          });
+
+          newMembers.forEach((member) => fetchedMembers.add(member.id)); // Add new members to the set
+
+          if (newMembers.length > 0) {
+            callBack((prev) => [...prev, ...newMembers]); // Only update callback with unique members
+          }
+        }
       });
     });
   }
 };
+
 
 export const getAllTeamMembersLength = (arr) => {
   if (arr) {
@@ -1267,6 +1284,7 @@ export const addNewLink = async (
 ) => {
   console.log("add working.........");
 
+  console.log(linkData);
   if (linkData?.value) {
     console.log("img64", linkData?.image);
     console.log(allLinks);
@@ -2077,6 +2095,7 @@ export const removeVideo = (id, allImages, imgData, cb) => {
 // ----------------------------------------------------Handle to change lead mode---------------------------------------------
 
 export const updateLeadMode = (leadMode, id) => {
+  
   update(ref(db, `Users/${id}/`), { leadMode: !leadMode });
 };
 
@@ -2106,6 +2125,11 @@ export const handleChangeDirect = (directMode, id, link) => {
 };
 
 export const addtoDirect = (name, linkID, value, id, image) => {
+  console.log(name);
+  console.log(linkID);
+  console.log(value);
+  console.log(id);
+  console.log(image);
   update(ref(db, `Users/${id}/`), {
     direct: { name, linkID, value, image },
   });

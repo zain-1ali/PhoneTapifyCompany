@@ -13,6 +13,7 @@ import {
   getAllTeamMembers,
   removeTeamMember,
   splitString,
+  FetchProfileTag
 } from "../../Services";
 import bgplhldr from "../../imgs/bgplhldr.png";
 import { MdOutlineCancel } from "react-icons/md";
@@ -59,7 +60,7 @@ const SingleTeamModal = ({
       setmembers([]);
     }
   }, [singleTeamMembers]);
-  console.log(singleTeamMembers);
+  // console.log(singleTeamMembers);
 
   let removeMemberLocaly = (id) => {
     let remainingMembers = members?.filter((elm) => {
@@ -75,11 +76,22 @@ const SingleTeamModal = ({
       setSingleTeamMembers(remainingMembersIds);
     }
   };
+  let profileBaseUrl = import.meta.env.VITE_APP_PROFILE_URL;
+  let getProfileTag = (obj) => {
+    var profileTag = Object.values(obj)[0];
+    var userTagId = profileTag?.tagId ?? 'not-found';
+    window.open(profileBaseUrl+userTagId)
+  }; 
+
+  let openUserProfile = (id) => {
+    FetchProfileTag(id, getProfileTag );
+  }
 
   // ---------------------------------------Search functionality--------------------------------------------
 
   let [filtered, setfiltered] = useState([]);
   useEffect(() => {
+    
     setfiltered(members);
   }, [members]);
   let [search, setsearch] = useState("");
@@ -182,9 +194,7 @@ const SingleTeamModal = ({
                       <div
                         className="h-[23px] w-[55px] bg-black rounded-[7px] cursor-pointer font-[400] text-[10px] flex justify-center items-center text-white"
                         onClick={() =>
-                          window.open(
-                            `https://www.profile.connexcard.com/${elm?.id}`
-                          )
+                          openUserProfile(elm?.id)
                         }
                       >
                         Open

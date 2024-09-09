@@ -33,7 +33,7 @@ const AddMemberModal = ({ addModal, handleAddModal, singleTeam }) => {
   let [filtered, setfiltered] = useState([]);
   let [memberIds, setMemberIds] = useState([]);
   let [members, setMembers] = useState([]);
-  console.log(memberIds);
+  // console.log(memberIds);
   let getAllProfiles = (obj) => {
     setAllProfiles(Object.values(obj));
     setfiltered(Object.values(obj));
@@ -67,7 +67,7 @@ const AddMemberModal = ({ addModal, handleAddModal, singleTeam }) => {
       return elm?.id === member?.id;
     });
 
-    console.log(exist);
+    // console.log(exist);
 
     let updatedIds = memberIds?.filter((elm) => {
       return elm != id;
@@ -90,7 +90,7 @@ const AddMemberModal = ({ addModal, handleAddModal, singleTeam }) => {
     }
   };
 
-  console.log(members);
+  // console.log(members);
 
   let ifAdded = (id) => {
     if (singleTeam?.members) {

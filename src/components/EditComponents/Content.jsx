@@ -101,6 +101,7 @@ const Content = ({ uid }) => {
     setModal(!modal);
   };
 
+  
   // ------------------------------------------------Dragable functonality------------------------------------------
 
   const [items, setItems] = useState([]);
@@ -134,7 +135,7 @@ const Content = ({ uid }) => {
     }
   };
   const { t } = useTranslation();
-  console.log(featuredImages);
+  // console.log(featuredImages);
   const appendBucketPath = (path) => {
     let url = "";
     if (path !== "") {

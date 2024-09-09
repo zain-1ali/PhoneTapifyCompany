@@ -56,6 +56,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const dispatch = useDispatch();
 
+  // console.log(contactIcons);
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 640px)" });
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
@@ -411,7 +412,8 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const { t } = useTranslation();
 
   const ifCustom = (id) => {
-    if (id === 49 || id === 50 || id === 51 || id === 52) {
+    if (id === 50 || id === 51 || id === 52 || id === 53 || 
+      id === 54 || id === 55 || id === 56 || id === 57 || id === 58 || id === 59) {
       return true;
     } else {
       return false;
@@ -720,7 +722,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         <div
                           className="h-[38px] w-[110px] rounded-full cursor-pointer font-[500] flex justify-center items-center ml-1 bg-black text-white"
                           onClick={() => {
-                            if (linkInfo?.linkID === 20) {
+                            if (linkInfo?.linkID === 20 || linkInfo?.linkID === 11) {
                               if (isValidEmail(linkValue?.value)) {
                                 addNewLink(
                                   {

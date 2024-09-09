@@ -87,7 +87,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
       />
       <SelectEditType
         editTypeModal={editTypeModal}
-        text={t("Select profile do you want to edit")}
+        text={t("Select tag you want to edit")}
         handledEditType={handledEditType}
         tags={profile?.otherTags}
       />

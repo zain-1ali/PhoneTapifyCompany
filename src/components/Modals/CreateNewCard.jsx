@@ -238,10 +238,11 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                       >
                         <option value="" disabled selected>-- Select Tag --</option>
                         {companyTags.map((tag, index) => (
-                          tag.type == "Digital Card" && (
+                          // tag.type == "Digital Card" && (
                           <option key={index} value={tag.id}>
                             {tag.tagId} ({tag.type})
-                          </option> )
+                          </option>
+                          //  )
                         ))}
                       </select>
                     )}

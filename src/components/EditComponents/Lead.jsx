@@ -126,8 +126,8 @@ const Lead = ({ uid }) => {
   };
   let leadForm = {
     Fname: nameVisible,
-    company: emailVisible,
-    email: companyVisible,
+    company: companyVisible,
+    email: emailVisible,
     job: jobVisible,
     note: noteVisible,
     phone: phoneVisible,
