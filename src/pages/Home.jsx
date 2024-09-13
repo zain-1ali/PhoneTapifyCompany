@@ -67,16 +67,17 @@ const Home = () => {
   let [modal, setModal] = useState(false);
   let [loading, setloading] = useState(false);
   let handleModal = () => {
-    // console.log("add");
-    // if(conexParent !== "superAdmin" && companyTags.length == 0)
-    // {
-    //   toast.error('You have reached the max limit of your profiles. Please buy more tags.');
-    // }
-    // else{
-    //   console.log("model open");
+    console.log("add");
+    if(conexParent !== "superAdmin" && companyTags.length == 0)
+    {
+      window.open("https://buy.stripe.com/cN2fZqfcM05t5McbIM", "_blank");
+      // toast.error('You have reached the max limit of your profiles. Please buy more tags.');
+    }
+    else{
+      console.log("model open");
+      setModal(!modal);
+    }
     
-    // }
-    setModal(!modal);
     
   };
   let updateChildList = () => {
