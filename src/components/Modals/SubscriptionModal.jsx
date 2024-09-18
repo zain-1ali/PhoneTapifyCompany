@@ -16,7 +16,7 @@ const SubscriptionModal = ({ subscribeModal, handlesubscribeModal, id }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 300,
-    height: 430,
+    height: 300,
     bgcolor: "white",
     // border: '2px solid #000',
     boxShadow: 24,
@@ -92,9 +92,9 @@ const SubscriptionModal = ({ subscribeModal, handlesubscribeModal, id }) => {
         <Box sx={style2}>
           <div className="h-[100%] w-[100%]">
             <p className="text-center font-[500] mt-[20px]">
-              Select subscription plan
+              Add subscription plan
             </p>
-            <div className="w-[100%] flex flex-col justify-center items-center mt-2 gap-3">
+            {/* <div className="w-[100%] flex flex-col justify-center items-center mt-2 gap-3">
               <div
                 className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-black text-white font-[500] relative"
                 onClick={() => addMonthly()}
@@ -116,7 +116,7 @@ const SubscriptionModal = ({ subscribeModal, handlesubscribeModal, id }) => {
               </div>
             </div>
 
-            <p className="text-center font-[500] mt-[20px]">Or add manually</p>
+            <p className="text-center font-[500] mt-[20px]">Or add manually</p> */}
 
             <div className="w-[100%] flex flex-col justify-center items-center  gap-4">
               <div className="w-[90%]">
