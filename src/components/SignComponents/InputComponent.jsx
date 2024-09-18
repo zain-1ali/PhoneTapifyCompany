@@ -148,6 +148,9 @@ const InputComponent = ({ type, handleSubmit }) => {
             </>
           ) : null}
         </p>
+        {type === "forget" ? (
+          <a className="mt-2 underline" onClick={() => navigate("/signin")}>Go to Login</a>
+        ) : null}
       </div>
       <ToastContainer
         position="bottom-left"

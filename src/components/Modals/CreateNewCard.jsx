@@ -1,4 +1,5 @@
 import { Box, Modal } from "@mui/material";
+import Select from 'react-select';
 import { push, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
@@ -21,6 +22,32 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
     password: "",
     tagId: "",
   });
+
+  const options = companyTags.map((tag) => ({
+    value: tag.id,
+    label: `${tag.tagId} (${tag.type})`,
+  }));
+  const searchTagStyles = {
+    control: (provided) => ({
+      ...provided,
+      borderRadius: '36px', // Rounded border
+      backgroundColor: '#F2F2F2', // Gray background
+      padding: '5px',
+      border: 'none', // Remove the border
+      boxShadow: 'none', // Remove the default box-shadow
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#e0e0e0' : '#fff', // Highlight on focus
+      color: '#333',
+      padding: 10,
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: '12px', // Rounded dropdown menu
+      overflow: 'hidden',
+    }),
+  };
 
   let conexParent = localStorage.getItem("conexParent");
 
@@ -82,7 +109,7 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 300,
-    height: isSubscribe ? 430 : 350,
+    height: isSubscribe ? 300 : 350,
     bgcolor: "white",
     // border: '2px solid #000',
     boxShadow: 24,
@@ -112,12 +139,12 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
       >
         <Box sx={style2}>
           <div className="w-[100%] h-[100%] flex flex-col justify-evenly items-center">
-            {/* {isSubscribe ? (
+            {isSubscribe ? (
               <div className="h-[100%] w-[100%]">
                 <p className="text-center font-[500] mt-[20px]">
-                  Select subscription plan
+                  Add subscription date
                 </p>
-                <div className="w-[100%] flex flex-col justify-center items-center mt-2 gap-3">
+                {/* <div className="w-[100%] flex flex-col justify-center items-center mt-2 gap-3">
                   <div
                     className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#000000] text-white font-[500] relative"
                     onClick={() => addMonthly()}
@@ -141,7 +168,7 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
 
                 <p className="text-center font-[500] mt-[20px]">
                   Or add manually
-                </p>
+                </p> */}
 
                 <div className="w-[100%] flex flex-col justify-center items-center  gap-4">
                   <div className="w-[90%]">
@@ -166,8 +193,8 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                   </div>
                 </div>
 
-                {/* <div className="w-[100%] flex flex-col justify-center items-center mt-4 gap-3">
-                <div
+                 <div className="w-[100%] flex flex-col justify-center items-center mt-4 gap-3">
+                {/* <div
                   className="h-[50px] w-[90%] rounded-full border flex justify-center items-center text-sm mr-[5px] cursor-pointer bg-[#000000] text-white font-[500]"
                   onClick={() =>
                     AddSubscription(
@@ -179,7 +206,7 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                   }
                 >
                   Update
-                </div>
+                </div> */}
                 </div> 
                 <div className="w-[100%] h-[45px] flex justify-evenly items-center mt-3">
                   <button
@@ -204,9 +231,9 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                   >
                     {t("Create")}
                   </button>
-                </div>
+                </div> 
               </div>
-            ) : ( */}
+            ) : ( 
               <>
                 <h2 className="text-center font-medium text-lg">
                   { conexParent != "superAdmin" ? t("Create New Card") : t("Create New Company")}
@@ -229,23 +256,25 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                     }
                     value={data?.email}
                   />
-                  {conexParent != "superAdmin" && (
-                    <select
-                        className="w-[100%] h-[45px] outline-none bg-[#F2F2F2] rounded-[36px] p-[10px] text-sx"
-                        onChange={(e) =>
-                          setData({ ...data, tagId: e.target.value })
-                        }
-                      >
-                        <option value="" disabled selected>-- Select Tag --</option>
-                        {companyTags.map((tag, index) => (
-                          // tag.type == "Digital Card" && (
-                          <option key={index} value={tag.id}>
-                            {tag.tagId} ({tag.type})
-                          </option>
-                          //  )
-                        ))}
-                      </select>
-                    )}
+                  {/* {conexParent != "superAdmin" && ( */}
+                  <div>
+      {/* Search Input */}
+     
+      {/* Select Dropdown */}
+      <Select
+        className="basic-single"
+        classNamePrefix="select"
+        isSearchable={true}
+        name="tag"
+        options={options}
+        placeholder="-- Select Tag --"
+        onChange={(selectedOption) =>
+          setData({ ...data, tagId: selectedOption.value })
+        }
+        styles={searchTagStyles}
+      />
+    </div>
+                    {/* )} */}
                   <input
                     type="text"
                     className="w-[100%] h-[45px] outline-none bg-[#F2F2F2] rounded-[36px] p-[10px] placeholder:text-xs"
@@ -265,7 +294,7 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                       {t("Cancel")}
                     </button>
                     {
-                    // conexParent != "superAdmin" ? (
+                    conexParent != "superAdmin" ? (
                       <button
                         className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
                         onClick={() =>
@@ -280,29 +309,29 @@ const CreateNewCard = ({ modal, handleModal, updateChildList, companyProfile, co
                       >
                         {t("Create")}
                       </button>
-                    // ) : (
-                    //   <button
-                    //     className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
-                    //     onClick={() =>
-                    //       // createNewCard(
-                    //       //   data,
-                    //       //   callBack,
-                    //       //   conexParent != "superAdmin"
-                    //       //     ? Object.values(companyProfile)?.[0]
-                    //       //     : ""
-                    //       // )
-                    //       setIsSubscribe(true)
-                    //     }
-                    //   >
-                    //     {t("Next")}
-                    //   </button>
-                    // )
+                    ) : (
+                      <button
+                        className="w-[45%] h-[45px] outline-none bg-[#000000] rounded-[36px] p-[10px] placeholder:text-xs text-[white]"
+                        onClick={() =>
+                          // createNewCard(
+                          //   data,
+                          //   callBack,
+                          //   conexParent != "superAdmin"
+                          //     ? Object.values(companyProfile)?.[0]
+                          //     : ""
+                          // )
+                          setIsSubscribe(true)
+                        }
+                      >
+                        {t("Next")}
+                      </button>
+                    )
                     }
                   </div>
                 </div>
               </>
-             {/* )
-            } */}
+              )
+            } 
           </div>
         </Box>
       </Modal>

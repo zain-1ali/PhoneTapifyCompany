@@ -132,13 +132,14 @@ const Analytics = () => {
       setCompanyId(connexUid);
     }
   }, []);
-
   useEffect(() => {
     getAllChilds(getAllProfiles, () => console.log("test"));
+
   }, []);
 
   useEffect(() => {
-    setSelectedUser(companyProfile?.[companyId])
+    // setSelectedUser(companyProfile?.[companyId])
+    
   }, [companyProfile?.[companyId]?.id])
 
   useEffect(() => {
@@ -179,8 +180,29 @@ const Analytics = () => {
   useEffect(() => {
     getSingleChildAnalytics(companyId, setAnalytics, setloading);
   }, [companyId]);
+console.log(selectedUser?.name);
+  if(!localStorage.getItem('temp'))
+  {
+    if(!selectedUser?.name || selectedUser?.name=="All")
+    
+    {
+    setTimeout(() => {
+      console.log("etims")
+      getTeamAnalytics(
+        [...allProfilesIds, companyId],
+        setAnalytics,
+        setloading
+      ),
+        setSelectedUser({ name: "All" });
+        setSelectedProfile({ name: "All", profileType : "all" })
+        localStorage.setItem('temp',123);
+    }, 100);
+  }
+  }
+  else{
+    localStorage.removeItem('temp');
+  }
 
-  // console.log(analytics);
 
   let returnAnalyticsData = (filter, value, analyticdata) => {
     if (analyticdata) {
@@ -273,8 +295,7 @@ const Analytics = () => {
   // console.log(Object.values(analytics)?.[0]);
 
   const [isNameFilter, setIsNameFilter] = useState(true);
-console.log(selectedProfile);
-console.log(selectedProfile?.profileType);
+
   if(selectedProfile?.profileType === "Google Review")
   {
     var GraphColors = ["#d10f25", "#ac8b42"];

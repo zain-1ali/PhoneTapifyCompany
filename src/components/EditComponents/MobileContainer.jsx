@@ -9,7 +9,10 @@ const MobileContainer = ({ id }) => {
   const [profileTag, setProfileTag] = useState(null);
 
   let getProfileTag = (obj) => {
-    setProfileTag(Object.values(obj)[0]);
+    if(obj)
+    {
+      setProfileTag(Object.values(obj)[0]);
+    }
   }; 
 
   useEffect(() => {

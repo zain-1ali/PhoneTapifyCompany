@@ -38,6 +38,7 @@ import {
   setCompanyVisible,
   setNoteVisible,
   setLead,
+  setDark,
   setPoweredVizz,
   setTextColor,
   setbtnColor,
@@ -168,6 +169,7 @@ const EditMember = () => {
     dispatch(setQrLogo(singleProfile?.[uid]?.qrLogoUrl));
     dispatch(setQrColor(singleProfile?.[uid]?.qrColor));
     dispatch(setLead(singleProfile?.[uid]?.leadMode));
+    dispatch(setDark(singleProfile?.[uid]?.darkTheme));
     dispatch(setFormHeader(singleProfile?.[uid]?.formHeader));
     dispatch(setNameVisible(singleProfile?.[uid]?.leadForm?.Fname));
     dispatch(setEmailVisible(singleProfile?.[uid]?.leadForm?.email));
@@ -418,7 +420,7 @@ const EditMember = () => {
               </div>
             ) : null}
             <div className="w-[100%] h-[535px]  rounded-[35px] shadow-xl bg-white flex">
-              <div className="sm:w-[70%] w-[100%] h-[100%]  flex justify-center items-center">
+              <div className="sm:w-[70%] w-[100%] h-[100%] relative flex justify-center items-center">
                 {route?.isAbout === true && (
                   <About uid={uid} handleCancelAbout={handleCancelAbout} />
                 )}

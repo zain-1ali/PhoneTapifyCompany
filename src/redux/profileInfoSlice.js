@@ -44,6 +44,7 @@ const initialState = {
   linkColor: "white",
   poweredVizz: 1,
   leadMode: 0,
+  darkTheme: 0,
   organizationProfile: "",
   organizationLogo: "",
   organizationCover: "",
@@ -172,6 +173,9 @@ export const profileInfoSlice = createSlice({
     setLead: (state, action) => {
       state.leadMode = action.payload;
     },
+    setDark: (state, action) => {
+      state.darkTheme = action.payload;
+    },
     setPoweredVizz: (state, action) => {
       state.poweredVizz = action.payload;
     },
@@ -274,6 +278,7 @@ export const {
   setQrColor,
   setQrLogo,
   setLead,
+  setDark,
   setOrgLogo,
   setPoweredVizz,
   setTextColor,

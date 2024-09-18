@@ -5,6 +5,7 @@ import primg from "../imgs/nlogo.jpg";
 import { FaBriefcase } from "react-icons/fa6";
 import { BsFillInfoSquareFill } from "react-icons/bs";
 import { CiLock, CiUnlock } from "react-icons/ci";
+import { IoMdPricetags } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import { FiShare2 } from "react-icons/fi";
 import { IoTrashOutline } from "react-icons/io5";
@@ -29,13 +30,14 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   const [profileTag, setProfileTag] = useState(null);
 
   let getProfileTag = (obj) => {
-    setProfileTag(Object.values(obj)[0]);
-  }; 
+    if (obj) {
+      setProfileTag(Object.values(obj)[0]);
+    }
+  };
 
   useEffect(() => {
-    FetchProfileTag(profile?.id, getProfileTag );
+    FetchProfileTag(profile?.id, getProfileTag);
   }, []);
-
 
   let handleShareModal = () => {
     setshareModal(!shareModal);
@@ -48,17 +50,19 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
 
   let [editModal, seteditModal] = useState(false);
   let [editTypeModal, setEditTypeModal] = useState(false);
-  
+
   let handleeditModal = () => {
-    if (conexParent === "superAdmin") { navigate(`/edit/${profile?.id}`);
+    if (conexParent === "superAdmin") {
+      navigate(`/edit/${profile?.id}`);
     } else {
-    setEditTypeModal(!editTypeModal);
+      setEditTypeModal(!editTypeModal);
     }
   };
   let handledEditType = (action) => {
     if (action === "cancel") {
       setEditTypeModal(!editTypeModal);
-    } else if (conexParent === "superAdmin") { ()=> navigate(`/edit/${profile?.id}`);
+    } else if (conexParent === "superAdmin") {
+      () => navigate(`/edit/${profile?.id}`);
     } else {
       if (action === "Digital Card") {
         navigate(`/edit/${profile?.id}`);
@@ -73,7 +77,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let conexParent = localStorage.getItem("conexParent");
   const { t } = useTranslation();
   return (
-    <div className="sm:w-[265px] w-[100%] sm:h-[290px] h-[300px]  rounded-3xl mt-[20px] bg-[white]">
+    <div className="sm:w-[265px] w-[100%] sm:h-[310px] h-[300px]  rounded-3xl mt-[20px] bg-[white]">
       <ShareCardModal
         shareModal={shareModal}
         handleShareModal={handleShareModal}
@@ -96,9 +100,9 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
         deleteModal={editModal}
         handledeleteModal={seteditModal}
         text={t("Are you sure to edit this profile?")}
-        func={ 
-          conexParent === "superAdmin" ? () => navigate(`/edit/${profile?.id}`) 
-          : () => updateCompanyToken(companyProfile?.id, profile?.id)
+        func={
+          conexParent === "superAdmin" ? () => navigate(`/edit/${profile?.id}`)
+            : () => updateCompanyToken(companyProfile?.id, profile?.id)
         }
       />
 
@@ -108,8 +112,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
             profile?.logoUrl
               ? profile?.logoUrl
               : companyProfile?.logoUrl
-              ? companyProfile?.logoUrl
-              : lgoplchldr
+                ? companyProfile?.logoUrl
+                : lgoplchldr
           }
           alt="prfl"
           className="h-[42px] w-[42px] rounded-full absolute bottom-[10px] left-[18px]  object-cover "
@@ -122,8 +126,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
                 profile?.profileUrl
                   ? profile?.profileUrl
                   : companyProfile?.profileUrl
-                  ? companyProfile?.profileUrl
-                  : prsnPlshldr
+                    ? companyProfile?.profileUrl
+                    : prsnPlshldr
               }
               alt="prfl"
               className="h-[85px] w-[85px] rounded-full object-cover"
@@ -135,8 +139,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
             profile?.coverUrl
               ? profile?.coverUrl
               : companyProfile?.coverUrl
-              ? companyProfile?.coverUrl
-              : bgplhldr
+                ? companyProfile?.coverUrl
+                : bgplhldr
           }
           alt="bg"
           className="h-[124px] w-[100%] object-cover rounded-t-3xl"
@@ -145,7 +149,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
 
       <div className="w-[100%] flex justify-center   mt-3">
         <div className="w-[90%] flex justify-between">
-          <div className="h-[114px] w-[48%]  rounded-[7px] bg-[#FBFBFB] flex justify-center items-center">
+          <div className="h-[130px] w-[48%]  rounded-[7px] bg-[#FBFBFB] flex justify-center items-center">
             <div className="h-[85%] w-[86%]">
               <h2 className="font-[500] text-[12px] line-clamp-2 w-[99%]">
                 {profile?.name}
@@ -171,6 +175,25 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
                   <div className="line-clamp-3">{profile?.bio}</div>
                 </div>
               </div>
+              <div className="flex mt-[5px]">
+                <div className="w-[15%]">
+                  <IoMdPricetags className="text-xs text-black" />
+                </div>
+
+                <div
+                  className="font-[500] sm:text-[9px] text-[10px] sm:ml-[4px] ml-[0px] text-[#3D3C3C] w-[100%] overflow-hidden"
+                  style={screen <= 450 ? { marginTop: "-2px" } : null}
+                >
+                  <div className="line-clamp-2">
+                    {profile?.otherTags?.map((tag, index) => (
+                      <span key={index}>
+                        {tag ?? ""}{index < profile.otherTags.length - 1 ? ", " : ""}
+                      </span>
+                    ))}
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
           <div className="h-[114px] w-[48%]  flex justify-center items-center">
@@ -194,10 +217,10 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
                 </div>
 
                 {conexParent != "superAdmin2" ? (
-                 <div
-                 className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
-                 onClick={  (profile?.otherTags?.length == 1 && profile?.otherTags?.includes("Digital Card")) ? () =>  handledEditType("Digital Card") : handleeditModal}
-               >
+                  <div
+                    className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
+                    onClick={(profile?.otherTags?.length == 1 && profile?.otherTags?.includes("Digital Card")) ? () => handledEditType("Digital Card") : handleeditModal}
+                  >
                     <FiEdit className="text-[#3D3C3C] sm:text-[14px] text-[17px]" />
                     <p className="font-[500] sm:text-[9px] text-[12px] text-[#3D3C3C] mt-1">
                       {t("Edit")}

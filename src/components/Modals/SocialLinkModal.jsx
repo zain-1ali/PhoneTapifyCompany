@@ -604,6 +604,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           <MdAddCircleOutline className="text-2xl" />
                           <input
                             type="file"
+                            accept="image/*"
                             name="qrimg"
                             id="qrimg"
                             className="opacity-0 w-[0px] h-[0px]"

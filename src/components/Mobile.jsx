@@ -55,6 +55,7 @@ const Mobile = ({
   );
 
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
+  const darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
@@ -180,48 +181,68 @@ const Mobile = ({
   return (
     <div
       className="w-[253px] h-[455px] border mt-2 overflow-y-scroll relative shadow-lg"
-    // style={{ backgroundColor: hexToRGBA(color) }}
+      style={{ backgroundColor: darkTheme ? "black" : "#F5F6FA" }}
     >
       {leadMode && (
         <div className="absolute w-[100%] flex justify-center items-center h-[455px]">
-          <div className="h-[380px] w-[85%] border bg-white z-20 rounded-md flex justify-center items-center">
+          <div className="h-[380px] w-[85%] border z-20 rounded-md flex justify-center items-center"
+            style={{ backgroundColor: darkTheme ? "black" : "white" }}>
             <div className="h-[90%] w-[85%] ">
               <div className="w-[100%] border-b border-black mt-[2px] flex justify-center text-[13px]">
                 {formHeader}
               </div>
               {nameVisible && (
-                <div className="mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border border-black rounded-lg flex items-center ">
+                <div
+                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                    } rounded-lg flex items-center`}
+                >
                   {t("Name")}
                 </div>
               )}
               {emailVisible && (
-                <div className="mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border border-black rounded-lg flex items-center ">
+                <div
+                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                    } rounded-lg flex items-center`}
+                >
                   {t("Email")}
                 </div>
               )}
               {phoneVisible && (
-                <div className="mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border border-black rounded-lg flex items-center ">
+                <div
+                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                    } rounded-lg flex items-center`}
+                >
                   {t("Phone")}
                 </div>
               )}
               {companyVisible && (
-                <div className="mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border border-black rounded-lg flex items-center ">
+                <div
+                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                    } rounded-lg flex items-center`}
+                >
                   {t("Company")}
                 </div>
               )}
 
               {jobVisible && (
-                <div className="mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border border-black rounded-lg flex items-center ">
+                <div
+                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                    } rounded-lg flex items-center`}
+                >
                   {t("Job")}
                 </div>
               )}
               {noteVisible && (
-                <div className="mt-3 h-[37px] w-[97%] pl-[3%] text-[12px] border border-black rounded-lg flex items-center ">
+                <div
+                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                    } rounded-lg flex items-center`}
+                >
                   {t("Note")}
                 </div>
               )}
               <div className="w-[100%] flex justify-center items-center mt-2">
-                <div className="w-[70px] h-[30px] border rounded-full flex justify-center items-center text-xs mr-1">
+                <div className={`w-[70px] h-[30px] border rounded-full flex justify-center items-center text-xs mr-1 ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
+                  } `}>
                   {t("Cancel")}
                 </div>
                 <div
@@ -252,82 +273,86 @@ const Mobile = ({
           />
         )}
 
-       
+
 
       </div>
       <div className="flex w-full justify-center -mt-[75px]">
-          <div className="flex flex-col items-center h-auto min-h-[100px] w-[210px] bg-white relative shadow-lg rounded-[4px] pb-[17px]">
+        <div className="flex flex-col items-center h-auto min-h-[100px] w-[210px] relative shadow-lg rounded-[4px] pb-[17px]"
+          style={{ backgroundColor: darkTheme ? "#16171B" : "white" }}
+        >
 
 
-            {!logoLock ? (
-              <img
-                className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
-                alt=""
-                src={logo ? logo : organizationLogo ? organizationLogo : lgoplchldr}
-              />
-            ) : (
-              <img
-                src={lgoplchldr}
-                alt=""
-                className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
-              />
-            )}
-            {!nameLock && (
+          {!logoLock ? (
+            <img
+              className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
+              alt=""
+              src={logo ? logo : organizationLogo ? organizationLogo : lgoplchldr}
+            />
+          ) : (
+            <img
+              src={lgoplchldr}
+              alt=""
+              className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
+            />
+          )}
+          {!nameLock && (
             <h2 className="max-h-[60px] overflow-hidden max-w-[90%] break-word text-center font-bold mt-[5px] mb-0 text-[14px]"
-            style={{
-              color: textColor ? textColor : companyProfile?.textColor,
-            }}>
+              style={{
+                color: textColor ? textColor : companyProfile?.textColor,
+              }}>
 
               {name ? splitString(name, 36) : companyProfile?.name}
-              </h2>
-            )}
+            </h2>
+          )}
 
-            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
+          <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
             style={{
               color: textColor ? textColor : companyProfile?.textColor,
             }}
-            >
+          >
             {designation}
-            </p>
-            <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
+          </p>
+          <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
             style={{
               color: textColor ? textColor : companyProfile?.textColor,
             }}
-            >
+          >
             {companyProfile?.name}
-            </p>
+          </p>
 
-            <div className="w-[70%] p-[5px_4px] rounded-[14px] bg-[#F4F4F4] flex flex-col items-center mt-[15px]">
-              <div className="flex w-[94%] justify-between items-center">
-                <p className="m-0 text-[13px]"
+          <div className="w-[70%] p-[5px_4px] rounded-[14px] bg-[#F4F4F4] flex flex-col items-center mt-[15px]"
+            style={{ backgroundColor: darkTheme ? "black" : "white" }}
+          >
+            <div className="flex w-[94%] justify-between items-center">
+              <p className="m-0 text-[13px]"
                 style={{
                   color: textColor ? textColor : companyProfile?.textColor,
                 }}
-                >About Me</p>
-                <p id="plus_sign" 
-                className={`cursor-pointer ${bioHidden ? '' : 'hidden'}`} 
+              >About Me</p>
+              <p id="plus_sign"
+                className={`cursor-pointer ${bioHidden ? '' : 'hidden'}`}
                 onClick={() => setBioHidden(false)}
                 style={{
                   color: textColor ? textColor : companyProfile?.textColor,
                 }}
 
-                >+</p>
-                <p id="minus_sign" 
+              >+</p>
+              <p id="minus_sign"
                 className={`cursor-pointer ${bioHidden ? 'hidden' : ''}`}
                 onClick={() => setBioHidden(true)}
                 style={{
                   color: textColor ? textColor : companyProfile?.textColor,
                 }}
-                >-</p>
-              </div>
-              {!bioLock && (
-                <p id="about_text" className={`w-[95%] break-word overflow-hidden mt-[10px] text-[#959595] text-[12px] mb-[1px] ${bioHidden ? 'hidden' : ''}`}>
-                  {bio ? bio : companyProfile?.bio}
-                </p>
-              )}
+              >-</p>
             </div>
+            {!bioLock && (
+              <p id="about_text" className={`w-[95%] break-word overflow-hidden mt-[10px] text-[#959595] text-[12px] mb-[1px] ${bioHidden ? 'hidden' : ''}`}>
+                {bio ? bio : companyProfile?.bio}
+              </p>
+            )}
           </div>
         </div>
+      </div>
 
       <div className="w-[100%] flex flex-col items-center mt-3">
         <div className="w-[90%] grid grid-cols-4 ml-6 gap-y-3">
@@ -403,25 +428,27 @@ const Mobile = ({
       </div>
 
 
-      <div className="w-full sticky bottom-0 flex justify-between max-w-[420px] bg-[white] p-[0px_2%_10px_2%]">
-      <div method="get"className="w-[48%] flex justify-center">
-        <button
-          className="w-full h-[33px] mt-[10px] text-[11px] text-white rounded-[6px] flex justify-center items-center"
-          style={{ backgroundColor: buttonColor }}
-        >
-          Save Contact
-        </button>
-      </div>
+      <div className="w-full sticky bottom-0 flex justify-between max-w-[420px]  p-[0px_2%_10px_2%]"
+        style={{ backgroundColor: darkTheme ? "black" : "#F5F6FA" }}
+      >
+        <div method="get" className="w-[48%] flex justify-center">
+          <button
+            className="w-full h-[33px] mt-[10px] text-[11px] text-white rounded-[6px] flex justify-center items-center"
+            style={{ backgroundColor: buttonColor }}
+          >
+            Save Contact
+          </button>
+        </div>
 
-      <a 
-      className="w-[48%] h-[33px] mt-[10px] text-[11px] border-[1px] rounded-[6px] flex justify-center items-center"
-      style={{
-        borderColor: buttonColor,
-        color: buttonColor,
-      }}>
-        Exchange Contact
-      </a>
-    </div>
+        <a
+          className="w-[48%] h-[33px] mt-[10px] text-[11px] border-[1px] rounded-[6px] flex justify-center items-center"
+          style={{
+            borderColor: buttonColor,
+            color: buttonColor,
+          }}>
+          Exchange Contact
+        </a>
+      </div>
 
     </div>
   );

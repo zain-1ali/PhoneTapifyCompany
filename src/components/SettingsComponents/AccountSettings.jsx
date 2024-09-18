@@ -73,6 +73,7 @@ const AccountSettings = ({ companyProfile }) => {
 
   let [data, setData] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
     bio: "",
@@ -81,12 +82,13 @@ const AccountSettings = ({ companyProfile }) => {
   useEffect(() => {
     setData({
       name: companyProfile?.name,
+      email: companyProfile?.email,
       phone: companyProfile?.phone,
       address: companyProfile?.address,
       bio: companyProfile?.bio,
     });
   }, [companyProfile]);
-  console.log(companyProfile);
+  // console.log(companyProfile);
 
   const resetLockValues = () => {
     dispatch(setProfilePictureLock(companyProfile?.profilePictureLock));
@@ -106,14 +108,14 @@ const AccountSettings = ({ companyProfile }) => {
   );
   const bioLock = useSelector((state) => state.profileInfoSlice.bioLock);
 
-  console.log(
-    "name lock: ",
-    nameLock,
-    "phone lock: ",
-    phoneLock,
-    "location lock: ",
-    locationLock
-  );
+  // console.log(
+  //   "name lock: ",
+  //   nameLock,
+  //   "phone lock: ",
+  //   phoneLock,
+  //   "location lock: ",
+  //   locationLock
+  // );
 
   return (
     <div className="h-[300px] sm:w-[600px] mt-7">
@@ -171,6 +173,21 @@ const AccountSettings = ({ companyProfile }) => {
             className="w-[98%] pl-[4%] sm:h-[46px] h-[30px] p-2 outline-none bg-white text-gray-500 rounded-[36px] mt-1"
             onChange={(e) => setData({ ...data, phone: e.target.value })}
             value={data?.phone}
+          />
+        </div>
+      </div>
+      <div className="w-[100%] mt-2 flex justify-between">
+        
+        <div className="w-[100%] ">
+          <div className="flex items-center">
+            <h2 className="font-[500] text-[14px] ml-2">{t("Email Address")}</h2>
+            
+          </div>
+          <input
+            type="text"
+            className="w-[98%] pl-[4%] sm:h-[46px] h-[30px] p-2 outline-none bg-white text-gray-500 rounded-[36px] mt-1"
+            onChange={(e) => setData({ ...data, email: e.target.value })}
+            value={data?.email}
           />
         </div>
       </div>

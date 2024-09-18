@@ -321,6 +321,7 @@ const CompanyProfile = ({ uid }) => {
 
                   <input
                     type="file"
+                    accept="image/*"
                     id="logoImg"
                     style={{ opacity: 0, width: "0px", height: "0px" }}
                     onChange={handleLogoImageChange}
@@ -385,6 +386,7 @@ const CompanyProfile = ({ uid }) => {
 
                   <input
                     type="file"
+                    accept="image/*"
                     id="prflImg"
                     style={{ opacity: 0, width: "0px", height: "0px" }}
                     onChange={handlePrflImageChange}
@@ -438,6 +440,7 @@ const CompanyProfile = ({ uid }) => {
 
                   <input
                     type="file"
+                    accept="image/*"
                     id="cvrImg"
                     style={{ opacity: 0, width: "0px", height: "0px" }}
                     onChange={handlebgImageChange}

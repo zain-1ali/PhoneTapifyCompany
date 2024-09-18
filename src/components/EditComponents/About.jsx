@@ -36,6 +36,7 @@ import {
   removeSubscription,
   updataAbout,
   updateLeadMode,
+  handleChangeDarkMode,
 } from "../../Services.jsx";
 import SocialLinkModal from "../Modals/SocialLinkModal.jsx";
 import { useTranslation } from "react-i18next";
@@ -140,7 +141,7 @@ const About = ({ uid, handleCancelAbout }) => {
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
   const links = useSelector((state) => state.profileInfoSlice.links);
   const directMode = useSelector((state) => state.profileInfoSlice.directMode);
-
+  const darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
@@ -257,6 +258,7 @@ const About = ({ uid, handleCancelAbout }) => {
 
   let data = {
     name,
+    email,
     job: designation,
     address,
     coverUrl: cover,
@@ -648,6 +650,7 @@ const About = ({ uid, handleCancelAbout }) => {
             </div>
           </div>
         </div>
+        
 
         <div className="sm:w-[60%] w-[100%] h-[35px]  rounded-[36px] flex  items-center bg-[#F2F2F2] mt-2">
           <div className="w-[22%] h-[100%] font-[500] text-[11px] flex justify-center items-center text-center leading-3 pl-1">
@@ -808,6 +811,19 @@ const About = ({ uid, handleCancelAbout }) => {
             </div>
           </div>
         </div>
+        <div className="flex w-[30%] mt-2 items-center  justify-around ">
+              <p className="font-[500]  sm:text-[14px] text-[10px] whitespace-nowrap ml-2">
+                {t("Dark Mode")} {"\u00A0"}
+              </p>
+              <FormControlLabel
+                control={
+                  <IOSSwitch
+                    checked={darkTheme}
+                    onChange={() => handleChangeDarkMode(darkTheme, uid)}
+                  />
+                }
+              />
+          </div>
       </div>
 
       <div className="w-[100%] mt-4">
@@ -842,6 +858,7 @@ const About = ({ uid, handleCancelAbout }) => {
 
                   <input
                     type="file"
+                    accept="image/*"
                     id="logoImg"
                     style={{ opacity: 0, width: "0px", height: "0px" }}
                     onChange={handleLogoImageChange}
@@ -888,6 +905,7 @@ const About = ({ uid, handleCancelAbout }) => {
 
                   <input
                     type="file"
+                    accept="image/*"
                     id="prflImg"
                     style={{ opacity: 0, width: "0px", height: "0px" }}
                     onChange={handlePrflImageChange}
@@ -930,6 +948,7 @@ const About = ({ uid, handleCancelAbout }) => {
 
                   <input
                     type="file"
+                    accept="image/*"
                     id="cvrImg"
                     style={{ opacity: 0, width: "0px", height: "0px" }}
                     onChange={handlebgImageChange}
@@ -957,9 +976,9 @@ const About = ({ uid, handleCancelAbout }) => {
             <input
               type="text"
               className="w-[48%] h-[38px] outline-none bg-[#F2F2F2] rounded-[36px] p-[10px] placeholder:text-xs"
-              placeholder={t("Address")}
-              onChange={(e) => dispatch(setAddress(e.target.value))}
-              value={address}
+              placeholder={t("Email")}
+              onChange={(e) => dispatch(setEmail(e.target.value))}
+              value={email}
             />
           </div>
         </div>
@@ -983,7 +1002,17 @@ const About = ({ uid, handleCancelAbout }) => {
             />
           </div>
         </div>
-
+        <div className="w-[100%] mt-5">
+          <div className="w-[100%] flex justify-between ">
+            <input
+              type="text"
+              className="w-[100%] h-[38px] outline-none bg-[#F2F2F2] rounded-[36px] p-[10px] placeholder:text-xs"
+              placeholder={t("Address")}
+              onChange={(e) => dispatch(setAddress(e.target.value))}
+              value={address}
+            />
+          </div>
+        </div>
         <div className="w-[100%] mt-3">
           <textarea
             name=""
@@ -993,9 +1022,10 @@ const About = ({ uid, handleCancelAbout }) => {
             value={bio}
             placeholder={t("Bio")}
           ></textarea>
+          <br /><br /><br />
         </div>
 
-        <div className="w-[100%] flex justify-end">
+        <div className=" flex justify-end absolute bottom-[3px] right-[24px] bg-white w-[93%] p-[10px_0px] rounded-[10px]">
           <div
             className="w-[252px] flex justify-between mt-1 "
             style={screen <= 450 ? { marginTop: "20px" } : null}

@@ -44,11 +44,23 @@ const Home = () => {
   };
   let getCompanyTags = (obj) => {
     console.log(obj)
-    const filteredTags = Object.values(obj).filter(item => {
-      return (!item.profileID || item.profileID === "") && item.status === false;
-  });
-  console.log(filteredTags)
-  setCompanyTags(filteredTags);
+
+    if (conexParent == "superAdmin") {
+      var filteredTags = Object.values(obj).filter(item => {
+        return (
+          !item.profileID || item.profileID === "") &&
+          (!item.companyId || item.companyId === "") &&
+          item.status === false;
+      });
+    }
+    else {
+      var filteredTags = Object.values(obj).filter(item => {
+        return (
+          !item.profileID || item.profileID === "") && item.status === false;
+      });
+    }
+    console.log(filteredTags)
+    setCompanyTags(filteredTags);
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -68,26 +80,26 @@ const Home = () => {
   let [loading, setloading] = useState(false);
   let handleModal = () => {
     console.log("add");
-    if(conexParent !== "superAdmin" && companyTags.length == 0)
-    {
+    if (conexParent !== "superAdmin" && companyTags.length == 0) {
       window.open("https://buy.stripe.com/cN2fZqfcM05t5McbIM", "_blank");
       // toast.error('You have reached the max limit of your profiles. Please buy more tags.');
     }
-    else{
+    else {
       console.log("model open");
       setModal(!modal);
     }
-    
-    
+
+
   };
   let updateChildList = () => {
     getAllChilds(getAllProfiles, setloading);
   }
-  
+
 
   useEffect(() => {
     if (conexParent === "superAdmin") {
       getAllCompanies(getAllProfiles, setloading);
+      fetchCompanyTags(getCompanyTags, setloading);
     } else {
       getAllChilds(getAllProfiles, setloading);
       fetchCompanyTags(getCompanyTags, setloading);
@@ -106,7 +118,7 @@ const Home = () => {
     }
   }, []);
 
-  
+
   const getCompanyProfile = (data) => {
     if (data) {
       setCompanyProfile(data);
@@ -170,9 +182,9 @@ const Home = () => {
       <CreateNewCard
         modal={modal}
         handleModal={handleModal}
-        updateChildList = {updateChildList}
+        updateChildList={updateChildList}
         companyProfile={companyProfile}
-        companyTags = {companyTags}
+        companyTags={companyTags}
       />
       {screen >= 450 ? <Sidebar /> : null}
       {loading ? (
@@ -297,7 +309,7 @@ const Home = () => {
                     onClick={handleModal}
                   >
                     <p className="font-[400] text-[14px] text-white mr-1 text-center">
-                      { conexParent != "superAdmin" ? t("Add New Member") : t("Add New Company")}
+                      {conexParent != "superAdmin" ? t("Add New Member") : t("Add New Company")}
                     </p>
 
                     {language === "en" && (
@@ -338,7 +350,7 @@ const Home = () => {
                   <MemberCard
                     profile={profile}
                     companyProfile={companyProfile?.[companyId]}
-                    updateChildList = {updateChildList}
+                    updateChildList={updateChildList}
                   />
                 );
               })}

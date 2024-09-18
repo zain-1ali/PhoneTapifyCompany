@@ -162,7 +162,7 @@ const Company = () => {
     // dispatch(setlinkColor(singleProfile?.data?.linkColor));
   }, [companyProfile?.[companyId]]);
 
-  console.log(companyProfile);
+  // console.log(companyProfile);
 
   var screen = window.innerWidth;
   let [helpModal, sethelpModal] = useState(false);

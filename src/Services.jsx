@@ -32,6 +32,7 @@ let conexParent = localStorage.getItem("conexParent");
 let cnxId = conexParent ? conexParent : cnxUid;
 // let baseUrl = "http://localhost:8000/api/";
 let baseUrl = import.meta.env.VITE_APP_API_URL;
+let appUrl = import.meta.env.VITE_APP_PROFILE_URL
 
 // ---------------------------Function to generate the timestamp in seconds for the current date-------------------
 const getCurrentTimestampInSeconds = () => {
@@ -74,7 +75,7 @@ export const handleLogin = (data, navigate) => {
                 const data = await snapshot.val();
                 console.log("data", data);
                 let dataArray = Object.values(data)?.[0];
-                console.log(dataArray);
+                // console.log(dataArray);
                 if (!dataArray?.isActiveCompany) {
                   toast.warn("Pro version is not active");
                   return;
@@ -237,8 +238,10 @@ export const removeSubscription = (id, cb) => {
 // ------------------------------------------------Create new card-----------------------------------------------
 
 export const createNewCard = async (data, callBack, companyProfile) => {
+  // console.log(data)
+  // return;
   // checking if super admin creating company or company admin creating employee ( need tag while creating employee )
-  if (data.name && data.email && data.password && (data.tagId || conexParent == "superAdmin")) {
+  if (data.name && data.email && data.password && data.tagId ) {
     await createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         // Signed in
@@ -258,9 +261,9 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           let tag = ref(db, `Tag/${data.tagId}`);
           onValue(tag, (snapshot) => {
             const tagData = snapshot.val();
-            console.log(tagData)
+            // console.log(tagData)
             if (tagData) {
-              console.log(tagData);
+              // console.log(tagData);
               tagType = tagData.type ?? "Digital Card";
             }
           });
@@ -400,7 +403,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
                 token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
               })
               .then((res) => {
-                console.log("the response", res);
+                // console.log("the response", res);
               })
               .catch((err) => {
                 console.log(err);
@@ -413,9 +416,18 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           //   toast.error("Dates are required");
           //   return;
           // }
-          console.log("companyCreated")
-          console.log(user.uid)
-          update(ref(db, `Users/${user.uid}`), {
+
+          let tagType = "Digital Card";
+          let tag = ref(db, `Tag/${data.tagId}`);
+          onValue(tag, (snapshot) => {
+            const tagData = snapshot.val();
+            // console.log(tagData)
+            if (tagData) {
+              // console.log(tagData);
+              tagType = tagData.type ?? "Digital Card";
+            }
+          });
+          let newAccountData = {
             platform: "web",
             address: "",
             backgroundColor: "#000000",
@@ -486,11 +498,62 @@ export const createNewCard = async (data, callBack, companyProfile) => {
               isTrialPeriod: false,
               packageName: "",
               platform: "web",
-              proVersionExpireyDate: "",
-              proVersionPurchaseDate: "",
+              proVersionExpireyDate: data?.firstDate ?? "N/A",
+              proVersionPurchaseDate: data?.secondDate ?? "N/A",
               transactionId: "",
             },
-          }).then(() => {
+ 
+          };
+          if (tagType === "Open House") {
+            newAccountData.openHouseDetail = {
+              listingAddress: "",
+              askingPrice: "",
+              beds: "",
+              offer: 0,
+              offerScript: "",
+              questionScript: "",
+            };
+            newAccountData.botScript = "";
+            // newAccountData.profileType = "Open House";
+          }
+          if (tagType === "Google Review") {
+            newAccountData.reviewDetail = {
+              reviewLink: "",
+              businessPageLink: "",
+              businessAddress: "",
+              businessName: "",
+              phoneNum: "",
+              email: "",
+            };
+            newAccountData.reviewType = "direct";
+            // newAccountData.profileType = "Google Review";
+          }
+          if (tagType === "Office Assist") {
+            newAccountData.callActionDetail = [
+              { type: "url", value: "", title: "Ask Question" },
+              { type: "url", value: "", title: "Enter Giveaway" },
+              { type: "url", value: "", title: "Register Event" },
+              { type: "url", value: "", title: "Give Us Feedback" },
+            ];
+            newAccountData.submitReq = {
+              type: "url",
+              value: "",
+            };
+            newAccountData.activeCallAction = "Ask Question";
+            newAccountData.botScript = "";
+            // newAccountData.profileType = "Office Assist";
+          }
+          // console.log("companyCreated")
+          // console.log(user.uid)
+          update(ref(db, `Users/${user.uid}`), newAccountData
+          ).then(() => {
+            update(
+              ref(db, `Tag/${data.tagId}`),
+              {
+                profileID: user.uid,
+                status : true,
+              }
+            );
             axios
               .post(`${baseUrl}createAccount`, {
                 email: data?.email,
@@ -541,18 +604,27 @@ export const createNewCard = async (data, callBack, companyProfile) => {
 // ------------------------------------------------Get all child profiles-----------------------------------------------
 export const fetchCompanyTags = async (callBackFunc, setloading, cb) => {
   // setloading(true);
-  const starCountRef = query(
-    ref(db, "/Tag"),
-    orderByChild("companyId"),
-    equalTo(cnxId)
-  );
+
+  if (conexParent != "superAdmin") {
+    var starCountRef = query(
+      ref(db, "/Tag"),
+      orderByChild("companyId"),
+      equalTo(cnxId)
+    );
+  }
+  else
+  {
+    var starCountRef = query(
+      ref(db, "/Tag"),
+    );
+  }
   onValue(starCountRef, async (snapshot) => {
     const data = await snapshot.val();
     if (data) {
       callBackFunc(data);
-      console.log(data);
+      // console.log(data);
       // setloading(false);
-      console.log("testing data");
+      // console.log("testing data");
     } else {
       // setloading(false);
     }
@@ -856,6 +928,7 @@ let returnIfHttps = (string) => {
 export const updataAbout = async (id, data, t) => {
   let {
     name,
+    email,
     job,
     address,
     coverUrl,
@@ -868,8 +941,24 @@ export const updataAbout = async (id, data, t) => {
   } = data;
   // if (name || location || job || company || bio || colorCode) {
   const colorOfText = textColor ? textColor : "#000000";
+
+  axios
+  .post(`${baseUrl}changeEmail`, {
+    id: id,
+    email: data?.email,
+    token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+  })
+  .then((res) => {
+    console.log("the response", res);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+
   update(ref(db, `Users/${id}`), {
     name,
+    email,
     job,
     address,
     phone,
@@ -1020,8 +1109,8 @@ export const updateCompanyToken = async (companyId, userId) => {
     token += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
 
-  const editUrl = 'http://localhost:8000/editUser/';
-  // const editUrl = 'https://user.phonetapify.com/editUser/';
+  // const editUrl = 'http://localhost:8000/editUser/';
+  const editUrl = `${appUrl}editUser/`;
   update(ref(db, `Users/${companyId}`), {
     token: token,
   }).then(() => {
@@ -2098,6 +2187,9 @@ export const updateLeadMode = (leadMode, id) => {
   
   update(ref(db, `Users/${id}/`), { leadMode: !leadMode });
 };
+export const handleChangeDarkMode = (darkTheme, id) => {
+  update(ref(db, `Users/${id}/`), { darkTheme: !darkTheme });
+};
 
 // ---------------------------------------Handle to change direct mode----------------------------------
 
@@ -2242,6 +2334,7 @@ export const deleteContact = (id, cb) => {
 export const updataCompanyAbout = async (id, data, success) => {
   let {
     name,
+    email,
     address,
     phone,
     bio,
@@ -2252,6 +2345,7 @@ export const updataCompanyAbout = async (id, data, success) => {
   } = data;
   update(ref(db, `Users/${id}`), {
     name,
+    email,
     address,
     phone,
     nameLock,
@@ -2285,6 +2379,21 @@ export const updataCompanyAbout = async (id, data, success) => {
     //   // MediaKeyStatusMap;
     // });
     // updateBulkData(id, nameLock, phoneLock, locationLock, bioLock);
+
+    axios
+    .post(`${baseUrl}changeEmail`, {
+      id: id,
+      email: email,
+      token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+    })
+    .then((res) => {
+      console.log("the response", res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+
     toast.success(success);
   });
 

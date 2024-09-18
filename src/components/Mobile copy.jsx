@@ -55,6 +55,7 @@ const Mobile = ({
   );
 
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
+  const darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
