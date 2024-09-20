@@ -347,7 +347,7 @@ const About = ({ uid, handleCancelAbout }) => {
   };
 
   return (
-    <div className="w-[90%] h-[90%] overflow-y-scroll">
+    <div className="w-[90%] h-[90%] overflow-y-scroll scroll-area">
       {/* --------------------------------------------croper for logo image------------------------------------------------  */}
       <Cropper
         cropModal={cropLogoModal}

@@ -124,9 +124,9 @@ const Home = () => {
       setCompanyProfile(data);
       if (conexParent != "superAdmin" && typeof data === "object") {
         if (!Object.values(data)?.[0]?.isActiveCompany) {
-          localStorage.removeItem("connexUid");
-          localStorage.removeItem("conexParent");
-          navigate("/signin");
+          // localStorage.removeItem("connexUid");
+          // localStorage.removeItem("conexParent");
+          // navigate("/signin");
         }
       }
     }

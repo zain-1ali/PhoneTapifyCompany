@@ -76,12 +76,12 @@ export const handleLogin = (data, navigate) => {
                 console.log("data", data);
                 let dataArray = Object.values(data)?.[0];
                 // console.log(dataArray);
-                if (!dataArray?.isActiveCompany) {
-                  toast.warn("Pro version is not active");
-                  return;
-                } else {
+                // if (!dataArray?.isActiveCompany) {
+                //   toast.warn("Pro version is not active");
+                //   return;
+                // } else {
                   localStorage.setItem("proStatus", dataArray?.isActiveCompany);
-                }
+                // }
                 if (dataArray?.isAdmin === true) {
                   localStorage.setItem("connexUid", user?.uid);
                   localStorage.setItem("conexParent", dataArray?.parentID);
