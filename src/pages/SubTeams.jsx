@@ -78,7 +78,7 @@ const SubTeams = () => {
 
   //---------------------------------------------------(search functionality)-----------------------------------------------
 
-  console.log(filtered);
+  // console.log(filtered);
 
   let [search, setsearch] = useState("");
 

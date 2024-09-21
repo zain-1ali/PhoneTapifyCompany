@@ -55,7 +55,8 @@ const Mobile = ({
   );
 
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
-  const darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
+  let darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
+  darkTheme = (darkTheme == "0" || darkTheme == 0 || darkTheme == false) ? false : true;
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
@@ -321,7 +322,7 @@ const Mobile = ({
           </p>
 
           <div className="w-[70%] p-[5px_4px] rounded-[14px] bg-[#F4F4F4] flex flex-col items-center mt-[15px]"
-            style={{ backgroundColor: darkTheme ? "black" : "white" }}
+            style={{ backgroundColor: darkTheme ? "black" : "#F4F4F4" }}
           >
             <div className="flex w-[94%] justify-between items-center">
               <p className="m-0 text-[13px]"
@@ -428,7 +429,7 @@ const Mobile = ({
       </div>
 
 
-      <div className="w-full sticky bottom-0 flex justify-between max-w-[420px]  p-[0px_2%_10px_2%]"
+      <div className="w-full absolute bottom-0 flex justify-between max-w-[420px]  p-[0px_2%_10px_2%]"
         style={{ backgroundColor: darkTheme ? "black" : "#F5F6FA" }}
       >
         <div method="get" className="w-[48%] flex justify-center">

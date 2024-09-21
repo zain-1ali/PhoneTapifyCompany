@@ -72,7 +72,7 @@ const Organization = ({ uid }) => {
         <p className="font-[400] sm:text-[14px] text-[14px] text-[#707070]">
           {t("You can assign accounts as administrative accounts.")}
         </p>
-        <div className="sm:w-[600px] w-[100%] min-h-[150px] max-h-[350] overflow-y-scroll ">
+        <div className="sm:w-[600px] w-[100%] min-h-[150px] max-h-[350] ">
           <div className="sm:w-[600px] w-[100%]  sm:h-[101px] h-[83px] outline-none bg-white rounded-[36px] mt-3 flex justify-center items-center ">
             <div className="h-[80%] w-[90%] flex justify-between items-center">
               <div>

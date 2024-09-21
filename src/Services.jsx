@@ -49,17 +49,23 @@ const getOneYearAfterTimestampInSeconds = () => {
 // ------------------------------------------------Login User-----------------------------------------------
 
 export const handleLogin = (data, navigate) => {
-
+  console.log(4)
   if (data?.email && data?.password) {
+    console.log(1)
     const starCountRef = ref(db, `/Admin`);
+    console.log(starCountRef);
     onValue(starCountRef, async (snapshot) => {
       const admin = await snapshot.val();
+      console.log(admin)
       if (data?.email === admin?.email && data?.password === admin?.password) {
+        console.log(2)
         localStorage.setItem("connexUid", "superAdmin");
         localStorage.setItem("conexParent", "superAdmin");
         navigate("/home");
         window.location.reload();
-      } else {
+      } 
+      else {
+        console.log(3)
         signInWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
             // Signed in
@@ -875,7 +881,9 @@ export const deleteSingleChild = (id, teams, callback) => {
           Promise.all(userPromise).then(() => {
             console.log("user deleted");
           });
-        } catch (error) { }
+        } catch (error) {
+          toast.error("Some error. Please try again")
+         }
       }
 
       // const starCountRef = query(

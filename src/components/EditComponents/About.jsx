@@ -141,12 +141,14 @@ const About = ({ uid, handleCancelAbout }) => {
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
   const links = useSelector((state) => state.profileInfoSlice.links);
   const directMode = useSelector((state) => state.profileInfoSlice.directMode);
-  const darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
+  let darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
 
-  // console.log(name);
+  console.log(darkTheme);
+
+  darkTheme = (darkTheme == "0" || darkTheme == 0 || darkTheme == false) ? false : true;
 
   let [prflKey, setPrflKey] = useState(0);
   let [logoKey, setLogoKey] = useState(0);

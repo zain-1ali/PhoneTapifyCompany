@@ -43,7 +43,7 @@ const Home = () => {
     setAllProfiles(Object.values(obj));
   };
   let getCompanyTags = (obj) => {
-    console.log(obj)
+    // console.log(obj)
 
     if (conexParent == "superAdmin") {
       var filteredTags = Object.values(obj).filter(item => {
@@ -59,7 +59,7 @@ const Home = () => {
           !item.profileID || item.profileID === "") && item.status === false;
       });
     }
-    console.log(filteredTags)
+    // console.log(filteredTags)
     setCompanyTags(filteredTags);
   };
 
