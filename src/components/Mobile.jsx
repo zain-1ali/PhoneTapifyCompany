@@ -299,7 +299,7 @@ const Mobile = ({
           {!nameLock && (
             <h2 className="max-h-[60px] overflow-hidden max-w-[90%] break-word text-center font-bold mt-[5px] mb-0 text-[14px]"
               style={{
-                color: textColor ? textColor : companyProfile?.textColor,
+                color: textColor ? textColor : "#000000",
               }}>
 
               {name ? splitString(name, 36) : companyProfile?.name}
@@ -308,14 +308,14 @@ const Mobile = ({
 
           <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
             style={{
-              color: textColor ? textColor : companyProfile?.textColor,
+              color: textColor ? textColor : "#000000",
             }}
           >
             {designation}
           </p>
           <p className="max-w-[90%] break-word overflow-hidden mt-0 max-h-[48px] text-[12px] font-medium mb-0 text-center"
             style={{
-              color: textColor ? textColor : companyProfile?.textColor,
+              color: textColor ? textColor : "#000000",
             }}
           >
             {companyProfile?.name}
@@ -327,14 +327,14 @@ const Mobile = ({
             <div className="flex w-[94%] justify-between items-center">
               <p className="m-0 text-[13px]"
                 style={{
-                  color: textColor ? textColor : companyProfile?.textColor,
+                  color: textColor ? textColor : "#000000",
                 }}
               >About Me</p>
               <p id="plus_sign"
                 className={`cursor-pointer ${bioHidden ? '' : 'hidden'}`}
                 onClick={() => setBioHidden(false)}
                 style={{
-                  color: textColor ? textColor : companyProfile?.textColor,
+                  color: textColor ? textColor : "#000000",
                 }}
 
               >+</p>
@@ -342,7 +342,7 @@ const Mobile = ({
                 className={`cursor-pointer ${bioHidden ? 'hidden' : ''}`}
                 onClick={() => setBioHidden(true)}
                 style={{
-                  color: textColor ? textColor : companyProfile?.textColor,
+                  color: textColor ? textColor : "#000000",
                 }}
               >-</p>
             </div>
@@ -375,7 +375,7 @@ const Mobile = ({
                 <p
                   className="text-[8px] mt-[2px] text-center"
                   style={{
-                    color: textColor ? textColor : companyProfile?.textColor,
+                    color: textColor ? textColor : "#000000",
                   }}
                 >
                   {splitString(elm?.name, 15)}
@@ -395,7 +395,7 @@ const Mobile = ({
                 <p
                   className="text-[8px] mt-[2px] text-center"
                   style={{
-                    color: textColor ? textColor : companyProfile?.textColor,
+                    color: textColor ? textColor : "#000000",
                   }}
                 >
                   {splitString(linkInfo?.name, 15)}
@@ -418,7 +418,7 @@ const Mobile = ({
               <p
                 className="text-[8px] mt-[2px] text-center"
                 style={{
-                  color: textColor ? textColor : companyProfile?.textColor,
+                  color: textColor ? textColor : "#000000",
                 }}
               >
                 {splitString(linkInfo?.name, 15)}
@@ -429,7 +429,7 @@ const Mobile = ({
       </div>
 
 
-      <div className="w-full absolute bottom-0 flex justify-between max-w-[420px]  p-[0px_2%_10px_2%]"
+      <div className="w-full sticky bottom-0 flex justify-between max-w-[420px]  p-[0px_2%_10px_2%]"
         style={{ backgroundColor: darkTheme ? "black" : "#F5F6FA" }}
       >
         <div method="get" className="w-[48%] flex justify-center">

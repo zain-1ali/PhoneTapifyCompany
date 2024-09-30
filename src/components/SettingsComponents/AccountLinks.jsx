@@ -9,7 +9,7 @@ import { getAllChilds, renoveLink, updateLinkShareAble } from "../../Services";
 import { FormControlLabel, Switch, styled } from "@mui/material";
 import DeleteModal from "../Modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { set, ref } from "firebase/database";
+import { set, ref, query, onValue } from "firebase/database";
 
 import { db } from "../../firebase";
 import { setLinks } from "../../redux/profileInfoSlice";
@@ -78,7 +78,7 @@ const AccountLinks = ({ uid }) => {
     },
   }));
 
-  const links = useSelector((state) => state.profileInfoSlice.links);
+  // const links = useSelector((state) => state.profileInfoSlice.links);
   let [deleteModal, setdeleteModal] = useState(false);
   let [teamId, setteamId] = useState("");
 
@@ -86,10 +86,29 @@ const AccountLinks = ({ uid }) => {
     setdeleteModal(!deleteModal);
   };
   let dispatch = useDispatch();
+  // const [items, setItems] = useState([]);
+  // useEffect(() => {
+  //   setItems(links);
+  // }, [links]);
+const companyID = localStorage.getItem("connexUid");
   const [items, setItems] = useState([]);
+  const [links, setLinks] = useState([]);
   useEffect(() => {
-    setItems(links);
-  }, [links]);
+    const fetchCompanyLinks = () => {
+      const starCountRef = query(ref(db, `/Users/${companyID}/links`));
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const linksArray = Object.values(data);
+          setItems(linksArray);
+          setLinks(linksArray);
+        } else {
+          setItems([]); 
+        }
+      });
+    };
+    fetchCompanyLinks();
+  }, [companyID, db]);
 
   // -----------------------getting all users----------------------
   let [allProfiles, setAllProfiles] = useState([]);

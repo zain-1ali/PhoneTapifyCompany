@@ -236,11 +236,11 @@ const Company = () => {
               <div
                 className="w-[154px] h-[100%] rounded-[36px] bg-white shadow-xl flex justify-center items-center cursor-pointer"
                 // onClick={() => handlehelpModal()}
-                // onClick={() =>
-                //   window.open(
-                //     "#"
-                //   )
-                // }
+                onClick={() =>
+                  window.open(
+                    "https://phonetapify.com/pages/support-ticket"
+                  )
+                }
               >
                 <p className="font-[500] sm:text-[15px] text-[12px] ">
                   {t("Help")} ?

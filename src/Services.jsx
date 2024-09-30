@@ -25,7 +25,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import axios from "axios";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 let cnxUid = localStorage.getItem("connexUid");
 let conexParent = localStorage.getItem("conexParent");
 
@@ -33,7 +33,7 @@ let cnxId = conexParent ? conexParent : cnxUid;
 // let baseUrl = "http://localhost:8000/api/";
 let baseUrl = import.meta.env.VITE_APP_API_URL;
 let appUrl = import.meta.env.VITE_APP_PROFILE_URL
-
+// const { t } = useTranslation();
 // ---------------------------Function to generate the timestamp in seconds for the current date-------------------
 const getCurrentTimestampInSeconds = () => {
   return Math.floor(Date.now() / 1000);
@@ -1054,7 +1054,7 @@ export const updataAbout = async (id, data, t) => {
           console.log(error);
         });
     }
-    toast.success(t("Information updated sucessfuly"));
+    toast.success("Information updated sucessfuly");
   });
   // }
 };
@@ -1370,6 +1370,7 @@ export const getAllTeamMembersLength = (arr) => {
 
 // ----------------------------------------------------Add link to database---------------------------------------------
 
+
 export const addNewLink = async (
   linkData,
   id,
@@ -1380,297 +1381,87 @@ export const addNewLink = async (
   success
 ) => {
   console.log("add working.........");
+  // console.log(linkData);
 
-  console.log(linkData);
+  // Ensure linkData has a value before proceeding
   if (linkData?.value) {
-    console.log("img64", linkData?.image);
-    console.log(allLinks);
-    if (allLinks) {
-      if (returnIfHttps(linkData?.image) === false) {
-        console.log("testing........6");
-        let name = new Date().getTime() + id;
-        const storageRef = sRef(storage, name);
-        uploadString(storageRef, linkData?.image.slice(23), "base64", {
+    const isImageHttps = returnIfHttps(linkData?.image);
+    let imageUrl = "";
+
+    // Handle image upload if it's not an HTTPS URL
+    if (!isImageHttps) {
+      console.log("Uploading image...");
+      const name = new Date().getTime() + id;
+      const storageRef = sRef(storage, name);
+      
+      try {
+        await uploadString(storageRef, linkData?.image.slice(23), "base64", {
           contentType: "image/png",
-        })
-          .then(() => {
-            console.log("img testing");
-            getDownloadURL(storageRef)
-              .then((URL) => {
-                // console.log(URL)
+        });
+        imageUrl = await getDownloadURL(storageRef);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        toast.error(t("Error uploading image"));
+        return; // Exit the function if there's an error
+      }
+    }
 
-                set(ref(db, `Users/${id}/links/`), [
-                  ...allLinks,
-                  {
-                    image: URL,
-                    linkID: linkData?.linkID,
-                    name: linkData?.name,
-                    value: linkData?.value,
-                    shareable: linkData?.shareable,
-                  },
-                ]).then(async () => {
-                  if (ifCompany(id) && allMembers?.length > 0) {
-                    const promiseAddingLinkToChilds = allMembers?.map(
-                      async (elm) => {
-                        if (elm?.links) {
-                          const valueExists = Object.values(elm?.links)?.some(
-                            (obj) => obj["linkID"] === linkData?.linkID
-                          );
-                          if (!valueExists) {
-                            await set(ref(db, `Users/${elm?.id}/links/`), [
-                              ...Object.values(elm?.links),
+    // Prepare the new link data
+    const newLinkData = {
+      image: isImageHttps ? linkData?.image : imageUrl,
+      linkID: linkData?.linkID,
+      name: linkData?.name,
+      value: linkData?.value,
+      shareable: linkData?.shareable,
+    };
 
-                              {
-                                image: URL,
-                                linkID: linkData?.linkID,
-                                name: linkData?.name,
-                                value: linkData?.value,
-                                shareable: linkData?.shareable,
-                              },
-                            ]);
-                          }
-                        } else {
-                          await set(ref(db, `Users/${elm?.id}/links/`), [
-                            {
-                              image: URL,
-                              linkID: linkData?.linkID,
-                              name: linkData?.name,
-                              value: linkData?.value,
-                              shareable: linkData?.shareable,
-                            },
-                          ]);
-                        }
-                      }
-                    );
+    // Add the new link to the user's links in Firebase
+    try {
+      await set(ref(db, `Users/${id}/links/`), [...(allLinks || []), newLinkData]);
 
-                    try {
-                      const updatedUserlinks = await Promise.all(
-                        promiseAddingLinkToChilds
-                      );
-                      console.log("Updated IDs:", updatedUserlinks);
-                      // Handle success, show success message, etc.
-                      toast.success(t("Link added successfuly"));
-                      handleLinkEditModal();
-                    } catch (error) {
-                      console.error("Error updating objects:", error);
-                      // Handle error, show error message, etc.
-                      toast.success(t("Link added successfuly"));
-                    }
-                  } else {
-                    toast.success(t("Link added successfuly"));
-                    handleLinkEditModal();
-                  }
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            // setimg(null)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        set(ref(db, `Users/${id}/links/`), [
-          ...allLinks,
-          {
-            image: "",
-            linkID: linkData?.linkID,
-            name: linkData?.name,
-            value: linkData?.value,
-            shareable: linkData?.shareable,
-          },
-        ]).then(async () => {
-          // checking if link is added by company so that link should be added to all childs
-          if (ifCompany(id) && allMembers?.length > 0) {
-            const promiseAddingLinkToChilds = allMembers?.map(async (elm) => {
+      if (ifCompany(id)) {
+        // Fetch all members of the company from Firebase
+        const starCountRef = query(ref(db, "/Users"), orderByChild("parentID"), equalTo(id));
+        const snapshot = await get(starCountRef);
+
+        if (snapshot.exists()) {
+          const users = snapshot.val();
+          const allMembers = Object.keys(users).map((key) => ({
+            id: key,
+            ...users[key],
+          }));
+
+          if (allMembers?.length > 0) {
+            await Promise.all(allMembers.map(async (elm) => {
               if (elm?.links) {
-                const valueExists = Object.values(elm?.links)?.some(
-                  (obj) => obj["linkID"] === linkData?.linkID
-                );
+                const valueExists = Object.values(elm?.links)?.some(obj => obj.linkID === linkData?.linkID);
                 if (!valueExists) {
-                  await set(ref(db, `Users/${elm?.id}/links/`), [
-                    ...Object.values(elm?.links),
-                    {
-                      image: "",
-                      linkID: linkData?.linkID,
-                      name: linkData?.name,
-                      value: linkData?.value,
-                      shareable: linkData?.shareable,
-                    },
-                  ]);
+                  const nextIndex = Object.values(elm?.links).length;
+                  await set(ref(db, `Users/${elm?.id}/links/${nextIndex}`), newLinkData);
                 }
               } else {
-                await set(ref(db, `Users/${elm?.id}/links/`), [
-                  {
-                    image: "",
-                    linkID: linkData?.linkID,
-                    name: linkData?.name,
-                    value: linkData?.value,
-                    shareable: linkData?.shareable,
-                  },
-                ]);
+                await set(ref(db, `Users/${elm?.id}/links/0`), newLinkData);
               }
-            });
-
-            try {
-              const updatedUserlinks = await Promise.all(
-                promiseAddingLinkToChilds
-              );
-              console.log("Updated IDs:", updatedUserlinks);
-              // Handle success, show success message, etc.
-              toast.success(t("Link added successfuly"));
-              handleLinkEditModal();
-            } catch (error) {
-              console.error("Error updating objects:", error);
-              // Handle error, show error message, etc.
-              // toast.error("Error updating objects");
-            }
+            }));
+            toast.success("Link added successfully");
           } else {
-            toast.success(success);
-            handleLinkEditModal();
+            toast.error(t("No members found for this company"));
           }
-        });
-      }
-    } else {
-      if (returnIfHttps(linkData?.image) === false) {
-        console.log(returnIfHttps(linkData?.image));
-        let name = new Date().getTime() + id;
-        const storageRef = sRef(storage, name);
-        uploadString(storageRef, linkData?.image.slice(23), "base64", {
-          contentType: "image/png",
-        })
-          .then(() => {
-            console.log("img testing");
-            getDownloadURL(storageRef)
-              .then((URL) => {
-                // console.log(URL)
-
-                set(ref(db, `Users/${id}/links/`), [
-                  {
-                    image: URL,
-                    linkID: linkData?.linkID,
-                    name: linkData?.name,
-                    value: linkData?.value,
-                    shareable: linkData?.shareable,
-                  },
-                ]).then(async () => {
-                  if (ifCompany(id) && allMembers?.length > 0) {
-                    const promiseAddingLinkToChilds = allMembers?.map(
-                      async (elm) => {
-                        if (elm?.links) {
-                          const valueExists = Object.values(elm?.links)?.some(
-                            (obj) => obj["linkID"] === linkData?.linkID
-                          );
-                          if (!valueExists) {
-                            await set(ref(db, `Users/${elm?.id}/links/`), [
-                              ...Object.values(elm?.links),
-                              {
-                                image: URL,
-                                linkID: linkData?.linkID,
-                                name: linkData?.name,
-                                value: linkData?.value,
-                                shareable: linkData?.shareable,
-                              },
-                            ]);
-                          }
-                        } else {
-                          await set(ref(db, `Users/${elm?.id}/links/`), [
-                            {
-                              image: "",
-                              linkID: linkData?.linkID,
-                              name: linkData?.name,
-                              value: linkData?.value,
-                              shareable: linkData?.shareable,
-                            },
-                            ,
-                          ]);
-                        }
-                      }
-                    );
-
-                    try {
-                      const updatedUserlinks = await Promise.all(
-                        promiseAddingLinkToChilds
-                      );
-                      console.log("Updated IDs:", updatedUserlinks);
-                      // Handle success, show success message, etc.
-                      toast.success(t("Link added successfuly"));
-                      handleLinkEditModal();
-                    } catch (error) {
-                      console.error("Error updating objects:", error);
-                      // Handle error, show error message, etc.
-                      // toast.error("Error updating objects");
-                    }
-                  } else {
-                    toast.success(success);
-                    handleLinkEditModal();
-                  }
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            // setimg(null)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        } else {
+          toast.error(t("No members found in Firebase"));
+        }
       } else {
-        set(ref(db, `Users/${id}/links/`), [linkData]).then(async () => {
-          if (ifCompany(id) && allMembers?.length > 0) {
-            const promiseAddingLinkToChilds = allMembers?.map(async (elm) => {
-              if (elm?.links) {
-                const valueExists = Object.values(elm?.links)?.some(
-                  (obj) => obj["linkID"] === linkData?.linkID
-                );
-                if (!valueExists) {
-                  await set(ref(db, `Users/${elm?.id}/links/`), [
-                    ...Object.values(elm?.links),
-                    {
-                      image: "",
-                      linkID: linkData?.linkID,
-                      name: linkData?.name,
-                      value: linkData?.value,
-                      shareable: linkData?.shareable,
-                    },
-                  ]);
-                }
-              } else {
-                await set(ref(db, `Users/${elm?.id}/links/`), [
-                  {
-                    image: "",
-                    linkID: linkData?.linkID,
-                    name: linkData?.name,
-                    value: linkData?.value,
-                    shareable: linkData?.shareable,
-                  },
-                ]);
-              }
-            });
-
-            try {
-              const updatedUserlinks = await Promise.all(
-                promiseAddingLinkToChilds
-              );
-              console.log("Updated IDs:", updatedUserlinks);
-              // Handle success, show success message, etc.
-              toast.success(success);
-              handleLinkEditModal();
-            } catch (error) {
-              console.error("Error updating objects:", error);
-              // Handle error, show error message, etc.
-              // toast.error("Error updating objects");
-            }
-          } else {
-            toast.success(success);
-            handleLinkEditModal();
-          }
-        });
+        toast.success(success);
       }
+      
+      handleLinkEditModal();
+    } catch (error) {
+      console.error("Error adding link:", error);
+      toast.error(t("Error adding link"));
     }
   }
 };
+
 
 // ----------------------------------------------------Add featured img---------------------------------------------
 
@@ -1858,7 +1649,7 @@ export const addFeaturedVideo = (
 
 // ----------------------------------------------------Update link to database---------------------------------------------
 
-export const updateNewLink = (
+export const updateNewLink = async (
   linkData,
   id,
   allLinks,
@@ -1867,186 +1658,138 @@ export const updateNewLink = (
   allChilds,
   success
 ) => {
-  // if (linkData?.value) {
-
   if (ifCompany(id)) {
-    if (returnIfHttps(linkData?.image) === false) {
-      let name = new Date().getTime() + id;
+    const starCountRef = query(ref(db, "/Users"), orderByChild("parentID"), equalTo(id));
+    const snapshot = await get(starCountRef);
+
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+      allChilds = Object.keys(users).map((key) => ({
+        id: key,
+        ...users[key],
+      }));
+    }
+
+    if (!returnIfHttps(linkData?.image)) {
+      const name = `${new Date().getTime()}_${id}`;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, linkData?.image.slice(23), "base64", {
-        contentType: "image/png",
-      })
-        .then(() => {
-          console.log("img testing");
-          getDownloadURL(storageRef)
-            .then((URL) => {
-              // console.log(URL)
-              if (allLinks) {
-                let index = allLinks?.findIndex((elm) => {
-                  return elm?.linkID === linkData?.linkID;
-                });
 
-                update(ref(db, `Users/${id}/links/${index}`), {
-                  image: URL,
-                  linkID: linkData?.linkID,
-                  name: linkData?.name,
-                  value: linkData?.value,
-                  shareable: linkData?.shareable,
-                }).then(async () => {
-                  const promiseUpdatingLinkToChilds = allChilds?.map(
-                    async (elm) => {
-                      if (elm?.links) {
-                        let index = Object.values(elm?.links)?.findIndex(
-                          (elem) => {
-                            return elem?.linkID === linkData?.linkID;
-                          }
-                        );
+      try {
+        await uploadString(storageRef, linkData?.image.slice(23), "base64", { contentType: "image/png" });
+        const URL = await getDownloadURL(storageRef);
 
-                        update(ref(db, `Users/${elm?.id}/links/${index}`), {
-                          image: URL,
-                          linkID: linkData?.linkID,
-                          name: linkData?.name,
-                          value: linkData?.value,
-                          shareable: linkData?.shareable,
-                        });
-                      }
-                    }
-                  );
+        if (allLinks) {
+          const index = allLinks.findIndex((elm) => elm.linkID === linkData.linkID);
 
-                  try {
-                    const updatedUserlinks = await Promise.all(
-                      promiseUpdatingLinkToChilds
-                    );
-                    handleLinkEditModal();
-                    toast.success(success);
-                  } catch (error) {
-                    console.error("Error updating objects:", error);
-                    // Handle error, show error message, etc.
-                    // toast.error("Error updating objects");
-                  }
-                });
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          // setimg(null)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      if (allLinks) {
-        let index = allLinks?.findIndex((elm) => {
-          return elm?.linkID === linkData?.linkID;
-        });
+          await update(ref(db, `Users/${id}/links/${index}`), {
+            image: URL,
+            linkID: linkData.linkID,
+            name: linkData.name,
+            value: linkData.value,
+            shareable: linkData.shareable,
+          });
 
-        update(ref(db, `Users/${id}/links/${index}`), {
-          image: linkData?.image?.slice(0, 4) === "http" ? linkData?.image : "",
-          linkID: linkData?.linkID,
-          name: linkData?.name,
-          value: linkData?.value,
-          shareable: linkData?.shareable,
-        }).then(async () => {
-          const promiseUpdatingLinkToChilds = allChilds?.map(async (elm) => {
-            if (elm?.links) {
-              let index = Object.values(elm?.links)?.findIndex((elem) => {
-                return elem?.linkID === linkData?.linkID;
-              });
+          const promiseUpdatingLinkToChilds = allChilds.map(async (elm) => {
+            if (elm.links) {
+              const childIndex = Object.values(elm.links).findIndex((elem) => elem.linkID === linkData.linkID);
 
-              update(ref(db, `Users/${elm?.id}/links/${index}`), {
-                image:
-                  linkData?.image?.slice(0, 4) === "http"
-                    ? linkData?.image
-                    : "",
-                linkID: linkData?.linkID,
-                name: linkData?.name,
-                value: linkData?.value,
-                shareable: linkData?.shareable,
+              await update(ref(db, `Users/${elm.id}/links/${childIndex}`), {
+                image: URL,
+                linkID: linkData.linkID,
+                name: linkData.name,
+                value: linkData.value,
+                shareable: linkData.shareable,
               });
             }
           });
 
-          try {
-            const updatedUserlinks = await Promise.all(
-              promiseUpdatingLinkToChilds
-            );
-            console.log("Updated IDs:", updatedUserlinks);
-            // Handle success, show success message, etc.
-            toast.success(success);
-            handleLinkEditModal();
-          } catch (error) {
-            console.error("Error updating objects:", error);
-            // Handle error, show error message, etc.
-            // toast.error("Error updating objects");
+          await Promise.all(promiseUpdatingLinkToChilds);
+          handleLinkEditModal();
+          toast.success(success);
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    } else {
+      if (allLinks) {
+        const index = allLinks.findIndex((elm) => elm.linkID === linkData.linkID);
+
+        await update(ref(db, `Users/${id}/links/${index}`), {
+          image: linkData.image.startsWith("http") ? linkData.image : "",
+          linkID: linkData.linkID,
+          name: linkData.name,
+          value: linkData.value,
+          shareable: linkData.shareable,
+        });
+
+        const promiseUpdatingLinkToChilds = allChilds.map(async (elm) => {
+          if (elm.links) {
+            const childIndex = Object.values(elm.links).findIndex((elem) => elem.linkID === linkData.linkID);
+
+            await update(ref(db, `Users/${elm.id}/links/${childIndex}`), {
+              image: linkData.image.startsWith("http") ? linkData.image : "",
+              linkID: linkData.linkID,
+              name: linkData.name,
+              value: linkData.value,
+              shareable: linkData.shareable,
+            });
           }
         });
+
+        await Promise.all(promiseUpdatingLinkToChilds);
+        handleLinkEditModal();
+        toast.success(success);
       }
     }
   } else {
-    if (returnIfHttps(linkData?.image) === false) {
-      console.log("testing........6");
-      let name = new Date().getTime() + id;
+    if (!returnIfHttps(linkData?.image)) {
+      const name = `${new Date().getTime()}_${id}`;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, linkData?.image.slice(23), "base64", {
-        contentType: "image/png",
-      })
-        .then(() => {
-          console.log("img testing");
-          getDownloadURL(storageRef)
-            .then((URL) => {
-              // console.log(URL)
-              if (allLinks) {
-                let index = allLinks?.findIndex((elm) => {
-                  return elm?.linkID === linkData?.linkID;
-                });
 
-                update(ref(db, `Users/${id}/links/${index}`), {
-                  image: URL,
-                  linkID: linkData?.linkID,
-                  name: linkData?.name,
-                  value: linkData?.value,
-                  shareable: linkData?.shareable,
-                }).then(() => {
-                  handleLinkEditModal();
-                  toast.success(success);
-                });
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          // setimg(null)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      if (allLinks) {
-        let index = allLinks?.findIndex((elm) => {
-          return elm?.linkID === linkData?.linkID;
-        });
+      try {
+        await uploadString(storageRef, linkData?.image.slice(23), "base64", { contentType: "image/png" });
+        const URL = await getDownloadURL(storageRef);
 
-        update(ref(db, `Users/${id}/links/${index}`), {
-          image: linkData?.image,
-          linkID: linkData?.linkID,
-          name: linkData?.name,
-          value: linkData?.value,
-          shareable: linkData?.shareable,
-        }).then(() => {
+        if (allLinks) {
+          const index = allLinks.findIndex((elm) => elm.linkID === linkData.linkID);
+
+          await update(ref(db, `Users/${id}/links/${index}`), {
+            image: URL,
+            linkID: linkData.linkID,
+            name: linkData.name,
+            value: linkData.value,
+            shareable: linkData.shareable,
+          });
+
           handleLinkEditModal();
           toast.success(success);
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    } else {
+      if (allLinks) {
+        const index = allLinks.findIndex((elm) => elm.linkID === linkData.linkID);
+
+        await update(ref(db, `Users/${id}/links/${index}`), {
+          image: linkData.image,
+          linkID: linkData.linkID,
+          name: linkData.name,
+          value: linkData.value,
+          shareable: linkData.shareable,
         });
+
+        handleLinkEditModal();
+        toast.success(success);
       }
     }
   }
-
-  // }
 };
+
 
 // ----------------------------------------------------Remove link from database---------------------------------------------
 
-export const renoveLink = (
+export const renoveLink = async (
   linkData,
   id,
   allLinks,
@@ -2054,96 +1797,87 @@ export const renoveLink = (
   ifCompany,
   allChilds
 ) => {
-  // if (linkData?.value) {
   if (ifCompany(id)) {
-    if (allLinks) {
-      let remainingLinks = allLinks?.filter((elm) => {
-        return elm?.linkID != linkData?.linkID;
-      });
-      console.log(remainingLinks);
-      if (remainingLinks?.length === 0) {
-        remove(ref(db, `Users/${id}/links/`)).then(async () => {
-          const removelinkpromise = allChilds?.map((elm) => {
-            if (typeof elm?.links === "object") {
-              let remainingUserLinks = Object.values(elm?.links)?.filter(
-                (elm) => {
-                  return elm?.linkID != linkData?.linkID;
-                }
-              );
-              if (remainingUserLinks?.length === 0) {
-                remove(ref(db, `Users/${elm?.id}/links/`));
-              } else {
-                set(ref(db, `Users/${elm?.id}/links/`), [
-                  ...remainingUserLinks,
-                ]);
-              }
-            }
-          });
+    try {
+      const starCountRef = query(
+        ref(db, "/Users"),
+        orderByChild("parentID"),
+        equalTo(id)
+      );
+      const snapshot = await get(starCountRef);
 
-          try {
-            const deleteUserlinks = await Promise.all(removelinkpromise);
-            console.log("all user link deleted");
-            cb();
-          } catch (error) {
-            console.error("Error updating objects:", error);
-            // toast.error("Error updating objects");
-          }
-
-          // toast.success("Link deleted successfuly");
-        });
-      } else {
-        set(ref(db, `Users/${id}/links/`), [...remainingLinks]).then(
-          async () => {
-            const removelinkpromise = allChilds?.map((elm) => {
-              let remainingUserLinks = Object.values(elm?.links)?.filter(
-                (elm) => {
-                  return elm?.linkID != linkData?.linkID;
-                }
-              );
-              if (remainingUserLinks?.length === 0) {
-                remove(ref(db, `Users/${elm?.id}/links/`));
-              } else {
-                set(ref(db, `Users/${elm?.id}/links/`), [
-                  ...remainingUserLinks,
-                ]);
-              }
-            });
-
-            try {
-              const deleteUserlinks = await Promise.all(removelinkpromise);
-              console.log("all user link deleted");
-              cb();
-            } catch (error) {
-              console.error("Error updating objects:", error);
-              // toast.error("Error updating objects");
-            }
-            // toast.success("Link deleted successfuly");
-          }
-        );
+      if (snapshot.exists()) {
+        const users = snapshot.val();
+        allChilds = Object.keys(users).map((key) => ({
+          id: key,
+          ...users[key],
+        }));
       }
+
+      if (allLinks) {
+        let remainingLinks = allLinks.filter((elm) => elm.linkID !== linkData.linkID);
+        console.log(remainingLinks);
+
+        if (remainingLinks.length === 0) {
+          await remove(ref(db, `Users/${id}/links/`));
+          await Promise.all(
+            allChilds.map(async (elm) => {
+              if (typeof elm.links === "object") {
+                let remainingUserLinks = Object.values(elm.links).filter(
+                  (userElm) => userElm.linkID !== linkData.linkID
+                );
+
+                if (remainingUserLinks.length === 0) {
+                  await remove(ref(db, `Users/${elm.id}/links/`));
+                } else {
+                  await set(ref(db, `Users/${elm.id}/links/`), remainingUserLinks);
+                }
+              }
+            })
+          );
+          console.log("All user links deleted");
+          cb();
+        } else {
+          await set(ref(db, `Users/${id}/links/`), remainingLinks);
+          await Promise.all(
+            allChilds.map(async (elm) => {
+              let remainingUserLinks = Object.values(elm.links).filter(
+                (userElm) => userElm.linkID !== linkData.linkID
+              );
+
+              if (remainingUserLinks.length === 0) {
+                await remove(ref(db, `Users/${elm.id}/links/`));
+              } else {
+                await set(ref(db, `Users/${elm.id}/links/`), remainingUserLinks);
+              }
+            })
+          );
+          console.log("All user links updated");
+          cb();
+        }
+      }
+    } catch (error) {
+      console.error("Error updating objects:", error);
+      // toast.error("Error updating objects");
     }
   } else {
     if (allLinks) {
-      let remainingLinks = allLinks?.filter((elm) => {
-        return elm?.linkID != linkData?.linkID;
-      });
+      let remainingLinks = allLinks.filter((elm) => elm.linkID !== linkData.linkID);
       console.log(remainingLinks);
-      if (remainingLinks?.length === 0) {
-        remove(ref(db, `Users/${id}/links/`)).then(() => {
-          cb();
-          // toast.success("Link deleted successfuly");
-        });
+
+      if (remainingLinks.length === 0) {
+        await remove(ref(db, `Users/${id}/links/`));
+        cb();
+        // toast.success("Link deleted successfully");
       } else {
-        set(ref(db, `Users/${id}/links/`), [...remainingLinks]).then(() => {
-          cb();
-          // toast.success("Link deleted successfuly");
-        });
+        await set(ref(db, `Users/${id}/links/`), remainingLinks);
+        cb();
+        // toast.success("Link deleted successfully");
       }
     }
   }
-
-  // }
 };
+
 
 // ----------------------------------------------------Remove link from database---------------------------------------------
 export const removeImage = (id, allImages, imgData, cb) => {
