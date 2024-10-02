@@ -347,6 +347,11 @@ const About = ({ uid, handleCancelAbout }) => {
   const handleDeleteModal = () => {
     setdeleteModal(!deleteModal);
   };
+  let [saveModal, setSaveModal] = useState(false);
+
+  const handleSaveModal = () => {
+    setSaveModal(!saveModal);
+  };
 
   return (
     <div className="w-[90%] h-[90%] overflow-y-scroll scroll-area">
@@ -403,6 +408,15 @@ const About = ({ uid, handleCancelAbout }) => {
         text="Are you sure to remove pro version"
         func={() => removeSubscription(uid, handleDeleteModal)}
       />
+      <DeleteModal
+      deleteModal={saveModal}
+      handledeleteModal={handleSaveModal} 
+      text="Are you sure you want to save the changes?"
+      func={() => {
+        updataAbout(uid, data, t);  // Fixed typo from "updata" to "update"
+        getSingleChild(companyId, getCompanyData);
+      }}
+    />
 
       <SocialLinkModal modal={modal} handleClose={handleModal} uid={uid} />
       <div className="w-[100%] flex justify-between ">
@@ -1041,8 +1055,7 @@ const About = ({ uid, handleCancelAbout }) => {
             <button
               className="w-[120px] h-[40px] border rounded-[16px] bg-[#000000] text-[12px] font-[600] text-white"
               onClick={() => {
-                updataAbout(uid, data, t),
-                  getSingleChild(companyId, getCompanyData);
+                handleSaveModal()
               }}
             >
               {t("Update")}

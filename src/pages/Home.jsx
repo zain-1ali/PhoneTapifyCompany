@@ -80,7 +80,7 @@ const Home = () => {
   let [loading, setloading] = useState(false);
   let handleModal = () => {
     console.log("add");
-    if (conexParent !== "superAdmin" && companyTags.length == 0) {
+    if (modal == false && conexParent !== "superAdmin" && companyTags.length == 0) {
       window.open("https://buy.stripe.com/cN2fZqfcM05t5McbIM", "_blank");
       // toast.error('You have reached the max limit of your profiles. Please buy more tags.');
     }
