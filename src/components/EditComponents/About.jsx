@@ -320,6 +320,14 @@ const About = ({ uid, handleCancelAbout }) => {
     setsubscribeModal(!subscribeModal);
   };
 
+  const appendBucketPath = (path) => {
+    if (path.startsWith("gs://")) {
+      const filterUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      return `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${encodeURIComponent(filterUrl)}?alt=media`;
+    } 
+    return path; // Return the same path if it doesn't start with "gs://"
+  };
+
   // console.log(subscription);
 
   // convert time stamp to readable date
@@ -859,7 +867,7 @@ const About = ({ uid, handleCancelAbout }) => {
                   }}
                 />
                 <img
-                  src={logo ? logo : organizationLogo}
+                  src={logo ? appendBucketPath(logo) : organizationLogo}
                   alt=""
                   className="max-h-[100%] max-w-[100%] "
                 />
@@ -906,7 +914,7 @@ const About = ({ uid, handleCancelAbout }) => {
                   }}
                 />
                 <img
-                  src={profile ? profile : organizationProfile}
+                  src={profile ? appendBucketPath(profile) : organizationProfile}
                   alt=""
                   className="h-[100%] w-[100%] object-cover"
                 />
@@ -952,7 +960,7 @@ const About = ({ uid, handleCancelAbout }) => {
                   }}
                 />
                 <img
-                  src={cover ? cover : organizationCover}
+                  src={cover ? appendBucketPath(cover) : organizationCover}
                   alt=""
                   className="h-[100%] w-[100%] object-cover rounded-[36px]"
                 />

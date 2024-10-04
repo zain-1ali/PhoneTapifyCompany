@@ -80,24 +80,24 @@ const Lead = ({ uid }) => {
     },
   }));
   let dispatch = useDispatch();
-  const formHeader = useSelector((state) => state.profileInfoSlice.formHeader);
+  const formHeader = useSelector((state) => state.profileInfoSlice.formHeader) ?? "Join Network";
 
   const nameVisible = useSelector(
     (state) => state.profileInfoSlice.nameVisible
-  );
+  ) ?? true;
   const emailVisible = useSelector(
     (state) => state.profileInfoSlice.emailVisible
-  );
+  ) ?? true;
   const companyVisible = useSelector(
     (state) => state.profileInfoSlice.companyVisible
-  );
-  const jobVisible = useSelector((state) => state.profileInfoSlice.jobVisible);
+  ) ?? true;
+  const jobVisible = useSelector((state) => state.profileInfoSlice.jobVisible) ?? true;
   const noteVisible = useSelector(
     (state) => state.profileInfoSlice.noteVisible
-  );
+  ) ?? true;
   const phoneVisible = useSelector(
     (state) => state.profileInfoSlice.phoneVisible
-  );
+  ) ?? true;
 
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
 

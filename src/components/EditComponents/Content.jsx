@@ -139,8 +139,8 @@ const Content = ({ uid }) => {
   const appendBucketPath = (path) => {
     let url = "";
     if (path !== "") {
-      const filterUrl = path?.replace("gs://connexcard-8ad69.appspot.com/", "");
-      url = `https://firebasestorage.googleapis.com/v0/b/connexcard-8ad69.appspot.com/o/${filterUrl}?alt=media`;
+      const filterUrl = path?.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filterUrl}?alt=media`;
     }
     return url;
   };
@@ -311,9 +311,7 @@ const Content = ({ uid }) => {
                             <div className="w-[100%] flex flex-col justify-center items-center mt-4">
                               <img
                                 src={
-                                  elm?.image
-                                    ? elm?.image
-                                    : returnIcons(elm?.linkID)
+                                  returnIcons(elm?.linkID)
                                 }
                                 alt=""
                                 className="h-[45px] w-[45px] object-cover"
@@ -380,9 +378,7 @@ const Content = ({ uid }) => {
                                       <div className="w-[100%] flex flex-col justify-center items-center mt-4">
                                         <img
                                           src={
-                                            elm?.image
-                                              ? elm?.image
-                                              : returnIcons(elm?.linkID)
+                                            returnIcons(elm?.linkID)
                                           }
                                           style={{
                                             borderRadius: elm?.image

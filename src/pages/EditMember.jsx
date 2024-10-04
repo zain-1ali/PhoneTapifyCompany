@@ -238,6 +238,15 @@ const EditMember = () => {
     setshareModal(!shareModal);
   };
   const { t } = useTranslation();
+
+  const appendBucketPath = (path) => {
+    if (path.startsWith("gs://")) {
+      const filterUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      return `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${encodeURIComponent(filterUrl)}?alt=media`;
+    } 
+    return path; // Return the same path if it doesn't start with "gs://"
+  };
+
   return (
     <div
       className="w-[100%] flex bg-[#F8F8F8] h-[100vh] max-h-[100vh]"
@@ -259,7 +268,7 @@ const EditMember = () => {
               />
               <div className="bg-[#B1AEAE] h-[20px] w-[2px]"></div>
               <img
-                src={profile ? profile : prsnPlshldr}
+                src={profile ? appendBucketPath(profile) : prsnPlshldr}
                 alt=""
                 className="sm:h-[65px] sm:w-[65px] h-[55px] w-[55px] rounded-full object-cover"
               />

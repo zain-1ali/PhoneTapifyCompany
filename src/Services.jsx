@@ -48,30 +48,40 @@ const getOneYearAfterTimestampInSeconds = () => {
 
 // ------------------------------------------------Login User-----------------------------------------------
 
-export const handleLogin = (data, navigate) => {
+export const handleLogin = async (data, navigate) => {
   console.log(4)
   if (data?.email && data?.password) {
-    console.log(1)
-    const starCountRef = ref(db, `/Admin`);
-    console.log(starCountRef);
-    onValue(starCountRef, async (snapshot) => {
-      const admin = await snapshot.val();
-      console.log(admin)
-      if (data?.email === admin?.email && data?.password === admin?.password) {
-        console.log(2)
-        localStorage.setItem("connexUid", "superAdmin");
-        localStorage.setItem("conexParent", "superAdmin");
-        navigate("/home");
-        window.location.reload();
-      } 
-      else {
+    // console.log(1)
+    // const starCountRef = ref(db, `/Admin`);
+    // console.log(starCountRef);
+    // onValue(starCountRef, async (snapshot) => {
+    //   const admin = await snapshot.val();
+    //   console.log(admin)
+    //   if (data?.email === admin?.email && data?.password === admin?.password) {
+    //     console.log(2)
+    //     localStorage.setItem("connexUid", "superAdmin");
+    //     localStorage.setItem("conexParent", "superAdmin");
+    //     navigate("/home");
+    //     window.location.reload();
+    //   } 
+    //   else {
         console.log(3)
         signInWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
+           
+            const user =  userCredential.user;
             console.log("user", user);
             if (user) {
+
+              if (data?.email === "admin@phonetapify.com") {
+                    console.log(2)
+                    localStorage.setItem("connexUid", "superAdmin");
+                    localStorage.setItem("conexParent", "superAdmin");
+                    navigate("/home");
+                    window.location.reload();
+                  } 
+                  else {
+
               const starCountRef = query(
                 ref(db, "/Users"),
                 orderByChild("id"),
@@ -81,13 +91,8 @@ export const handleLogin = (data, navigate) => {
                 const data = await snapshot.val();
                 console.log("data", data);
                 let dataArray = Object.values(data)?.[0];
-                // console.log(dataArray);
-                // if (!dataArray?.isActiveCompany) {
-                //   toast.warn("Pro version is not active");
-                //   return;
-                // } else {
+             
                   localStorage.setItem("proStatus", dataArray?.isActiveCompany);
-                // }
                 if (dataArray?.isAdmin === true) {
                   localStorage.setItem("connexUid", user?.uid);
                   localStorage.setItem("conexParent", dataArray?.parentID);
@@ -96,47 +101,13 @@ export const handleLogin = (data, navigate) => {
                 } else {
                   toast.warn("Access Denied!");
                 }
-                // console.log(data);
-                // console.log("testing data");
+               
                 MediaKeyStatusMap;
-                // setmylist(Object.values(data));
-
-                // setfiltered(Object.values(data));
-
-                // updateStarCount(postElement, data);
+        
               });
             }
-
-            //   const starCountRef = ref(db, `/User/${user?.uid}`);
-            //   onValue(starCountRef, async (snapshot) => {
-            //     const data = await snapshot.val();
-            //     if (data?.parentId) {
-            //       const starCountRef2 = ref(db, `/User/${data?.parentId}`);
-            //       onValue(starCountRef2, async (thesnapshot) => {
-            //         const parentdata = await thesnapshot.val();
-
-            //         if (parentdata?.allowTeamLogin === true) {
-            //           localStorage.setItem("tapNowUid", user.uid);
-            //           navigate("/home");
-            //           toast.success("Login Sucessfuly");
-            //           window.location.reload(true);
-            //         } else {
-            //           toast.warning("Access Denied!");
-            //         }
-            //       });
-            //     } else {
-            //       localStorage.setItem("tapNowUid", user.uid);
-            //       toast.success("Login Sucessfuly");
-            //       navigate("/home");
-            //       window.location.reload(true);
-            //     }
-            //   });
-
-            // toast.success('Login Sucessfuly')
-
-            // navigate('/home')
-
-            // ...
+          }
+     
           })
           .catch((error) => {
             console.log(error.message);
@@ -154,12 +125,13 @@ export const handleLogin = (data, navigate) => {
               toast.error("Invalid Crendetials !");
             }
           });
-      }
-    });
+      // }
+    // });
   } else {
     toast.error("Email and password should not be empty!");
   }
 };
+
 
 // ------------------------------------------------Forget Password-----------------------------------------------
 
@@ -920,6 +892,7 @@ let returnIfHttps = (string) => {
   if (string != "" && string) {
     if (
       (string?.slice(0, 4) === "http") |
+      (string?.slice(0, 3) === "gs:") |
       (string?.slice(0, 4) === "/src") |
       (string?.slice(0, 7) === "/assets") |
       (string?.slice(0, 15) === "gs://connexcard")
@@ -1496,7 +1469,7 @@ export const addFeaturedImg = (
       return elm?.id === imgData?.id;
     });
     if (returnIfHttps(imgData?.image) === false) {
-      let name = `gs://connexcard-8ad69.appspot.com/image${returnImgNum(
+      let name = `gs://phonetapify-c6c06.appspot.com/image${returnImgNum(
         imgData?.id
       )}:${id}.png`;
       const storageRef = sRef(storage, name);
@@ -1534,7 +1507,7 @@ export const addFeaturedImg = (
     }
   } else {
     if (returnIfHttps(imgData.image) === false) {
-      let name = `gs://connexcard-8ad69.appspot.com/image${returnImgNum(
+      let name = `gs://phonetapify-c6c06.appspot.com/image${returnImgNum(
         imgData?.id
       )}:${id}.png`;
       const storageRef = sRef(storage, name);
@@ -1586,7 +1559,7 @@ export const addFeaturedVideo = (
       return elm?.id === videoData?.id;
     });
     if (returnIfHttps(videoData?.video) === false) {
-      let name = `gs://connexcard-8ad69.appspot.com/video:${id}.mp4`;
+      let name = `gs://phonetapify-c6c06.appspot.com/video:${id}.mp4`;
       const storageRef = sRef(storage, name);
       uploadBytesResumable(storageRef, videoData?.video).then(() => {
         update(ref(db, `Users/${id}/featuredVideos/${index}`), {
@@ -1622,7 +1595,7 @@ export const addFeaturedVideo = (
     }
   } else {
     if (returnIfHttps(videoData.video) === false) {
-      let name = `gs://connexcard-8ad69.appspot.com/video:${id}.mp4`;
+      let name = `gs://phonetapify-c6c06.appspot.com/video:${id}.mp4`;
       const storageRef = sRef(storage, name);
       uploadBytesResumable(storageRef, videoData?.video).then(() => {
         set(ref(db, `Users/${id}/featuredVideos/`), [

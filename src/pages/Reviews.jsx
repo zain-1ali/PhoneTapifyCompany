@@ -186,8 +186,8 @@ const Reviews = () => {
   const appendBucketPath = (path) => {
     let url = "";
     if (path !== "") {
-      const filterUrl = path?.replace("gs://connexcard-8ad69.appspot.com/", "");
-      url = `https://firebasestorage.googleapis.com/v0/b/connexcard-8ad69.appspot.com/o/${filterUrl}?alt=media`;
+      const filterUrl = path?.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filterUrl}?alt=media`;
     }
     return url;
   };

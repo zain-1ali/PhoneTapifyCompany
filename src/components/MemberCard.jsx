@@ -74,6 +74,15 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let callback = () => {
     updateChildList();
   };
+
+  const appendBucketPath = (path) => {
+    if (path.startsWith("gs://")) {
+      const filterUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      return `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${encodeURIComponent(filterUrl)}?alt=media`;
+    } 
+    return path; // Return the same path if it doesn't start with "gs://"
+  };
+  
   let conexParent = localStorage.getItem("conexParent");
   const { t } = useTranslation();
   return (
@@ -109,8 +118,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
       <div className="rounded-t-3xl h-[154px]  w-[100%] relative ">
         <img
           src={
-            profile?.logoUrl
-              ? profile?.logoUrl
+            appendBucketPath(profile?.logoUrl)
+              ? appendBucketPath(profile?.logoUrl)
               : companyProfile?.logoUrl
                 ? companyProfile?.logoUrl
                 : lgoplchldr
@@ -123,8 +132,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
           <div className="h-[85px] w-[85px] relative">
             <img
               src={
-                profile?.profileUrl
-                  ? profile?.profileUrl
+                appendBucketPath(profile?.profileUrl)
+                  ? appendBucketPath(profile?.profileUrl)
                   : companyProfile?.profileUrl
                     ? companyProfile?.profileUrl
                     : prsnPlshldr
@@ -136,8 +145,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
         </div>
         <img
           src={
-            profile?.coverUrl
-              ? profile?.coverUrl
+            appendBucketPath(profile?.coverUrl)
+              ? appendBucketPath(profile?.coverUrl)
               : companyProfile?.coverUrl
                 ? companyProfile?.coverUrl
                 : bgplhldr

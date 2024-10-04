@@ -35,24 +35,24 @@ const Mobile = ({
   const address = useSelector((state) => state.profileInfoSlice.address);
   const bio = useSelector((state) => state.profileInfoSlice.bio);
   const links = useSelector((state) => state.profileInfoSlice.links);
-  const formHeader = useSelector((state) => state.profileInfoSlice.formHeader);
+  const formHeader = useSelector((state) => state.profileInfoSlice.formHeader) ?? "Join Network";
 
   const nameVisible = useSelector(
     (state) => state.profileInfoSlice.nameVisible
-  );
+  ) ?? true;
   const emailVisible = useSelector(
     (state) => state.profileInfoSlice.emailVisible
-  );
+  ) ?? true;
   const companyVisible = useSelector(
     (state) => state.profileInfoSlice.companyVisible
-  );
-  const jobVisible = useSelector((state) => state.profileInfoSlice.jobVisible);
+  ) ?? true;
+  const jobVisible = useSelector((state) => state.profileInfoSlice.jobVisible) ?? true;
   const noteVisible = useSelector(
     (state) => state.profileInfoSlice.noteVisible
-  );
+  ) ?? true;
   const phoneVisible = useSelector(
     (state) => state.profileInfoSlice.phoneVisible
-  );
+  ) ?? true;
 
   const leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
   let darkTheme = useSelector((state) => state.profileInfoSlice.darkTheme);
@@ -111,12 +111,11 @@ const Mobile = ({
 
   // console.log(featuredImages);
   const appendBucketPath = (path) => {
-    let url = "";
-    if (path !== "") {
-      const filterUrl = path?.replace("gs://connexcard-8ad69.appspot.com/", "");
-      url = `https://firebasestorage.googleapis.com/v0/b/connexcard-8ad69.appspot.com/o/${filterUrl}?alt=media`;
-    }
-    return url;
+    if (path.startsWith("gs://")) {
+      const filterUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      return `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${encodeURIComponent(filterUrl)}?alt=media`;
+    } 
+    return path; // Return the same path if it doesn't start with "gs://"
   };
 
   let [companyId, setCompanyId] = useState("");
@@ -153,7 +152,6 @@ const Mobile = ({
     return web;
   };
 
-  // console.log(companyProfile);
 
   // csonsole.log(textColor);
 
@@ -261,7 +259,7 @@ const Mobile = ({
         {!profilePictureLock ? (
           <img
             src={
-              profile ? profile : organizationProfile ? organizationProfile : bgplhldr
+              profile ? appendBucketPath(profile) : organizationProfile ? organizationProfile : bgplhldr
             }
             alt=""
             className="w-[100%] h-[200px] object-cover"
@@ -287,7 +285,7 @@ const Mobile = ({
             <img
               className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
               alt=""
-              src={logo ? logo : organizationLogo ? organizationLogo : lgoplchldr}
+              src={logo ? appendBucketPath(logo) : organizationLogo ? organizationLogo : lgoplchldr}
             />
           ) : (
             <img
@@ -367,7 +365,7 @@ const Mobile = ({
                 }}
               >
                 <img
-                  src={elm?.image ? elm?.image : returnIcons(elm?.linkID)}
+                  src={returnIcons(elm?.linkID)}
                   alt=""
                   className="h-[35px] w-[35px]"
                   style={{ borderRadius: elm?.image ? "8px" : "0px" }}
@@ -385,9 +383,7 @@ const Mobile = ({
               <div className="w-[35px] h-[50px] flex flex-col items-center ">
                 <img
                   src={
-                    linkInfo?.image
-                      ? linkInfo?.image
-                      : returnIcons(linkInfo?.linkID)
+                    returnIcons(linkInfo?.linkID)
                   }
                   alt=""
                   className=" rounded-lg object-cover min-h-[35px] min-w-[35px] max-h-[35px] max-w-[35px]"
