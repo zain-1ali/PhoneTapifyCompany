@@ -109,7 +109,7 @@ const Mobile = ({
     (state) => state.profileInfoSlice.featuredVideos
   );
 
-  // console.log(featuredImages);
+  // console.log(profilePictureLock);
   const appendBucketPath = (path) => {
     if (path.startsWith("gs://")) {
       const filterUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
@@ -262,13 +262,13 @@ const Mobile = ({
               profile ? appendBucketPath(profile) : organizationProfile ? organizationProfile : bgplhldr
             }
             alt=""
-            className="w-[100%] h-[200px] object-cover"
+            className="w-[100%] h-[200px] object-cover 2"
           />
         ) : (
           <img
-            src={bgplhldr}
+            src={profile ? appendBucketPath(profile) : bgplhldr}
             alt=""
-            className="w-[100%] h-[200px] object-cover"
+            className="w-[100%] h-[200px] object-cover 1"
           />
         )}
 
@@ -365,7 +365,13 @@ const Mobile = ({
                 }}
               >
                 <img
-                  src={returnIcons(elm?.linkID)}
+                   src={
+                    elm?.image
+                      ? elm?.image.startsWith("gs://")
+                        ?  appendBucketPath(elm?.image) 
+                        : elm?.image.startsWith("https://") ? elm?.image : returnIcons(elm?.linkID)
+                      : returnIcons(elm?.linkID) 
+                  }
                   alt=""
                   className="h-[35px] w-[35px]"
                   style={{ borderRadius: elm?.image ? "8px" : "0px" }}
@@ -403,11 +409,11 @@ const Mobile = ({
           {ifAdded === false && linkInfo?.name && (
             <div className="w-[35px] h-[50px] flex flex-col items-center ">
               <img
-                src={
-                  linkInfo?.image
-                    ? linkInfo?.image
-                    : returnIcons(linkInfo?.linkID)
-                }
+               src={
+                linkInfo?.image
+                  ? linkInfo.image 
+                  : returnIcons(linkInfo?.linkID) 
+              }
                 alt=""
                 className="min-h-[35px] min-w-[35px] max-h-[35px] max-w-[35px] rounded-lg object-cover"
               />
