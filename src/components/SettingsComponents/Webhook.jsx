@@ -1,0 +1,100 @@
+import React, { useEffect, useState } from "react";
+import {
+  getSingleChild,
+} from "../../Services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
+import { IoIosCopy } from "react-icons/io";
+
+const Webhook = ({ uid }) => {
+  let [email, setEmail] = useState("");
+  let [crntParent, setCrntParent] = useState({});  
+  useEffect(() => {
+   getSingleChild(uid, setCrntParent);
+  }, []);
+
+  let baseUrl = import.meta.env.VITE_APP_API_URL;
+  let webhookUrl = baseUrl+"connections";
+  let apiKey = Object.values(crntParent)?.[0]?.apiKey ?? "";
+
+  const { t } = useTranslation();
+  return (
+    <div className="w-[100%]  mt-7 flex flex-col">
+      <div className="sm:w-[700px] w-[100%] ml-[20px]">
+       
+       
+
+        <div className="mt-7">
+          <h2 className="font-[600] sm:text-[20px] text-[16px] text-[#625F5F]">
+            {t("Webhook Configuration")}
+          </h2>
+          <p className="font-[400] sm:text-[14px] text-[14px] text-[#707070]">
+            {t(
+              "Copy the details given below to use in webhook."
+            )}
+          </p>
+        </div>
+<br />
+        <div className="w-[100%] mt-5 flex items-end justify-end">
+          <div className="w-[90%] ">
+            <h2 className="font-[600] text-[14px] ml-2">{t("Webhook URL")}</h2>
+            <input
+              type="text"
+              className="w-[99%] pl-[4%] h-[46px] outline-none bg-white rounded-[36px] mt-1"
+              onChange={(e) => setEmail(e.target.value)}
+              value={webhookUrl}
+              disabled={true}
+            />
+          </div>
+          <div
+            className="sm:w-[160px] w-[8%] sm:h-[47px] h-[37px]  shadow-lg rounded-[36px] bg-white flex justify-center items-center cursor-pointer"
+            onClick={() => {
+              navigator.clipboard.writeText(webhookUrl),
+                toast.success("Copied to clipboard");
+            }}
+          >
+            <p className="font-[500] text-[16px] mr-1">{t("Copy")}</p>
+            <IoIosCopy className="ml-1" />
+          </div>
+        </div>
+
+        <div className="w-[100%] mt-5 flex items-end justify-end">
+          <div className="w-[90%] ">
+            <h2 className="font-[600] text-[14px] ml-2">{t("Api Key")}</h2>
+            <input
+              type="text"
+              className="w-[99%] pl-[4%] h-[46px] outline-none bg-white rounded-[36px] mt-1"
+              onChange={(e) => setEmail(e.target.value)}
+              value={apiKey}
+              disabled={true}
+            />
+          </div>
+          <div
+            className="sm:w-[160px] w-[8%] sm:h-[47px] h-[37px]  shadow-lg rounded-[36px] bg-white flex justify-center items-center cursor-pointer"
+            onClick={() => {
+              navigator.clipboard.writeText(apiKey),
+                toast.success("Copied to clipboard");
+            }}
+          >
+            <p className="font-[500] text-[16px] mr-1">{t("Copy")}</p>
+            <IoIosCopy className="ml-1" />
+          </div>
+        </div>
+
+        <ToastContainer
+          position="bottom-left"
+          autoClose={1000}
+          theme="colored"
+          hideProgressBar
+        />
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
+    </div>
+  );
+};
+
+export default Webhook;

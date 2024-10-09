@@ -6,6 +6,7 @@ import AccountSettings from "../components/SettingsComponents/AccountSettings";
 import AccountLinks from "../components/SettingsComponents/AccountLinks";
 import Organization from "../components/SettingsComponents/Organization";
 import CompanyProfile from "../components/SettingsComponents/CompanyProfile";
+import Webhook from "../components/SettingsComponents/Webhook";
 import NavbarFooter from "./NavbarFooter";
 import { getSingleChild } from "../Services";
 import { useDispatch } from "react-redux";
@@ -311,6 +312,17 @@ const Company = () => {
                   : {}),
               }}
             />
+            {/* <Tab
+              label={t("WEBHOOK")}
+              sx={{
+                fontSize: "16px",
+                fontWeight: "600",
+
+                ...(screen <= 450
+                  ? { width: "50px", whiteSpace: "nowrap", fontSize: "8px" }
+                  : {}),
+              }}
+            /> */}
           </CustomTabs>
           <Tabpanel value={value} index={0}>
             {companyProfile && (
@@ -327,6 +339,9 @@ const Company = () => {
           <Tabpanel value={value} index={3}>
             <CompanyProfile uid={companyId} />
           </Tabpanel>
+          {/* <Tabpanel value={value} index={4}>
+            <Webhook uid={companyId} />
+          </Tabpanel> */}
         </div>
       </div>
       {screen <= 450 ? <NavbarFooter /> : null}

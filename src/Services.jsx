@@ -213,349 +213,373 @@ export const removeSubscription = (id, cb) => {
   });
 };
 
+// ----------------------------------------- generate unique api key -----------------------------------------------
+const generateRandomKey = () => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  const length = 50; // Desired length of the key
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+};
+
+// Function to check if the key already exists in Firebase
+const checkKeyExistsInFirebase = async (key) => {
+  const usersRef = ref(db, 'Users');
+  const snapshot = await get(usersRef);
+
+  if (snapshot.exists()) {
+    const users = snapshot.val();
+    // Loop through users to see if the apiKey already exists
+    for (let userId in users) {
+      if (users[userId].apiKey === key) {
+        return true; // Key exists
+      }
+    }
+  }
+  return false; // Key does not exist
+};
+
+// Function to generate a unique key
+const generateUniqueKey = async () => {
+  let uniqueKey;
+  let keyExists = true;
+
+  // Keep generating a key until a unique one is found
+  while (keyExists) {
+    uniqueKey = generateRandomKey(); // Generate a random key
+    keyExists = await checkKeyExistsInFirebase(uniqueKey); // Check if it exists in Firebase
+  }
+
+  return uniqueKey; // Return the unique key
+};
 // ------------------------------------------------Create new card-----------------------------------------------
 
 export const createNewCard = async (data, callBack, companyProfile) => {
-  // console.log(data)
-  // return;
-  // checking if super admin creating company or company admin creating employee ( need tag while creating employee )
-  if (data.name && data.email && data.password && data.tagId ) {
-    await createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
+  if (data.name && data.email && data.password && data.tagId) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      const user = userCredential.user;
 
+      // Generate a unique API key
+      const newApiKey = await generateUniqueKey();
+      console.log("Generated API key:", newApiKey);
 
-        let cnxId = localStorage.getItem("connexUid");
-        let conexParent = localStorage.getItem("conexParent");
-        if (conexParent != "superAdmin") {
-          const companyLinks =
-            typeof companyProfile?.links === "object"
-              ? Object.values(companyProfile?.links)
-              : null;
+      let cnxId = localStorage.getItem("connexUid");
+      let conexParent = localStorage.getItem("conexParent");
+      if (conexParent != "superAdmin") {
+        const companyLinks =
+          typeof companyProfile?.links === "object"
+            ? Object.values(companyProfile?.links)
+            : null;
 
-          // get tag and find type
-          let tagType = "Digital Card";
-          let tag = ref(db, `Tag/${data.tagId}`);
-          onValue(tag, (snapshot) => {
-            const tagData = snapshot.val();
-            // console.log(tagData)
-            if (tagData) {
-              // console.log(tagData);
-              tagType = tagData.type ?? "Digital Card";
-            }
-          });
-          // console.log(tagType);
-          // return;
-          let newAccountData = {
-            platform: "web",
-            address: "",
-            backgroundColor: "#3fb621",
-            bio: "",
-            city: "",
-            coverUrl: "",
-            darkTheme: "0",
-            directMode: false,
-            dob: "",
-            email: data.email,
-            fcmToken: "",
-            gender: "",
-            id: user.uid,
-            accountID: user.uid,
-            isActivateTag: false,
-            isCover: false,
-            isCustomLink: false,
-            isDeleted: false,
-            isEmail: true,
-            isFirstLink: false,
-            isProVersion: false,
-            isProfile: false,
-            isProfilePhoto: false,
-            isReqByMe: false,
-            isReqByOther: false,
-            isShareProfile: false,
-            isSubscribe: false,
-            job: "",
-            language: "en",
-            logoUrl: "",
-            name: data?.name,
-            parentID: cnxId,
-            parentId: "",
-            phone: "",
-            profileOn: 1,
-            profileUrl: "",
-            socialTextColor: "#FF000000",
-            title: "",
-            totalViews: 0,
-            username: data?.name + randNum(),
-            workPlace: "",
-            formHeader: "Contact me!",
-            leadForm: {
-              Fname: true,
-              company: true,
-              email: true,
-              job: true,
-              note: true,
-              phone: true,
-            },
-            isAdmin: false,
-            companyId: cnxId,
-            isCompany: false,
-            qrLogoUrl: "",
-            qrColor: "#000000",
-            leadMode: false,
-            textColor: "",
-            profilePictureLock: false,
-            logoLock: false,
-            nameLock: false,
-            phoneLock: false,
-            bioLock: false,
-            locationLock: false,
-            coverLock: false,
-            subscribed: false,
-            profileType: tagType,
-          };
-          if (companyLinks) {
-            newAccountData.links = companyLinks;
+        // get tag and find type
+        let tagType = "Digital Card";
+        let tag = ref(db, `Tag/${data.tagId}`);
+        onValue(tag, (snapshot) => {
+          const tagData = snapshot.val();
+          if (tagData) {
+            tagType = tagData.type ?? "Digital Card";
           }
-          if (tagType === "Open House") {
-            newAccountData.openHouseDetail = {
-              listingAddress: "",
-              askingPrice: "",
-              beds: "",
-              offer: 0,
-              offerScript: "",
-              questionScript: "",
-            };
-            newAccountData.botScript = "";
-            // newAccountData.profileType = "Open House";
-          }
-          if (tagType === "Google Review") {
-            newAccountData.reviewDetail = {
-              reviewLink: "",
-              businessPageLink: "",
-              businessAddress: "",
-              businessName: "",
-              phoneNum: "",
-              email: "",
-            };
-            newAccountData.reviewType = "direct";
-            // newAccountData.profileType = "Google Review";
-          }
-          if (tagType === "Office Assist") {
-            newAccountData.callActionDetail = [
-              { type: "url", value: "", title: "Ask Question" },
-              { type: "url", value: "", title: "Enter Giveaway" },
-              { type: "url", value: "", title: "Register Event" },
-              { type: "url", value: "", title: "Give Us Feedback" },
-            ];
-            newAccountData.submitReq = {
-              type: "url",
-              value: "",
-            };
-            newAccountData.activeCallAction = "Ask Question";
-            newAccountData.botScript = "";
-            // newAccountData.profileType = "Office Assist";
-          }
-          
-          update(
-            ref(db, `Users/${user.uid}`),
-            newAccountData
-          ).then(() => {
-            // update tag and assign profileID of created account 
-            update(
-              ref(db, `Tag/${data.tagId}`),
-              {
-                profileID: user.uid,
-                status : true,
-              }
-            );
+        });
 
-            axios
-              .post(`${baseUrl}createAccount`, {
-                companyId: cnxId,
-                email: data?.email,
-                password: data?.password,
-                pkgStartDate: data?.firstDate ?? "N/A",
-                pkgExpDate: data?.secondDate ?? "N/A",
-                token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
-              })
-              .then((res) => {
-                // console.log("the response", res);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-            toast.success("New user created sucessfuly");
-            handleTeamModal();
-          });
-        } else {
-          // if ((!data?.firstDate, !data?.secondDate)) {
-          //   toast.error("Dates are required");
-          //   return;
-          // }
+        let newAccountData = {
+          platform: "web",
+          address: "",
+          backgroundColor: "#3fb621",
+          bio: "",
+          city: "",
+          coverUrl: "",
+          darkTheme: "0",
+          directMode: false,
+          dob: "",
+          email: data.email,
+          fcmToken: "",
+          gender: "",
+          apiKey: newApiKey,
+          id: user.uid,
+          accountID: user.uid,
+          isActivateTag: false,
+          isCover: false,
+          isCustomLink: false,
+          isDeleted: false,
+          isEmail: true,
+          isFirstLink: false,
+          isProVersion: false,
+          isProfile: false,
+          isProfilePhoto: false,
+          isReqByMe: false,
+          isReqByOther: false,
+          isShareProfile: false,
+          isSubscribe: false,
+          job: "",
+          language: "en",
+          logoUrl: "",
+          name: data?.name,
+          parentID: cnxId,
+          parentId: "",
+          phone: "",
+          profileOn: 1,
+          profileUrl: "",
+          socialTextColor: "#FF000000",
+          title: "",
+          totalViews: 0,
+          username: data?.name + randNum(),
+          workPlace: "",
+          formHeader: "Contact me!",
+          leadForm: {
+            Fname: true,
+            company: true,
+            email: true,
+            job: true,
+            note: true,
+            phone: true,
+          },
+          isAdmin: false,
+          companyId: cnxId,
+          isCompany: false,
+          qrLogoUrl: "",
+          qrColor: "#000000",
+          leadMode: false,
+          textColor: "",
+          profilePictureLock: false,
+          logoLock: false,
+          nameLock: false,
+          phoneLock: false,
+          bioLock: false,
+          locationLock: false,
+          coverLock: false,
+          subscribed: false,
+          profileType: tagType,
+        };
 
-          let tagType = "Digital Card";
-          let tag = ref(db, `Tag/${data.tagId}`);
-          onValue(tag, (snapshot) => {
-            const tagData = snapshot.val();
-            // console.log(tagData)
-            if (tagData) {
-              // console.log(tagData);
-              tagType = tagData.type ?? "Digital Card";
-            }
-          });
-          let newAccountData = {
-            platform: "web",
-            address: "",
-            backgroundColor: "#000000",
-            bio: "",
-            city: "",
-            color: "#000000",
-            coverUrl: "",
-            darkTheme: "0",
-            directMode: false,
-            dob: "",
-            email: data.email,
-            fcmToken: "",
-            gender: "",
-            id: user.uid,
-            isActivateTag: false,
-            isCover: false,
-            isCustomLink: false,
-            isDeleted: false,
-            isEmail: true,
-            isFirstLink: false,
-            isProVersion: true,
-            isProfile: false,
-            isProfilePhoto: false,
-            isReqByMe: false,
-            isReqByOther: false,
-            isShareProfile: false,
-            isSubscribe: false,
-            job: "",
-            language: "en",
-            logoUrl: "",
-            name: data?.name,
-            parentID: "",
-            parentId: "",
-            phone: "",
-            profileOn: 1,
-            profileUrl: "",
-            socialTextColor: "#FF000000",
-            title: "",
-            totalViews: 0,
-            username: data?.name + randNum(),
-            website: "",
-            workPlace: "",
-            formHeader: "Contact me!",
-            leadForm: {
-              Fname: true,
-              company: true,
-              email: true,
-              job: true,
-              note: true,
-              phone: true,
-            },
-            isAdmin: true,
-            companyId: user.uid,
-            isCompany: true,
-            qrLogoUrl: "",
-            qrColor: "#000000",
-            leadMode: false,
-            profilePictureLock: false,
-            logoLock: false,
-            nameLock: false,
-            phoneLock: false,
-            bioLock: false,
-            locationLock: false,
-            coverLock: false,
-            subscribed : false,
-            isActiveCompany: true,
-            subscription: {
-              isTrialPeriod: false,
-              packageName: "",
-              platform: "web",
-              proVersionExpireyDate: data?.firstDate ?? "N/A",
-              proVersionPurchaseDate: data?.secondDate ?? "N/A",
-              transactionId: "",
-            },
- 
-          };
-          if (tagType === "Open House") {
-            newAccountData.openHouseDetail = {
-              listingAddress: "",
-              askingPrice: "",
-              beds: "",
-              offer: 0,
-              offerScript: "",
-              questionScript: "",
-            };
-            newAccountData.botScript = "";
-            // newAccountData.profileType = "Open House";
-          }
-          if (tagType === "Google Review") {
-            newAccountData.reviewDetail = {
-              reviewLink: "",
-              businessPageLink: "",
-              businessAddress: "",
-              businessName: "",
-              phoneNum: "",
-              email: "",
-            };
-            newAccountData.reviewType = "direct";
-            // newAccountData.profileType = "Google Review";
-          }
-          if (tagType === "Office Assist") {
-            newAccountData.callActionDetail = [
-              { type: "url", value: "", title: "Ask Question" },
-              { type: "url", value: "", title: "Enter Giveaway" },
-              { type: "url", value: "", title: "Register Event" },
-              { type: "url", value: "", title: "Give Us Feedback" },
-            ];
-            newAccountData.submitReq = {
-              type: "url",
-              value: "",
-            };
-            newAccountData.activeCallAction = "Ask Question";
-            newAccountData.botScript = "";
-            // newAccountData.profileType = "Office Assist";
-          }
-          // console.log("companyCreated")
-          // console.log(user.uid)
-          update(ref(db, `Users/${user.uid}`), newAccountData
-          ).then(() => {
-            update(
-              ref(db, `Tag/${data.tagId}`),
-              {
-                profileID: user.uid,
-                status : true,
-              }
-            );
-            axios
-              .post(`${baseUrl}createAccount`, {
-                email: data?.email,
-                password: data?.password,
-                pkgStartDate: data?.firstDate ?? "N/A",
-                pkgExpDate: data?.secondDate ?? "N/A",
-                token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
-              })
-              .then((res) => {
-                console.log("the response", res);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-              conexParent != "superAdmin" ? 
-              toast.success("New user created sucessfuly") : 
-              toast.success("New company created sucessfuly")
-              ;
-            handleTeamModal();
-          });
+        if (companyLinks) {
+          newAccountData.links = companyLinks;
         }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
+
+        if (tagType === "Open House") {
+          newAccountData.openHouseDetail = {
+            listingAddress: "",
+            askingPrice: "",
+            beds: "",
+            offer: 0,
+            offerScript: "",
+            questionScript: "",
+          };
+          newAccountData.botScript = "";
+        }
+
+        if (tagType === "Google Review") {
+          newAccountData.reviewDetail = {
+            reviewLink: "",
+            businessPageLink: "",
+            businessAddress: "",
+            businessName: "",
+            phoneNum: "",
+            email: "",
+          };
+          newAccountData.reviewType = "direct";
+        }
+
+        if (tagType === "Office Assist") {
+          newAccountData.callActionDetail = [
+            { type: "url", value: "", title: "Ask Question" },
+            { type: "url", value: "", title: "Enter Giveaway" },
+            { type: "url", value: "", title: "Register Event" },
+            { type: "url", value: "", title: "Give Us Feedback" },
+          ];
+          newAccountData.submitReq = {
+            type: "url",
+            value: "",
+          };
+          newAccountData.activeCallAction = "Ask Question";
+          newAccountData.botScript = "";
+        }
+
+        update(ref(db, `Users/${user.uid}`), newAccountData).then(() => {
+          update(ref(db, `Tag/${data.tagId}`), {
+            profileID: user.uid,
+            status: true,
+          });
+
+          axios
+            .post(`${baseUrl}createAccount`, {
+              companyId: cnxId,
+              email: data?.email,
+              password: data?.password,
+              pkgStartDate: data?.firstDate ?? "N/A",
+              pkgExpDate: data?.secondDate ?? "N/A",
+              token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+            })
+            .then((res) => {
+              // console.log("the response", res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          toast.success("New user created successfully");
+          handleTeamModal();
+        });
+      } else {
+        let tagType = "Digital Card";
+        let tag = ref(db, `Tag/${data.tagId}`);
+        onValue(tag, (snapshot) => {
+          const tagData = snapshot.val();
+          if (tagData) {
+            tagType = tagData.type ?? "Digital Card";
+          }
+        });
+
+        let newAccountData = {
+          platform: "web",
+          address: "",
+          backgroundColor: "#000000",
+          bio: "",
+          city: "",
+          color: "#000000",
+          coverUrl: "",
+          darkTheme: "0",
+          directMode: false,
+          dob: "",
+          email: data.email,
+          fcmToken: "",
+          gender: "",
+          apiKey: newApiKey,
+          id: user.uid,
+          isActivateTag: false,
+          isCover: false,
+          isCustomLink: false,
+          isDeleted: false,
+          isEmail: true,
+          isFirstLink: false,
+          isProVersion: true,
+          isProfile: false,
+          isProfilePhoto: false,
+          isReqByMe: false,
+          isReqByOther: false,
+          isShareProfile: false,
+          isSubscribe: false,
+          job: "",
+          language: "en",
+          logoUrl: "",
+          name: data?.name,
+          parentID: "",
+          parentId: "",
+          phone: "",
+          profileOn: 1,
+          profileUrl: "",
+          socialTextColor: "#FF000000",
+          title: "",
+          totalViews: 0,
+          username: data?.name + randNum(),
+          website: "",
+          workPlace: "",
+          formHeader: "Contact me!",
+          leadForm: {
+            Fname: true,
+            company: true,
+            email: true,
+            job: true,
+            note: true,
+            phone: true,
+          },
+          isAdmin: true,
+          companyId: user.uid,
+          isCompany: true,
+          qrLogoUrl: "",
+          qrColor: "#000000",
+          leadMode: false,
+          profilePictureLock: false,
+          logoLock: false,
+          nameLock: false,
+          phoneLock: false,
+          bioLock: false,
+          locationLock: false,
+          coverLock: false,
+          subscribed: false,
+          isActiveCompany: true,
+          subscription: {
+            isTrialPeriod: false,
+            packageName: "",
+            platform: "web",
+            proVersionExpireyDate: data?.firstDate ?? "N/A",
+            proVersionPurchaseDate: data?.secondDate ?? "N/A",
+            transactionId: "",
+          },
+        };
+
+        if (tagType === "Open House") {
+          newAccountData.openHouseDetail = {
+            listingAddress: "",
+            askingPrice: "",
+            beds: "",
+            offer: 0,
+            offerScript: "",
+            questionScript: "",
+          };
+          newAccountData.botScript = "";
+        }
+
+        if (tagType === "Google Review") {
+          newAccountData.reviewDetail = {
+            reviewLink: "",
+            businessPageLink: "",
+            businessAddress: "",
+            businessName: "",
+            phoneNum: "",
+            email: "",
+          };
+          newAccountData.reviewType = "direct";
+        }
+
+        if (tagType === "Office Assist") {
+          newAccountData.callActionDetail = [
+            { type: "url", value: "", title: "Ask Question" },
+            { type: "url", value: "", title: "Enter Giveaway" },
+            { type: "url", value: "", title: "Register Event" },
+            { type: "url", value: "", title: "Give Us Feedback" },
+          ];
+          newAccountData.submitReq = {
+            type: "url",
+            value: "",
+          };
+          newAccountData.activeCallAction = "Ask Question";
+          newAccountData.botScript = "";
+        }
+
+        update(ref(db, `Users/${user.uid}`), newAccountData).then(() => {
+          update(ref(db, `Tag/${data.tagId}`), {
+            profileID: user.uid,
+            status: true,
+          });
+
+          axios
+            .post(`${baseUrl}createAccount`, {
+              email: data?.email,
+              password: data?.password,
+              pkgStartDate: data?.firstDate ?? "N/A",
+              pkgExpDate: data?.secondDate ?? "N/A",
+              token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+            })
+            .then((res) => {
+              console.log("response", res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          toast.success("Company created successfully");
+          // handleTeamModal();
+        });
+      }
+    } catch (error) {
+      const errorCode = error.code;
         //   const errorMessage = error.message;
         console.log(error.message);
         if (error.message === "Firebase: Error (auth/invalid-email).") {
@@ -572,13 +596,14 @@ export const createNewCard = async (data, callBack, companyProfile) => {
         }
 
         // ..
-      });
+      }
 
     callBack();
   } else {
     toast.error("Please fill required fields");
   }
 };
+
 // ------------------------------------------------Get all child profiles-----------------------------------------------
 export const fetchCompanyTags = async (callBackFunc, setloading, cb) => {
   // setloading(true);
