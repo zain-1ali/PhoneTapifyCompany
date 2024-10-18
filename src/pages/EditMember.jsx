@@ -11,11 +11,13 @@ import { FormControlLabel, Switch } from "@mui/material";
 import styled from "@emotion/styled";
 import About from "../components/EditComponents/About";
 import MobileContainer from "../components/EditComponents/MobileContainer";
+import Webhook from "../components/SettingsComponents/Webhook";
 import Content from "../components/EditComponents/Content";
 import Qr from "../components/EditComponents/Qr";
 import Lead from "../components/EditComponents/Lead";
 import { RiShareFill } from "react-icons/ri";
 import { getSingleChild } from "../Services";
+import { PiWebhooksLogoBold } from "react-icons/pi";
 import {
   setName,
   setEmail,
@@ -75,6 +77,7 @@ const EditMember = () => {
     isAbout: true,
     isContent: false,
     isQr: false,
+    isWebhook: false,
     isLead: false,
   });
 
@@ -85,6 +88,7 @@ const EditMember = () => {
         isContent: false,
         isQr: false,
         isLead: false,
+        isWebhook: false,
       });
     } else if (route === "content") {
       setroute({
@@ -92,6 +96,7 @@ const EditMember = () => {
         isContent: true,
         isQr: false,
         isLead: false,
+        isWebhook: false,
       });
     } else if (route === "qr") {
       setroute({
@@ -99,6 +104,7 @@ const EditMember = () => {
         isContent: false,
         isQr: true,
         isLead: false,
+        isWebhook: false,
       });
     } else if (route === "lead") {
       setroute({
@@ -106,6 +112,16 @@ const EditMember = () => {
         isContent: false,
         isQr: false,
         isLead: true,
+        isWebhook: false,
+      });
+    }
+    else if (route === "webhook") {
+      setroute({
+        isAbout: false,
+        isContent: false,
+        isWebhook: true,
+        isQr: false,
+        isLead: false,
       });
     }
   };
@@ -341,6 +357,18 @@ const EditMember = () => {
                   </div>
                   <div
                     className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                    onClick={() => handleRoute("webhook")}
+                  >
+                    <FaFilter className="text-[16px] ml-2 " />
+                    <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
+                      {screen <= 450 && route?.isLead === true
+                        ? t("Webhook")
+                        : null}
+                      {screen >= 450 ? t("Webhook") : null}
+                    </p>
+                  </div>
+                  <div
+                    className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
                     onClick={() => handleRoute("lead")}
                   >
                     <FaFilter className="text-[16px] ml-2 " />
@@ -351,6 +379,7 @@ const EditMember = () => {
                       {screen >= 450 ? t("Leads") : null}
                     </p>
                   </div>
+                  
                 </div>
               </div>
             ) : null}
@@ -410,6 +439,23 @@ const EditMember = () => {
                   </p>
                 </div>
                 <div
+                  className="w-[25%] h-[100%]   sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                  onClick={() => handleRoute("webhook")}
+                  style={
+                    route?.isWebhook
+                      ? { backgroundColor: "#000000", color: "white" }
+                      : null
+                  }
+                >
+                  <PiWebhooksLogoBold className="text-[16px] ml-2 " />
+                  <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
+                    {screen <= 450 && route?.isWebhook === true
+                      ? t("Webhook")
+                      : null}
+                    {screen >= 450 ? t("Webhook") : null}
+                  </p>
+                </div>
+                <div
                   className="w-[25%] h-[100%]  sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
                   onClick={() => handleRoute("lead")}
                   style={
@@ -426,6 +472,7 @@ const EditMember = () => {
                     {screen >= 450 ? t("Leads") : null}
                   </p>
                 </div>
+                
               </div>
             ) : null}
             <div className="w-[100%] h-[535px]  rounded-[35px] shadow-xl bg-white flex">
@@ -438,15 +485,17 @@ const EditMember = () => {
                   <Qr uid={uid} handleCancelQr={handleCancelQr} />
                 )}
                 {route?.isLead === true && <Lead uid={uid} />}
+                {route?.isWebhook === true && <Webhook uid={uid} />}
               </div>
               {screen >= 450 ? (
+                !route?.isWebhook  && (
                 <div className="w-[30%] h-[100%] border-l">
                   {route?.isQr ? (
                     <QrContainer uid={uid} />
                   ) : (
                     <MobileContainer id={uid} />
                   )}
-                </div>
+                </div> )
               ) : null}
             </div>
           </div>

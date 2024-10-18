@@ -312,7 +312,7 @@ const Company = () => {
                   : {}),
               }}
             />
-            {/* <Tab
+            <Tab
               label={t("WEBHOOK")}
               sx={{
                 fontSize: "16px",
@@ -322,7 +322,7 @@ const Company = () => {
                   ? { width: "50px", whiteSpace: "nowrap", fontSize: "8px" }
                   : {}),
               }}
-            /> */}
+            />
           </CustomTabs>
           <Tabpanel value={value} index={0}>
             {companyProfile && (
@@ -339,9 +339,9 @@ const Company = () => {
           <Tabpanel value={value} index={3}>
             <CompanyProfile uid={companyId} />
           </Tabpanel>
-          {/* <Tabpanel value={value} index={4}>
+          <Tabpanel value={value} index={4}>
             <Webhook uid={companyId} />
-          </Tabpanel> */}
+          </Tabpanel>
         </div>
       </div>
       {screen <= 450 ? <NavbarFooter /> : null}

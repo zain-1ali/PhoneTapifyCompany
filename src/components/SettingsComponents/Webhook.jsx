@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-  getSingleChild,
+  getSingleChild, generateNewApiKey
 } from "../../Services";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 import { IoIosCopy } from "react-icons/io";
+import { BiRefresh } from "react-icons/bi";
+
 
 const Webhook = ({ uid }) => {
   let [email, setEmail] = useState("");
@@ -18,6 +20,9 @@ const Webhook = ({ uid }) => {
   let webhookUrl = baseUrl+"connections";
   let apiKey = Object.values(crntParent)?.[0]?.apiKey ?? "";
 
+  const generateApiKey = () => {
+    generateNewApiKey(uid);
+  }
   const { t } = useTranslation();
   return (
     <div className="w-[100%]  mt-7 flex flex-col">
@@ -70,16 +75,29 @@ const Webhook = ({ uid }) => {
               disabled={true}
             />
           </div>
-          <div
-            className="sm:w-[160px] w-[8%] sm:h-[47px] h-[37px]  shadow-lg rounded-[36px] bg-white flex justify-center items-center cursor-pointer"
-            onClick={() => {
-              navigator.clipboard.writeText(apiKey),
-                toast.success("Copied to clipboard");
-            }}
-          >
-            <p className="font-[500] text-[16px] mr-1">{t("Copy")}</p>
-            <IoIosCopy className="ml-1" />
-          </div>
+          {
+            apiKey!="" ? (
+              <div
+              className="sm:w-[160px] w-[8%] sm:h-[47px] h-[37px]  shadow-lg rounded-[36px] bg-white flex justify-center items-center cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(apiKey),
+                  toast.success("Copied to clipboard");
+              }}
+            >
+              <p className="font-[500] text-[16px] mr-1">{t("Copy")}</p>
+              <IoIosCopy className="ml-1" />
+            </div>
+            ) : (
+              <div
+              className="sm:w-[160px] w-[8%] sm:h-[47px] h-[37px]  shadow-lg rounded-[36px] bg-white flex justify-center items-center cursor-pointer"
+              onClick={generateApiKey}
+            >
+              <p className="font-[500] text-[16px] mr-1">{t("Generate")}</p>
+              <BiRefresh className="ml-1" />
+            </div>
+            )
+          }
+         
         </div>
 
         <ToastContainer

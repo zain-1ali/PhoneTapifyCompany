@@ -241,6 +241,17 @@ const checkKeyExistsInFirebase = async (key) => {
   return false; // Key does not exist
 };
 
+export const generateNewApiKey = async (uid) => {
+  try {
+    const newApiKey = await generateUniqueKey();
+    await update(ref(db, `Users/${uid}`), { apiKey: newApiKey });
+    toast.success("New key generated");
+  } catch (error) {
+    console.error("Error generating new API key:", error);
+    toast.error("Failed to generate new API key");
+  }
+}
+
 // Function to generate a unique key
 const generateUniqueKey = async () => {
   let uniqueKey;
