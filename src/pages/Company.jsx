@@ -6,7 +6,7 @@ import AccountSettings from "../components/SettingsComponents/AccountSettings";
 import AccountLinks from "../components/SettingsComponents/AccountLinks";
 import Organization from "../components/SettingsComponents/Organization";
 import CompanyProfile from "../components/SettingsComponents/CompanyProfile";
-import Webhook from "../components/SettingsComponents/Webhook";
+import ApiAccess from "../components/SettingsComponents/ApiAccess";
 import NavbarFooter from "./NavbarFooter";
 import { getSingleChild } from "../Services";
 import { useDispatch } from "react-redux";
@@ -313,7 +313,7 @@ const Company = () => {
               }}
             />
             <Tab
-              label={t("WEBHOOK")}
+              label={t("API ACCESS")}
               sx={{
                 fontSize: "16px",
                 fontWeight: "600",
@@ -340,7 +340,7 @@ const Company = () => {
             <CompanyProfile uid={companyId} />
           </Tabpanel>
           <Tabpanel value={value} index={4}>
-            <Webhook uid={companyId} />
+            <ApiAccess uid={companyId} />
           </Tabpanel>
         </div>
       </div>

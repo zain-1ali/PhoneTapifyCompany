@@ -11,7 +11,7 @@ import { FormControlLabel, Switch } from "@mui/material";
 import styled from "@emotion/styled";
 import About from "../components/EditComponents/About";
 import MobileContainer from "../components/EditComponents/MobileContainer";
-import Webhook from "../components/SettingsComponents/Webhook";
+import ApiAccess from "../components/SettingsComponents/ApiAccess";
 import Content from "../components/EditComponents/Content";
 import Qr from "../components/EditComponents/Qr";
 import Lead from "../components/EditComponents/Lead";
@@ -362,9 +362,9 @@ const EditMember = () => {
                     <FaFilter className="text-[16px] ml-2 " />
                     <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
                       {screen <= 450 && route?.isLead === true
-                        ? t("Webhook")
+                        ? t("Api Access")
                         : null}
-                      {screen >= 450 ? t("Webhook") : null}
+                      {screen >= 450 ? t("Api Access") : null}
                     </p>
                   </div>
                   <div
@@ -447,12 +447,12 @@ const EditMember = () => {
                       : null
                   }
                 >
-                  <PiWebhooksLogoBold className="text-[16px] ml-2 " />
+                  <PiWebhooksLogoBold className="text-[16px] ml-1 " />
                   <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
                     {screen <= 450 && route?.isWebhook === true
-                      ? t("Webhook")
+                      ? t("Api Access")
                       : null}
-                    {screen >= 450 ? t("Webhook") : null}
+                    {screen >= 450 ? t("Api Access") : null}
                   </p>
                 </div>
                 <div
@@ -485,7 +485,7 @@ const EditMember = () => {
                   <Qr uid={uid} handleCancelQr={handleCancelQr} />
                 )}
                 {route?.isLead === true && <Lead uid={uid} />}
-                {route?.isWebhook === true && <Webhook uid={uid} />}
+                {route?.isWebhook === true && <ApiAccess uid={uid} />}
               </div>
               {screen >= 450 ? (
                 !route?.isWebhook  && (
