@@ -13,6 +13,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 // import { ToastContainer } from "react-toastify";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ApiAccessDoc from "./components/SettingsComponents/ApiAccessDoc";
 // import LoginForm from "./pages/Login";
 // import ChangePassword from "./pages/ChangePassword";
 // import Users from "./pages/Users";
@@ -138,6 +139,14 @@ function App() {
                 </RequireAuth>
               }
             /> */}
+
+            <Route
+              path="/doc/api-access"
+              element={
+                  <ApiAccessDoc />
+              }
+            />
+
           </Routes>
         </BrowserRouter>
       </div>

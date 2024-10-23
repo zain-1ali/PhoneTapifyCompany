@@ -48,7 +48,7 @@ const SingleLeadModal = ({ leadModal, handleLeadModal, singleLead }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style2}>
-          <div className="h-[100%] w-[100%]">
+          <div className="h-[96%] mt-[1%] w-[100%] overflow-scroll">
             <div className="w-[99%] flex justify-end mt-1">
               <MdOutlineCancel
                 className="text-2xl cursor-pointer"
@@ -109,21 +109,8 @@ const SingleLeadModal = ({ leadModal, handleLeadModal, singleLead }) => {
                       {singleLead?.phone}
                     </p>
                   </div>
-
-                  <div className="flex  mt-4 w-[100%] h-[100px]">
-                    <div className="w-[15%]">
-                      <div className="flex justify-center items-center h-[32px] w-[32px] rounded-full bg-[#F3F3F3]">
-                        <FaRegMessage />
-                      </div>
-                    </div>
-                    <div className="w-[80%]">
-                      <p className="text-[#818181] text-[12px] font-[400] ml-2">
-                        {singleLead?.message}
-                      </p>
-                    </div>
-                  </div>
                 </div>
-                <div className=" w-[40%]">
+                <div className=" w-[40%] h-[180px]">
                   <div className="w-[100%] flex justify-center">
                     <h2 className="font-[400] text-[18px]">
                       {singleLead ? (
@@ -150,6 +137,18 @@ const SingleLeadModal = ({ leadModal, handleLeadModal, singleLead }) => {
                 </div>
               </div>
             </div>
+            <div className="flex  mt-4 w-[70%] ml-[15%] h-[100px]">
+                    <div className="w-[6%]">
+                      <div className="flex justify-center items-center h-[32px] w-[32px] rounded-full bg-[#F3F3F3]">
+                        <FaRegMessage />
+                      </div>
+                    </div>
+                    <div className="w-[94%]">
+                      <p className="text-[#818181] text-[12px] font-[400] ml-2 mt-2">
+                        {singleLead?.message}
+                      </p>
+                    </div>
+                  </div>
           </div>
         </Box>
       </Modal>
