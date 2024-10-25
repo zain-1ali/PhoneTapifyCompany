@@ -143,7 +143,7 @@ function App() {
             <Route
               path="/doc/api-access"
               element={
-                  <ApiAccessDoc />
+                  <ApiAccessDoc accessFrom = "public"/>
               }
             />
 

@@ -82,13 +82,13 @@ const SingleReviewModal = ({ reviewModal, handleReviewModal, singleReview }) => 
             <div className="w-[100%] flex justify-center mt-[40px]">
               <div className="w-[70%] flex justify-between ">
                 <div className=" w-[40%]">
-                  <h2 className="font-[400] text-[24px]">{singleReview?.name}</h2>
+                  <h2 className="font-[400] text-[24px]">{singleReview?.name!=""}</h2>
                   <div className="flex items-center mt-4">
                     <div className="flex justify-center items-center h-[32px] w-[32px] rounded-full bg-[#F3F3F3]">
                       <MdOutlineMail />
                     </div>
                     <p className="text-[#818181] text-[12px] font-[400] ml-2">
-                      {singleReview?.email}
+                      {singleReview?.email ? singleReview?.email : "(Not Added)"}
                     </p>
                   </div>
 
@@ -118,7 +118,7 @@ const SingleReviewModal = ({ reviewModal, handleReviewModal, singleReview }) => 
                     </div>
                     <div className="w-[80%]">
                       <p className="text-[#818181] mt-2 text-[12px] font-[400] ml-2">
-                        {singleReview?.feedback}
+                        {singleReview?.feedback ? singleReview?.feedback : "(Not Added)"}
                       </p>
                     </div>
                   </div>

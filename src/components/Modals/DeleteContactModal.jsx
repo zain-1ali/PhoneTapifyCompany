@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { RxCross2 } from "react-icons/rx";
-import { deleteContact } from "../../Services";
+import { deleteContact, deleteReview } from "../../Services";
 import { useTranslation } from "react-i18next";
 
-const DeleteContactModal = ({ deleteModal, handledeleteModal, lead, cb }) => {
+const DeleteContactModal = ({ deleteModal, handledeleteModal, item, action, cb }) => {
   // --------------------------------------------------Create Single self profile----------------------------------
 
   const style2 = {
@@ -38,7 +38,9 @@ const DeleteContactModal = ({ deleteModal, handledeleteModal, lead, cb }) => {
         <Box sx={style2}>
           <div className="h-[100%] w-[100%]">
             <p className="text-center font-[500] mt-[30px]">
-              {t("Are you sure you want to delete this contact?")}
+              {action == "lead" ? 
+              t("Are you sure you want to delete this contact?")
+              : t("Are you sure you want to delete this review?") }
             </p>
             <div className="w-[100%] flex justify-center items-center mt-2">
               <div
@@ -50,7 +52,13 @@ const DeleteContactModal = ({ deleteModal, handledeleteModal, lead, cb }) => {
               <div
                 className="h-[30px] w-[70px] rounded-full border flex justify-center items-center text-sm ml-[5px] bg-black text-white cursor-pointer"
                 onClick={() => {
-                  deleteContact(lead?.id, cb), handledeleteModal();
+                  if (action === "lead") {
+                    deleteContact(item?.id, cb);
+                    handledeleteModal();
+                  } else {
+                    deleteReview(item?.id, cb);
+                    handledeleteModal();
+                  }
                 }}
               >
                 {t("Sure")}

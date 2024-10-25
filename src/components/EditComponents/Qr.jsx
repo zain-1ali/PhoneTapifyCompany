@@ -11,11 +11,12 @@ import { updateQrInfo } from "../../Services";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
+import addApplePass from "../../imgs/apple-pass.png";
 
 const Qr = ({ uid, handleCancelQr }) => {
   const qrLogo = useSelector((state) => state.profileInfoSlice.qrLogo);
   const qrColor = useSelector((state) => state.profileInfoSlice.qrColor);
-
+  let appUrl = import.meta.env.VITE_APP_PROFILE_URL
   let dispatch = useDispatch();
 
   console.log(qrLogo);
@@ -237,6 +238,13 @@ const Qr = ({ uid, handleCancelQr }) => {
           {t("Update")}
         </button>
       </div>
+      <div
+        onClick={() => window.open(`${appUrl}apple-pass/${uid}`, '_blank')}
+        className="w-[40%] flex justify-center items-center mt-5 cursor-pointer"
+      >
+        <img src={addApplePass} className="w-full h-[45px] rounded-lg" alt="Add Apple Pass" />
+      </div>
+
     </div>
   );
 };

@@ -63,7 +63,7 @@ const Analytics = () => {
   const [childProfilesIds, setChildProfilesIds] = useState([]);
 
   let getChildProfilesData = (obj) => {
-    console.log(obj)
+    // console.log(obj)
     setChildProfiles(Object.values(obj));
     setChildProfilesIds(returnIds(Object.values(obj)));
   };
@@ -111,7 +111,7 @@ const Analytics = () => {
     setAnchorEl4(event.currentTarget);
   };
   const handleClose4 = () => {
-    console.log("close4")
+    // console.log("close4")
     setAnchorEl4(null);
   };
 
@@ -143,7 +143,6 @@ const Analytics = () => {
   }, [companyProfile?.[companyId]?.id])
 
   useEffect(() => {
-    console.log("child profile test34")
     setChildProfiles({});
     getChildProfiles(selectedUser?.accountID, getChildProfilesData, () => console.log("child profile test"));
   }, [selectedUser?.id]);
@@ -180,14 +179,14 @@ const Analytics = () => {
   useEffect(() => {
     getSingleChildAnalytics(companyId, setAnalytics, setloading);
   }, [companyId]);
-console.log(selectedUser?.name);
+// console.log(selectedUser?.name);
   if(!localStorage.getItem('temp'))
   {
     if(!selectedUser?.name || selectedUser?.name=="All")
     
     {
     setTimeout(() => {
-      console.log("etims")
+      // console.log("etims")
       getTeamAnalytics(
         [...allProfilesIds, companyId],
         setAnalytics,
@@ -209,53 +208,53 @@ console.log(selectedUser?.name);
       let data = Object.values(analyticdata)?.[0];
       if (value === "leads") {
         if (filter === "Total") {
-          return data?.overallContactsMe;
+          return data?.overallContactsMe ?? 0;
         } else if (filter === "Past 1 week") {
-          return data?.tContactsMeCrntWk;
+          return data?.tContactsMeCrntWk ?? 0;
         } else if (filter === "Past 1 Month") {
-          return data?.tContactsMeCrntMnth;
+          return data?.tContactsMeCrntMnth ?? 0;
         } else if (filter === "Past 1 Year") {
-          return data?.tContactsMeCrntYear;
+          return data?.tContactsMeCrntYear ?? 0;
         } else if (filter === "Today") {
-          return data?.tContactsMeToday;
+          return data?.tContactsMeToday ?? 0;
         } else {
           return 0;
         }
       } else if (value === "views") {
         if (filter === "Total") {
-          return data?.overallClicks;
+          return data?.overallClicks ?? 0;
         } else if (filter === "Past 1 week") {
-          return data?.totalClicks;
+          return data?.totalClicks ?? 0;
         } else if (filter === "Past 1 Month") {
-          return data?.totalClicksCrntMnth;
+          return data?.totalClicksCrntMnth ?? 0;
         } else if (filter === "Past 1 Year") {
-          return data?.totalClicksCrntYear;
+          return data?.totalClicksCrntYear ?? 0;
         } else if (filter === "Today") {
-          return data?.totalClicksToday;
+          return data?.totalClicksToday ?? 0;
         }
       } else if (value === "links") {
         if (filter === "Total") {
-          return data?.overallLinksEng;
+          return data?.overallLinksEng ?? 0;
         } else if (filter === "Past 1 week") {
-          return data?.linksEngCrntWk;
+          return data?.linksEngCrntWk ?? 0;
         } else if (filter === "Past 1 Month") {
-          return data?.linksEngCrntMnth;
+          return data?.linksEngCrntMnth ?? 0;
         } else if (filter === "Past 1 Year") {
-          return data?.linksEngCrntYear;
+          return data?.linksEngCrntYear ?? 0;
         } else if (filter === "Today") {
-          return data?.linksEngToday;
+          return data?.linksEngToday ?? 0;
         }
       } else if (value === "reviews") {
         if (filter === "Total") {
-          return data?.overallReviews;
+          return data?.overallReviews ?? 0;
         } else if (filter === "Past 1 week") {
-          return data?.tReviewsCrntWk;
+          return data?.tReviewsCrntWk ?? 0;
         } else if (filter === "Past 1 Month") {
-          return data?.tReviewsCrntMnth;
+          return data?.tReviewsCrntMnth ?? 0;
         } else if (filter === "Past 1 Year") {
-          return data?.tReviewsCrntYear;
+          return data?.tReviewsCrntYear ?? 0;
         } else if (filter === "Today") {
-          return data?.tReviewsToday;
+          return data?.tReviewsToday ?? 0;
         } else {
           return 0;
         }
@@ -292,12 +291,30 @@ console.log(selectedUser?.name);
     t("Past 1 Year"),
   ];
 
+  const appendBucketPath = (path) => {
+    let url = "";
+    
+    if (path && typeof path === "string") {
+      if (path.startsWith("gs://")) {
+        const filteredUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
+        url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filteredUrl}?alt=media`;
+      } else if (path.startsWith("http")) {
+        url = path;
+      }
+    } else {
+      url = prsnPlshldr;
+    }
+    
+    return url;
+  };
+  
   // console.log(Object.values(analytics)?.[0]);
 
   const [isNameFilter, setIsNameFilter] = useState(true);
 
   if(selectedProfile?.profileType === "Google Review")
   {
+
     var GraphColors = ["#d10f25", "#ac8b42"];
     var graphLines =
         [          
@@ -621,7 +638,7 @@ console.log(selectedUser?.name);
                         sx={{ display: "flex" }}
                       >
                         <img
-                          src={elm?.profileUrl ? elm?.profileUrl : prsnPlshldr}
+                          src={appendBucketPath(elm?.profileUrl)}
                           alt=""
                           className="h-[27px] w-[27px] object-cover"
                         />
@@ -685,7 +702,7 @@ console.log(selectedUser?.name);
                           sx={{ display: "flex" }}
                         >
                           <img
-                            src={elm?.profileUrl ? elm?.profileUrl : prsnPlshldr}
+                            src={appendBucketPath(elm?.profileUrl)}
                             alt=""
                             className="h-[27px] w-[27px] object-cover"
                           />
@@ -777,25 +794,26 @@ console.log(selectedUser?.name);
                   :  // if other tag than reviews, show links clicks
                   analytics ? (
                     <div
-                      className="w-[95%] h-[100%]  flex  gap-x-4  flex-wrap "
+                      className="w-[95%] h-[100%] flex gap-x-4 flex-wrap"
                       style={{ overflowY: "scroll" }}
                     >
-                      {mergeDuplicates(
-                        Object.values(analytics)?.[0]?.links
-                      )?.map((elm) => {
+                      {mergeDuplicates(Object.values(analytics)?.[0]?.links)?.map((elm) => {
+                        // Check if elm?.image is falsy and set a default if needed
+
                         return (
-                          <div className="w-[22%] h-[45px] rounded-lg border mt-3 flex items-center justify-around">
+                          <div key={elm?.name} className="w-[22%] min-w-max h-[45px] rounded-lg border mt-3 flex items-center justify-around">
                             <img
-                              src={returnIconsByArray(elm?.name)}
+                              src={returnIconsByArray(elm?.name) ? returnIconsByArray(elm?.name) : returnIconsByArray("Website 1")}
                               alt=""
                               className="h-[30px] w-[30px]"
                             />
-                            <p className="text-sm">{elm?.name}</p>
-                            <p>{elm?.clicks}</p>
+                            <p className="text-sm mx-1">{elm?.name}</p>
+                            <p className="mx-1">{elm?.clicks}</p>
                           </div>
                         );
                       })}
                     </div>
+
                   ) : (
                     <p>{t("No links to show")}</p>
                   )}

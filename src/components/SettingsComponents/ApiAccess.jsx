@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 import { IoIosCopy } from "react-icons/io";
 import { BiRefresh } from "react-icons/bi";
+import ApiAccessDoc from "../SettingsComponents/ApiAccessDoc";
 
 
 const ApiAccess = ({ uid }) => {
@@ -99,7 +100,7 @@ const ApiAccess = ({ uid }) => {
         </div>
         <p className="font-[400] sm:text-[14px] text-[14px] mt-4 w-[96%] ml-[2%] text-[#707070]">Provides a list of 100 most recent connections created for your organization listed in descending order based on the date of creation</p>
 
-
+        <ApiAccessDoc accessFrom = "dashboard"/>
         <ToastContainer
           position="bottom-left"
           autoClose={1000}

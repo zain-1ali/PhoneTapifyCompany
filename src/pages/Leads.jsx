@@ -196,7 +196,8 @@ const Leads = () => {
       <DeleteContactModal
         deleteModal={deleteModal}
         handledeleteModal={handleDeleteModal}
-        lead={lead}
+        item={lead}
+        action="lead"
         cb={removeLastLead}
       />
       <SingleLeadModal

@@ -1227,8 +1227,8 @@ export const getAllTeams = async (callBackFunc, setloading) => {
       setloading(false);
     }
 
-    console.log(data);
-    console.log("testing data");
+    // console.log(data);
+    // console.log("testing data");
     MediaKeyStatusMap;
     // setmylist(Object.values(data));
 
@@ -2081,6 +2081,12 @@ export const deleteContact = (id, cb) => {
     toast.success("Contact deleted successfuly");
   });
 };
+export const deleteReview = (id, cb) => {
+  remove(ref(db, `Reviews/${id}`)).then(() => {
+    cb();
+    toast.success("Review deleted successfuly");
+  });
+};
 
 export const updataCompanyAbout = async (id, data, success) => {
   let {
@@ -2433,6 +2439,7 @@ export const updateLinkShareAble = async (
 // ------------------------------------------------Get single child analytics-----------------------------------------------
 
 export const getSingleChildAnalytics = (id, callBackFunc, setloading) => {
+  console.log(id);
   setloading(true);
   const starCountRef = query(
     ref(db, "/Analytic"),
@@ -2441,10 +2448,10 @@ export const getSingleChildAnalytics = (id, callBackFunc, setloading) => {
   );
   onValue(starCountRef, async (snapshot) => {
     const data = await snapshot.val();
-
+    console.log(data);
     callBackFunc(data);
     setloading(false);
-    console.log("analyticsdata", data);
+    // console.log("analyticsdata", data);
     // console.log("testing data");
     MediaKeyStatusMap;
     // setmylist(Object.values(data));

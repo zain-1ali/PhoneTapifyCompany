@@ -197,7 +197,8 @@ const Reviews = () => {
       <DeleteContactModal
         deleteModal={deleteModal}
         handledeleteModal={handleDeleteModal}
-        review={review}
+        item={review}
+        action="review"
         cb={removeLastReview}
       />
       <SingleReviewModal
