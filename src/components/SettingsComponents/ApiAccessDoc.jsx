@@ -9,7 +9,7 @@ import { IoIosCopy } from "react-icons/io";
 const ApiAccessDoc = ({ accessFrom }) => {
   console.log(accessFrom)
   const { t } = useTranslation();
-  let [docExpand, setDocExpand] = useState([true]);
+  let [docExpand, setDocExpand] = useState(false);
 
   let baseUrl = import.meta.env.VITE_APP_API_URL;
   let webhookUrl = baseUrl+"getConnections";

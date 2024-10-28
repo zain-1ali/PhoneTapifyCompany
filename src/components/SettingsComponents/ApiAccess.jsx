@@ -107,9 +107,7 @@ const ApiAccess = ({ uid }) => {
           theme="colored"
           hideProgressBar
         />
-        <br />
-        <br />
-        <br />
+       
         <br />
       </div>
     </div>
