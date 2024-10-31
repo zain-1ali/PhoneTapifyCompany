@@ -53,10 +53,10 @@ const ApiAccessDoc = ({ accessFrom }) => {
           )}
         </div>
 
-        {docExpand && <br />}
+        { (accessFrom === "public" || docExpand) && <br />}
 
         {/* API Key Section */}
-        {docExpand && (
+        {(accessFrom === "public" || docExpand) && (
           <div className="mt-7">
             <h2 className="font-semibold sm:text-[20px] text-[18px] text-[#625F5F]">
               {t("API Key")}

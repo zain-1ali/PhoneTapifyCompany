@@ -19,7 +19,7 @@ import instagram from "./socialLink/instagram.png";
 import facebook from "./socialLink/facebook.png";
 import tiktok from "./socialLink/tiktok.png";
 import twitter from "./socialLink/x.png";
-import threads from "./socialLink/threads.png";
+// import threads from "./socialLink/threads.png";
 
 import linkedin from "./socialLink/linkedin.png";
 import twitch from "./socialLink/twitch.png";
@@ -218,14 +218,14 @@ export const socialIcons = [
     baseUrl: "https://www.snapchat.com/add/",
   },
 
-  {
-    name: "Threads",
-    title: "Threads",
-    img: threads,
-    placeholder: "Threads Url",
-    linkID: 65,
-    baseUrl: "",
-  },
+  // {
+  //   name: "Threads",
+  //   title: "Threads",
+  //   img: threads,
+  //   placeholder: "Threads Url",
+  //   linkID: 65,
+  //   baseUrl: "",
+  // },
   {
     name: "Discord",
     title: "Discord",
@@ -443,14 +443,6 @@ export const more = [
     img: custom,
     placeholder: "Custom link",
     linkID: 53,
-    baseUrl: "",
-  },
-  {
-    name: "Website 5",
-    title: "Custom",
-    img: custom,
-    placeholder: "Custom link",
-    linkID: 54,
     baseUrl: "",
   },
   {
@@ -705,9 +697,11 @@ export const returnIcons = (linkid) => {
     return appstore;
   } else if (linkID === 43) {
     return amazone;
-  } else if (linkID === 65) {
-    return threads;
-  } else if (linkID === 49) {
+  }
+  //  else if (linkID === 65) {
+  //   return threads;
+  // }
+   else if (linkID === 49) {
     return website;
   }
 };
