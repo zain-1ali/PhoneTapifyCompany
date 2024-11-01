@@ -412,7 +412,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const { t } = useTranslation();
 
   const ifCustom = (id) => {
-    if (id === 50 || id === 51 || id === 52 || id === 53 || 
+    if (id === 50 || id === 51 || id === 52 || id === 53 ||
       id === 54 || id === 55 || id === 56 || id === 57 || id === 58 || id === 59) {
       return true;
     } else {
@@ -494,8 +494,8 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                       linkEdit
                         ? handleLinkEditModal()
                         : videoEdit
-                        ? handleVideoEditModal()
-                        : handlePhotoEditModal()
+                          ? handleVideoEditModal()
+                          : handlePhotoEditModal()
                     }
                   >
                     <MdArrowBackIosNew className="text-xl" />
@@ -504,11 +504,11 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                   {(checkAdded(linkInfo?.linkID) ||
                     checkPhotoAdded(photoValue?.id) ||
                     checkAddedVideo(videoValue?.id)) && (
-                    <FaRegTrashAlt
-                      className="text-2xl hover:text-red-500 cursor-pointer"
-                      onClick={() => {
-                        linkEdit
-                          ? renoveLink(
+                      <FaRegTrashAlt
+                        className="text-2xl hover:text-red-500 cursor-pointer"
+                        onClick={() => {
+                          linkEdit
+                            ? renoveLink(
                               {
                                 image: "",
                                 linkID: linkInfo?.linkID,
@@ -522,18 +522,18 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                               ifCompany,
                               allProfiles
                             )
-                          : photoEdit
-                          ? removeImage(uid, featuredImages, photoValue, () =>
-                              setPhotoEdit(false)
-                            )
-                          : videoEdit
-                          ? removeVideo(uid, featuredVideos, videoValue, () =>
-                              setVideoEdit(false)
-                            )
-                          : null;
-                      }}
-                    />
-                  )}
+                            : photoEdit
+                              ? removeImage(uid, featuredImages, photoValue, () =>
+                                setPhotoEdit(false)
+                              )
+                              : videoEdit
+                                ? removeVideo(uid, featuredVideos, videoValue, () =>
+                                  setVideoEdit(false)
+                                )
+                                : null;
+                        }}
+                      />
+                    )}
                 </div>
               ) : (
                 <div></div>
@@ -588,15 +588,15 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         className="h-[120px] w-[120px] rounded-3xl object-cover"
                       />
                       {linkInfo?.linkID === 50 ||
-                    linkInfo?.linkID === 51 ||
-                    linkInfo?.linkID === 52 ||
-                    linkInfo?.linkID === 53 ||
-                    linkInfo?.linkID === 54 ||
-                    linkInfo?.linkID === 55 ||
-                    linkInfo?.linkID === 56 ||
-                    linkInfo?.linkID === 57 ||
-                    linkInfo?.linkID === 58 ||
-                    linkInfo?.linkID === 59  ? (
+                        linkInfo?.linkID === 51 ||
+                        linkInfo?.linkID === 52 ||
+                        linkInfo?.linkID === 53 ||
+                        linkInfo?.linkID === 54 ||
+                        linkInfo?.linkID === 55 ||
+                        linkInfo?.linkID === 56 ||
+                        linkInfo?.linkID === 57 ||
+                        linkInfo?.linkID === 58 ||
+                        linkInfo?.linkID === 59 ? (
                         <label
                           for="qrimg"
                           class="absolute right-[-2px] top-[-2px] cursor-pointer"
@@ -641,31 +641,31 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                       value={linkValue?.value}
                     />
                     {
-                    linkInfo?.linkID === 50 ||
-                    linkInfo?.linkID === 51 ||
-                    linkInfo?.linkID === 52 ||
-                    linkInfo?.linkID === 53 ||
-                    linkInfo?.linkID === 54 ||
-                    linkInfo?.linkID === 55 ||
-                    linkInfo?.linkID === 56 ||
-                    linkInfo?.linkID === 57 ||
-                    linkInfo?.linkID === 58 ||
-                    linkInfo?.linkID === 59  ? (
-                      <>
-                        <h2 className="text-sm font-medium mt-4">Title*</h2>
-                        <input
-                          type="text"
-                          className="mt-2 outline-none border-none w-[90%]  h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-                          onChange={(e) =>
-                            setLinkInfo({
-                              ...linkInfo,
-                              name: e.target.value,
-                            })
-                          }
-                          value={linkInfo?.name}
-                        />
-                      </>
-                    ) : null}
+                      linkInfo?.linkID === 50 ||
+                        linkInfo?.linkID === 51 ||
+                        linkInfo?.linkID === 52 ||
+                        linkInfo?.linkID === 53 ||
+                        linkInfo?.linkID === 54 ||
+                        linkInfo?.linkID === 55 ||
+                        linkInfo?.linkID === 56 ||
+                        linkInfo?.linkID === 57 ||
+                        linkInfo?.linkID === 58 ||
+                        linkInfo?.linkID === 59 ? (
+                        <>
+                          <h2 className="text-sm font-medium mt-4">Title*</h2>
+                          <input
+                            type="text"
+                            className="mt-2 outline-none border-none w-[90%]  h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                            onChange={(e) =>
+                              setLinkInfo({
+                                ...linkInfo,
+                                name: e.target.value,
+                              })
+                            }
+                            value={linkInfo?.name}
+                          />
+                        </>
+                      ) : null}
 
                     <div className="w-[90%] flex justify-center items-center mt-5">
                       <div
@@ -678,26 +678,31 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         <>
                           <div
                             className="h-[38px] w-[110px] rounded-full cursor-pointer font-[500] flex justify-center items-center ml-1 bg-[#3fb621] text-white"
-                            onClick={() =>
-                              updateNewLink(
-                                {
-                                  image: linkInfo?.image,
-                                  linkID: linkInfo?.linkID,
-                                  name: linkInfo?.name,
-                                  value: linkInfo?.baseUrl + linkValue?.value,
-                                  shareable: linkValue?.shareable,
-                                },
-                                uid,
-                                links,
-                                () => setLinkEdit(false),
-                                ifCompany,
-                                allProfiles,
-                                t("Link updated successfully")
-                              )
-                            }
+                            onClick={() => {
+                              if (linkValue?.value !== "") {
+                                updateNewLink(
+                                  {
+                                    image: linkInfo?.image,
+                                    linkID: linkInfo?.linkID,
+                                    name: linkInfo?.name,
+                                    value: linkInfo?.baseUrl + linkValue?.value,
+                                    shareable: linkValue?.shareable,
+                                  },
+                                  uid,
+                                  links,
+                                  () => setLinkEdit(false),
+                                  ifCompany,
+                                  allProfiles,
+                                  t("Link updated successfully")
+                                );
+                              } else {
+                                toast.error("Please fill input field.");
+                              }
+                            }}
                           >
                             {t("Update")}
                           </div>
+
 
                           {/* <div
                             className="h-[38px] w-[110px] rounded-full cursor-pointer font-[500] flex justify-center items-center ml-2 border border-red-500 text-red-500"
@@ -723,6 +728,10 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         <div
                           className="h-[38px] w-[110px] rounded-full cursor-pointer font-[500] flex justify-center items-center ml-1 bg-black text-white"
                           onClick={() => {
+                            if (!linkValue?.value) {
+                              toast.error("Please fill input field.");
+                              return;
+                          }
                             if (linkInfo?.linkID === 20 || linkInfo?.linkID === 11) {
                               if (isValidEmail(linkValue?.value)) {
                                 addNewLink(
@@ -1070,18 +1079,18 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           onClick={() => {
                             handleLinkEditModal(), addAlreadyExist(elm, i);
                           }}
-                          // onClick={
-                          //   checkAdded(elm?.name)
-                          //     ? () => {
-                          //         addlinkname(elm?.name),
-                          //           dispatch(openLinkUpdateModal()),
-                          //           dispatch(addLink(elm));
-                          //       }
-                          //     : () => {
-                          //         dispatch(openLinkEditModal()),
-                          //           dispatch(addLink(elm));
-                          //       }
-                          // }
+                        // onClick={
+                        //   checkAdded(elm?.name)
+                        //     ? () => {
+                        //         addlinkname(elm?.name),
+                        //           dispatch(openLinkUpdateModal()),
+                        //           dispatch(addLink(elm));
+                        //       }
+                        //     : () => {
+                        //         dispatch(openLinkEditModal()),
+                        //           dispatch(addLink(elm));
+                        //       }
+                        // }
                         >
                           {checkAdded(elm?.linkID) && (
                             <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
@@ -1120,17 +1129,17 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                             onClick={() => {
                               handleLinkEditModal(), addAlreadyExist(elm, i);
                             }}
-                            //   onClick={
-                            //     checkAdded(elm?.name)
-                            //       ? () => {
-                            //           dispatch(openLinkUpdateModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //       : () => {
-                            //           dispatch(openLinkEditModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //   }
+                          //   onClick={
+                          //     checkAdded(elm?.name)
+                          //       ? () => {
+                          //           dispatch(openLinkUpdateModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //       : () => {
+                          //           dispatch(openLinkEditModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //   }
                           >
                             {checkAdded(elm?.linkID) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
@@ -1171,17 +1180,17 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                             onClick={() => {
                               handleLinkEditModal(), addAlreadyExist(elm, i);
                             }}
-                            //   onClick={
-                            //     checkAdded(elm?.title)
-                            //       ? () => {
-                            //           dispatch(openLinkUpdateModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //       : () => {
-                            //           dispatch(openLinkEditModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //   }
+                          //   onClick={
+                          //     checkAdded(elm?.title)
+                          //       ? () => {
+                          //           dispatch(openLinkUpdateModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //       : () => {
+                          //           dispatch(openLinkEditModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //   }
                           >
                             {checkAdded(elm?.linkID) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
@@ -1221,17 +1230,17 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                             onClick={() => {
                               handleLinkEditModal(), addAlreadyExist(elm, i);
                             }}
-                            //   onClick={
-                            //     checkAdded(elm?.title)
-                            //       ? () => {
-                            //           dispatch(openLinkUpdateModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //       : () => {
-                            //           dispatch(openLinkEditModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //   }
+                          //   onClick={
+                          //     checkAdded(elm?.title)
+                          //       ? () => {
+                          //           dispatch(openLinkUpdateModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //       : () => {
+                          //           dispatch(openLinkEditModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //   }
                           >
                             {checkAdded(elm?.linkID) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
@@ -1269,17 +1278,17 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                             onClick={() => {
                               handleLinkEditModal(), addAlreadyExist(elm, i);
                             }}
-                            //   onClick={
-                            //     checkAdded(elm?.title)
-                            //       ? () => {
-                            //           dispatch(openLinkUpdateModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //       : () => {
-                            //           dispatch(openLinkEditModal()),
-                            //             dispatch(addLink(elm));
-                            //         }
-                            //   }
+                          //   onClick={
+                          //     checkAdded(elm?.title)
+                          //       ? () => {
+                          //           dispatch(openLinkUpdateModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //       : () => {
+                          //           dispatch(openLinkEditModal()),
+                          //             dispatch(addLink(elm));
+                          //         }
+                          //   }
                           >
                             {checkAdded(elm?.linkID) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
@@ -1290,8 +1299,8 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                                 <img
                                   src={
                                     ifCustom(elm?.linkID) &&
-                                    checkAdded(elm?.linkID) &&
-                                    checkIfCstmAdded(elm?.linkID)?.image
+                                      checkAdded(elm?.linkID) &&
+                                      checkIfCstmAdded(elm?.linkID)?.image
                                       ? checkIfCstmAdded(elm?.linkID)?.image
                                       : elm.img
                                   }
@@ -1299,12 +1308,12 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                                 />
                                 <p className="text-sm font-medium ml-[11px]">
                                   {ifCustom(elm?.linkID) &&
-                                  checkAdded(elm?.linkID) &&
-                                  checkIfCstmAdded(elm?.linkID)?.name
+                                    checkAdded(elm?.linkID) &&
+                                    checkIfCstmAdded(elm?.linkID)?.name
                                     ? splitString(
-                                        t(checkIfCstmAdded(elm?.linkID)?.name),
-                                        33
-                                      )
+                                      t(checkIfCstmAdded(elm?.linkID)?.name),
+                                      33
+                                    )
                                     : t(elm.name)}
 
                                   {/* {elm.name} */}
