@@ -44,7 +44,7 @@ import podcasts from "./socialLink/podcasts.png";
 
 // import payment icons
 
-import cashapp from "./socialLink/cash.svg";
+import cashapp from "./socialLink/cash.png";
 import paypal from "./socialLink/paypal.png";
 
 // import payment icons

@@ -354,14 +354,14 @@ const Mobile = ({
       </div>
 
       <div className="w-[100%] flex flex-col items-center mt-3">
-        <div className="w-[90%] grid grid-cols-4 ml-6 gap-y-3">
+        <div className="w-[90%] grid grid-cols-4 ml-6 gap-y-3 mb-3">
           {links?.map((elm) => {
             return linkInfo?.linkID != elm?.linkID ? (
               <div
                 className="w-[35px] h-[50px] flex flex-col items-center"
                 style={{
                   display:
-                    !elm?.shareable || elm?.linkID === 54 ? "none" : null,
+                    !elm?.shareable ? "none" : null,
                 }}
               >
                 <img
