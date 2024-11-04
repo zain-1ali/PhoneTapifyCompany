@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 import addApplePass from "../../imgs/apple-pass.png";
+import addGooglePass from "../../imgs/google-pass.png";
 
 const Qr = ({ uid, handleCancelQr }) => {
   const qrLogo = useSelector((state) => state.profileInfoSlice.qrLogo);
@@ -19,7 +20,7 @@ const Qr = ({ uid, handleCancelQr }) => {
   let appUrl = import.meta.env.VITE_APP_PROFILE_URL
   let dispatch = useDispatch();
 
-  console.log(qrLogo);
+  // console.log(qrLogo);
   // ----------------------------------------------------State setup for profile img crop---------------------------------------------
   let [prflimg, setprflimg] = useState(null);
   let [cropModal, setcropModal] = useState(false);
@@ -238,11 +239,19 @@ const Qr = ({ uid, handleCancelQr }) => {
           {t("Update")}
         </button>
       </div>
-      <div
-        onClick={() => window.open(`${appUrl}apple-pass/${uid}`, '_blank')}
-        className="w-[40%] flex justify-center items-center mt-5 cursor-pointer"
-      >
-        <img src={addApplePass} className="w-full h-[45px] rounded-lg" alt="Add Apple Pass" />
+      <div className="flex justify-between items-center w-[65%]">
+        <div
+          onClick={() => window.open(`${appUrl}apple-pass/${uid}`, '_blank')}
+          className="w-[48%] flex justify-center items-center mt-5 cursor-pointer"
+        >
+          <img src={addApplePass} className="w-full h-[45px] rounded-lg" alt="Add Apple Pass" />
+        </div>
+        <div
+          onClick={() => window.open(`${appUrl}google-pass/${uid}`, '_blank')}
+          className="w-[48%] flex justify-center items-center mt-5 cursor-pointer"
+        >
+          <img src={addGooglePass} className="w-full h-[45px] rounded-lg" alt="Add google Pass" />
+        </div>
       </div>
 
     </div>

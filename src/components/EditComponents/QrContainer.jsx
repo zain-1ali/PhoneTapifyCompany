@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { QRCode } from "react-qrcode-logo";
+import { FetchProfileTag } from "../../Services";
 import { useSelector } from "react-redux";
 
 const QrContainer = ({ uid }) => {
   const qrLogo = useSelector((state) => state.profileInfoSlice.qrLogo);
   const qrColor = useSelector((state) => state.profileInfoSlice.qrColor);
+
+  const [profileTag, setProfileTag] = useState(null);
+
+  let getProfileTag = (obj) => {
+    if(obj)
+    {
+      setProfileTag(Object.values(obj)[0]);
+    }
+  }; 
+
+  useEffect(() => {
+    FetchProfileTag(uid, getProfileTag );
+  }, []);
+
+  const userTag = profileTag?.tagId ?? uid;
+
+  let shareUrl = import.meta.env.VITE_APP_PROFILE_URL+userTag;
+
   const downloadQRCode = () => {
     const canvas = document.getElementById("qrCodeEl");
     if (canvas) {
@@ -26,7 +45,7 @@ const QrContainer = ({ uid }) => {
       <div className="h-[90%] w-[80%] flex flex-col justify-around items-center">
         <h2 className="font-[500] text-lg">{t("User's QR Code")}</h2>
         <QRCode
-          value={`https://www.test.connexcard.com/${uid}`}
+          value={`${shareUrl}`}
           size="171"
           logoImage={qrLogo}
           fgColor={qrColor ? qrColor : "black"}
@@ -40,7 +59,7 @@ const QrContainer = ({ uid }) => {
         <div style={{ display: "none" }}>
           <QRCode
             id="qrCodeEl"
-            value={`https://www.test.connexcard.com/${uid}`}
+            value={`${shareUrl}`}
             size="171"
             logoImage={qrLogo}
             enableCORS={true}
