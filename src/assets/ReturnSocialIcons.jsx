@@ -115,7 +115,7 @@ export const contactIcons = [
     img: line,
     placeholder: "Line Username",
     linkID: 17,
-    baseUrl: "https://line.me/en/",
+    baseUrl: "https://lin.ee/",
   },
   {
     name: "Gmail",

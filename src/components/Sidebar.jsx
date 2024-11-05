@@ -133,9 +133,9 @@ const Sidebar = () => {
 
                 <div
                   className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
-                  onClick={() => navigate("/leads")}
+                  onClick={() => navigate("/leads-reviews")}
                   style={
-                    currentPath.includes("/leads")
+                    currentPath.includes("/leads-reviews")
                       ? { backgroundColor: "#3fb621", color: "white" }
                       : null
                   }
@@ -145,12 +145,12 @@ const Sidebar = () => {
                       <FaFilter className=" text-xl ml-2 " />
                     </div>
                     <p className="ml-[10px] text-[13px] font-[600]">
-                      {t("Leads Generated")}
+                      {t("Leads & Reviews")}
                     </p>
                   </div>
                 </div>
                 
-                <div
+                {/* <div
                   className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
                   onClick={() => navigate("/reviews")}
                   style={
@@ -167,7 +167,7 @@ const Sidebar = () => {
                       {t("Google Reviews")}
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 <div
                   className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"

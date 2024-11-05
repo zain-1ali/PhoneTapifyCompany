@@ -630,7 +630,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                     </h2>
                     <input
                       type={
-                        linkInfo?.linkID === 6 || linkInfo?.linkID === 10
+                        linkInfo?.linkID === 6 || linkInfo?.linkID === 10 || linkInfo?.linkID === 9
                           ? "number"
                           : "text"
                       }

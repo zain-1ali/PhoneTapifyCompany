@@ -2,7 +2,8 @@ import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import SubTeams from "./pages/SubTeams";
-import Leads from "./pages/Leads";
+// import Leads from "./pages/Leads";
+import Leads from "./components/TableHeader";
 import Reviews from "./pages/Reviews";
 import Analytics from "./pages/Analytics";
 import EditMember from "./pages/EditMember";
@@ -63,21 +64,21 @@ function App() {
               }
             />
             <Route
-              path="/leads"
+              path="/leads-reviews"
               element={
                 <RequireAuth>
                   <Leads />
                 </RequireAuth>
               }
             />
-            <Route
+            {/* <Route
               path="/reviews"
               element={
                 <RequireAuth>
                   <Reviews />
                 </RequireAuth>
               }
-            />
+            /> */}
             <Route
               path="/analytics"
               element={

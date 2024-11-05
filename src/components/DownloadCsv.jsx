@@ -3,7 +3,7 @@ import { CSVLink } from "react-csv";
 import { useTranslation } from "react-i18next";
 
 const DownloadCsv = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const csvData = data?.map((item) => {
     return {
       Contact: item?.name,
