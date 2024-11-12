@@ -197,19 +197,6 @@ export const AddSubscription = (fDate, SDate, id, cb) => {
     cb();
   });
 };
-export const updateSignLinks = (id, links, signIndex, cb) => {
-  const linkIds = links.map(link => link.linkID); // Get linkID of each link
-
-  update(ref(db, `Users/${id}/signatureLinkIds`), {
-   
-      [signIndex]: linkIds, 
-    
-  }).then(() => {
-    // toast.success("Links updated");
-    cb();
-  });
-};
-
 
 export const removeSubscription = (id, cb) => {
   update(ref(db, `Users/${id}`), {
@@ -1161,6 +1148,44 @@ export const updateLead = async (id, formHeader, leadForm, success) => {
       toast.success(success ?? "");
     });
   
+};
+
+// ------------------------------------------------Add lead Form-----------------------------------------------
+export const addLeadForm = async (id, formHeader, fields, success) => {
+  try {
+    const leadFormRef = ref(db, `Users/${id}/leadForm`);
+    
+    const currentDataSnapshot = await get(leadFormRef);
+    let leadForm = currentDataSnapshot.exists() ? currentDataSnapshot.val() : [];
+
+    if (!Array.isArray(leadForm)) {
+      leadForm = [];
+    }
+    leadForm.push({ formHeader, fields });
+
+    await update(ref(db, `Users/${id}`), { leadForm });
+    
+    toast.success(success ?? "Form added successfully!");
+  } catch (error) {
+    console.error("Error adding lead form:", error);
+    toast.error("Failed to add form.");
+  }
+};
+// ------------------------------------------------Get lead Forms-----------------------------------------------
+export const getLeadForms = async (id, callBackFunc) => {
+  try {
+    const leadFormRef = ref(db, `Users/${id}/leadForm`);
+    
+    const currentDataSnapshot = await get(leadFormRef);
+    let leadForm = currentDataSnapshot.exists() ? currentDataSnapshot.val() : [];
+
+    if (!Array.isArray(leadForm)) {
+      leadForm = [];
+    }
+    return callBackFunc(leadForm)
+  } catch (error) {
+    toast.error("Failed to add form.");
+  }
 };
 
 // ------------------------------------------------Create New Team-----------------------------------------------

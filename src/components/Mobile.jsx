@@ -285,11 +285,11 @@ const Mobile = ({
             <img
               className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
               alt=""
-              src={logo ? appendBucketPath(logo) : organizationLogo ? organizationLogo : lgoplchldr}
+              src={organizationLogo ? organizationLogo : logo ? appendBucketPath(logo) :  lgoplchldr}
             />
           ) : (
             <img
-              src={lgoplchldr}
+              src={logo ? appendBucketPath(logo) : lgoplchldr}
               alt=""
               className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
             />

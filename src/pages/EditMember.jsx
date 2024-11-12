@@ -18,6 +18,7 @@ import Lead from "../components/EditComponents/Lead";
 import { RiShareFill } from "react-icons/ri";
 import { getSingleChild } from "../Services";
 import { PiWebhooksLogoBold } from "react-icons/pi";
+import { TbMailCode } from "react-icons/tb";
 import {
   setName,
   setEmail,
@@ -66,6 +67,7 @@ import prsnPlshldr from "../imgs/prsnPlshldr.png";
 import QrContainer from "../components/EditComponents/QrContainer.jsx";
 import ShareCardModal from "../components/Modals/ShareCardModal.jsx";
 import { useTranslation } from "react-i18next";
+import EmailSignature from "../components/SettingsComponents/EmailSignature.jsx";
 
 const EditMember = () => {
   let navigate = useNavigate();
@@ -79,6 +81,7 @@ const EditMember = () => {
     isQr: false,
     isWebhook: false,
     isLead: false,
+    isEmailSign: false,
   });
 
   let handleRoute = (route) => {
@@ -89,6 +92,7 @@ const EditMember = () => {
         isQr: false,
         isLead: false,
         isWebhook: false,
+        isEmailSign: false,
       });
     } else if (route === "content") {
       setroute({
@@ -97,6 +101,7 @@ const EditMember = () => {
         isQr: false,
         isLead: false,
         isWebhook: false,
+        isEmailSign: false,
       });
     } else if (route === "qr") {
       setroute({
@@ -105,6 +110,7 @@ const EditMember = () => {
         isQr: true,
         isLead: false,
         isWebhook: false,
+        isEmailSign: false,
       });
     } else if (route === "lead") {
       setroute({
@@ -113,6 +119,7 @@ const EditMember = () => {
         isQr: false,
         isLead: true,
         isWebhook: false,
+        isEmailSign: false,
       });
     }
     else if (route === "webhook") {
@@ -122,6 +129,17 @@ const EditMember = () => {
         isWebhook: true,
         isQr: false,
         isLead: false,
+        isEmailSign: false,
+      });
+    }
+    else if (route === "emailSignature") {
+      setroute({
+        isAbout: false,
+        isContent: false,
+        isWebhook: false,
+        isQr: false,
+        isLead: false,
+        isEmailSign: true,
       });
     }
   };
@@ -344,6 +362,18 @@ const EditMember = () => {
                     </p>
                   </div>
                   <div
+                    className="w-[25%] h-[55px] sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                    onClick={() => handleRoute("emailSignature")}
+                  >
+                    <IoMdMenu className="text-[16px] ml-2 " />
+                    <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
+                      {screen <= 450 && route?.isContent === true
+                        ? t("Email Signature")
+                        : null}
+                      {screen >= 450 ? t("Email Signature") : null}
+                    </p>
+                  </div>
+                  <div
                     className="w-[25%] h-[55px]  sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
                     onClick={() => handleRoute("qr")}
                   >
@@ -384,7 +414,7 @@ const EditMember = () => {
               </div>
             ) : null}
             {screen >= 450 ? (
-              <div className="sm:w-[70%] w-[98%] h-[55px] sm:mb-[0px]   sm:rounded-t-[35px] sm:rounded-[0px] rounded-[44px] bg-white flex">
+              <div className="sm:w-[90%] w-[98%] h-[55px] sm:mb-[0px]   sm:rounded-t-[35px] sm:rounded-[0px] rounded-[44px] bg-white flex">
                 <div
                   className="w-[25%] h-[55px] sm:rounded-tl-[35px] sm:rounded-[0px] rounded-[44px]  sm:border-r cursor-pointer hover:bg-[#000000] hover:text-white flex justify-center items-center"
                   onClick={() => handleRoute("about")}
@@ -419,6 +449,23 @@ const EditMember = () => {
                       ? t("Content")
                       : null}
                     {screen >= 450 ? t("Content") : null}
+                  </p>
+                </div>
+                <div
+                  className="w-[30%] h-[55px] sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                  onClick={() => handleRoute("emailSignature")}
+                  style={
+                    route?.isEmailSign
+                      ? { backgroundColor: "#000000", color: "white" }
+                      : null
+                  }
+                >
+                  <TbMailCode className="text-[16px] ml-2 " />
+                  <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
+                    {screen <= 450 && route?.isEmailSign === true
+                      ? t("Email Signature")
+                      : null}
+                    {screen >= 450 ? t("Email Signature") : null}
                   </p>
                 </div>
                 <div
@@ -476,11 +523,12 @@ const EditMember = () => {
               </div>
             ) : null}
           <div className={`w-full ${route?.isWebhook ? 'min-h-max' : 'h-[535px]'} rounded-[35px] shadow-xl bg-white flex`}>
-              <div className="sm:w-[70%] w-[100%] h-[100%] relative flex justify-center items-center">
+              <div className={`${route?.isEmailSign ? 'sm:w-[100%]' : 'sm:w-[70%] items-center'}  w-[100%] h-[100%] relative flex justify-center `}>
                 {route?.isAbout === true && (
                   <About uid={uid} handleCancelAbout={handleCancelAbout} />
                 )}
                 {route?.isContent === true && <Content uid={uid} />}
+                {route?.isEmailSign === true && <EmailSignature uid={uid} />}
                 {route?.isQr === true && (
                   <Qr uid={uid} handleCancelQr={handleCancelQr} />
                 )}
@@ -488,7 +536,7 @@ const EditMember = () => {
                 {route?.isWebhook === true && <ApiAccess uid={uid} />}
               </div>
               {screen >= 450 ? (
-                !route?.isWebhook  && (
+                !route?.isWebhook && !route?.isEmailSign  && (
                 <div className="w-[30%] h-[100%] border-l">
                   {route?.isQr ? (
                     <QrContainer uid={uid} />

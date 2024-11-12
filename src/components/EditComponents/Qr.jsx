@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 import addApplePass from "../../imgs/apple-pass.png";
 import addGooglePass from "../../imgs/google-pass.png";
+import EmailSignatureModal from "../Modals/EmailSignatureModal"
 
 const Qr = ({ uid, handleCancelQr }) => {
   const qrLogo = useSelector((state) => state.profileInfoSlice.qrLogo);
@@ -24,6 +25,7 @@ const Qr = ({ uid, handleCancelQr }) => {
   // ----------------------------------------------------State setup for profile img crop---------------------------------------------
   let [prflimg, setprflimg] = useState(null);
   let [cropModal, setcropModal] = useState(false);
+  let [signatureModal, setSignatureModal] = useState(false);
   let [myprflimg, setmyprflimg] = useState(null);
   let [cropPrfl, setCropPrfl] = useState({
     unit: "%",
@@ -36,6 +38,10 @@ const Qr = ({ uid, handleCancelQr }) => {
   let handleclosecropper = () => {
     setcropModal(false);
     // settheimg(null)
+  };
+
+  let handleclosesignature = () => {
+    setSignatureModal(false);
   };
 
   let handleLogoImageChange = (event) => {
@@ -71,8 +77,26 @@ const Qr = ({ uid, handleCancelQr }) => {
         setReduxState={setQrLogo}
         isCircle={false}
       />
-      <div className="w-[155px] h-[47px] rounded-[36px] shadow-lg font-[600] text-[16px] flex justify-center items-center">
-        {t("QR Code")}
+      {
+        // <EmailSignatureModal
+        // uid = {uid}
+        // signatureModal={signatureModal}
+        // handleclosesignature={handleclosesignature}
+        //  />
+
+      }
+      
+      <div className="flex justify center gap-4">
+      {/* <div className="w-[155px] h-[47px] rounded-[36px] shadow-lg font-[600] text-[16px]  text-white bg-black flex justify-center items-center">
+          {t("QR Code")}
+        </div> */}
+        <div className="w-[155px] h-[47px] rounded-[36px] shadow-lg font-[600] text-[16px] flex justify-center items-center cursor-pointer"
+        // onClick={() => setSignatureModal(true)}
+        >
+          {t("QR Code")}
+        </div>
+        
+        
       </div>
       <div className="h-[100px] w-[100px] relative mt-[55px]">
         {qrLogo ? (
