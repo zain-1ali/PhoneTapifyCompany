@@ -43,6 +43,7 @@ import {
   renoveLink,
   splitString,
   updateNewLink,
+  appendBucketPath
 } from "../../Services";
 import Mobile from "../Mobile";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -154,14 +155,14 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     }
   };
 
-  const appendBucketPath = (path) => {
-    let url = "";
-    if (path !== "") {
-      const filterUrl = path?.replace("gs://phonetapify-c6c06.appspot.com/", "");
-      url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filterUrl}?alt=media`;
-    }
-    return url;
-  };
+  // const appendBucketPath = (path) => {
+  //   let url = "";
+  //   if (path !== "") {
+  //     const filterUrl = path?.replace("gs://phonetapify-c6c06.appspot.com/", "");
+  //     url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filterUrl}?alt=media`;
+  //   }
+  //   return url;
+  // };
 
   const [customPhoto, setCustomPhoto] = useState("");
 
@@ -266,7 +267,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   let checkAdded = (linkid) => {
     if (links) {
       let ifAdded = links?.some((elm) => {
-        return parseInt(elm?.linkID) === linkid;
+        return parseInt(elm?.linkID) == linkid;
       });
       return ifAdded;
     }
@@ -275,8 +276,9 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   let checkIfCstmAdded = (linkid) => {
     if (links) {
       let ifAdded = links?.find((elm) => {
-        return elm?.linkID === linkid;
+        return elm?.linkID == linkid;
       });
+
       return ifAdded;
     }
   };
@@ -412,10 +414,12 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const { t } = useTranslation();
 
   const ifCustom = (id) => {
-    if (id === 50 || id === 51 || id === 52 || id === 53 ||
-      id === 54 || id === 55 || id === 56 || id === 57 || id === 58 || id === 59) {
+    if (id == 50 || id == 51 || id == 52 || id == 53 ||
+      id == 54 || id == 55 || id == 56 || id == 57 || id == 58 || id == 59) {
+        
       return true;
     } else {
+      
       return false;
     }
   };
@@ -1301,7 +1305,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                                     ifCustom(elm?.linkID) &&
                                       checkAdded(elm?.linkID) &&
                                       checkIfCstmAdded(elm?.linkID)?.image
-                                      ? checkIfCstmAdded(elm?.linkID)?.image
+                                      ? appendBucketPath(checkIfCstmAdded(elm?.linkID)?.image)
                                       : elm.img
                                   }
                                   className="h-[45px] w-[45px] rounded-lg object-cover"

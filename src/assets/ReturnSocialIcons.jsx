@@ -374,8 +374,8 @@ export const more = [
     baseUrl: "",
   },
   {
-    name: "G review",
-    title: "G review",
+    name: "G Review",
+    title: "G Review",
     img: greview,
     placeholder: "G review link",
     linkID: 40,

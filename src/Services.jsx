@@ -1151,6 +1151,14 @@ export const updateCompanyToken = async (companyId, userId) => {
   });
 };
 
+// ------------------------------------------------Append bucket path-----------------------------------------------
+export const appendBucketPath = (path) => {
+  if (path.startsWith("gs://")) {
+    const filterUrl = path.replace("gs://phonetapify-c6c06.appspot.com/", "");
+    return `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${encodeURIComponent(filterUrl)}?alt=media`;
+  } 
+  return path; 
+};
 
 // ------------------------------------------------Update lead Data-----------------------------------------------
 

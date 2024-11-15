@@ -3,7 +3,7 @@ import { Box, Modal } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard"; // Import the library
 import SignLinkSelectModal from "../Modals/SignLinkSelectModal";
-import { getSingleChild } from "../../Services";
+import { getSingleChild, appendBucketPath } from "../../Services";
 import prsnPlshldr from "../../imgs/prsnPlshldr.png";
 import lgoplchldr from "../../imgs/lgoplchldr.jpg";
 import domtoimage from "dom-to-image";
@@ -58,9 +58,9 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
       setSign2links(sign2Links || []);
     }
   }, [userData]);
-
+  // console.log(userData);
   let getCompanyData = (data) => {
-    console.log(data);
+    // console.log(data);
     var userObject = Object.values(data)[0];
     setCompanyProfile(userObject);
   }
@@ -74,29 +74,52 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
 
   const divRef = React.useRef();
   const divRef2 = React.useRef();
+  // const copySign = (ref) => {
+  //   const element = ref.current;
+
+  //   const range = document.createRange();
+  //   range.selectNodeContents(element);
+
+  //   const selection = window.getSelection();
+  //   selection.removeAllRanges(); // Clear any existing selections
+  //   selection.addRange(range);
+
+  //   try {
+  //     document.execCommand('copy');
+  //     toast.success(
+  //       "Script copied to clipboard!"
+  //     );
+  //   } catch (error) {
+  //     // console.error('Failed to copy content:', error);
+  //     toast.error(
+  //       "Failed to copy script!"
+  //     );
+  //   }
+  //   selection.removeAllRanges();
+  // };
+
   const copySign = (ref) => {
     const element = ref.current;
-
-    const range = document.createRange();
-    range.selectNodeContents(element);
-
-    const selection = window.getSelection();
-    selection.removeAllRanges(); // Clear any existing selections
-    selection.addRange(range);
-
-    try {
-      document.execCommand('copy');
-      toast.success(
-        "Script copied to clipboard!"
-      );
-    } catch (error) {
-      // console.error('Failed to copy content:', error);
-      toast.error(
-        "Failed to copy script!"
-      );
-    }
-    selection.removeAllRanges();
+  
+    // Get the outerHTML of the element
+    const htmlContent = element.outerHTML;
+  
+    // Use Clipboard API with HTML MIME type
+    navigator.clipboard
+      .write([
+        new ClipboardItem({
+          'text/html': new Blob([htmlContent], { type: 'text/html' }),
+          'text/plain': new Blob([htmlContent], { type: 'text/plain' }),
+        }),
+      ])
+      .then(() => {
+        toast.success("Signature copied to clipboard!");
+      })
+      .catch(() => {
+        toast.error("Failed to copy signature!");
+      });
   };
+  
 
   const handleDownload = (ref) => {
     if (ref.current) {
@@ -158,8 +181,9 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
       {/* signature 1  */}
       <div style={{ display: "flex", width: "max-content", height: "max-content", marginTop: "2rem" }}>
 
-        <div ref={divRef} >
-          <p style={{ opacity: "0" }}>Email Signature</p>
+        <div ref={divRef} style={{width: "420px",
+              height: "265px",}}>
+         
           <div
             id="signature"
             style={{
@@ -170,8 +194,10 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
               borderRadius: "0.5rem",
               padding: "0.75rem",
               boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-              width: "420px",
+              width: "100%",
+              height: "100%",
               backgroundColor: "#ffffff",
+              marginBottom:"10px"
             }}
           >
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -189,16 +215,16 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
 
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
+                display: "grid",
+                gridTemplateRows: "auto auto auto", // Define rows
+                rowGap: "0.5rem", // Similar to flex gap
                 marginLeft: "1.25rem",
                 paddingLeft: "1rem",
                 paddingRight: "1.5rem",
                 borderLeft: "1px solid #9CA3AF",
               }}
             >
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", height: "50px" }}>
                 {userData?.logoUrl ? (
                   <img
                     src={appendBucketPath(userData?.logoUrl)}
@@ -224,7 +250,8 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{  display: "grid",
+    gridTemplateRows: "auto auto auto",}}>
                   <span
                     style={{
                       fontWeight: "bold",
@@ -241,6 +268,8 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                       fontSize: "0.875rem",
                       color: "#4B5563",
                       width: "230px",
+                      maxHeight: "42px",
+                      overflow: "hidden",
                     }}
                   >
                     {userData?.job || ""}
@@ -248,7 +277,11 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                 </div>
               </div>
 
-              <div>
+              <div style={{
+                      maxHeight: "62px",
+                      overflow: "hidden",
+                    }}
+                    >
                 <div style={{ fontSize: "12px", fontWeight: "bold" }}>{companyProfile?.name}</div>
                 <div style={{ fontSize: "13px", fontWeight: "300" }}>{userData?.phone}</div>
                 <a
@@ -272,26 +305,26 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                       alignItems: "center",
                       justifyContent: "center",
                       border: "1px solid #D1D5DB",
-                      height: "40px",
+                      height: "35px",
                       borderRadius: "0.25rem",
                       padding: "0.25rem",
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem", width: "95%" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between",  width: "95%" }}>
                       {Sign1links?.map((link) => (
                         <a href={link?.value || "#"} key={link?.linkID}>
-                          {(link?.linkID === 50 || link?.linkID === 51 || link?.linkID === 52 || link?.linkID === 53 || link?.linkID === 54
-                            || link?.linkID === 55 || link?.linkID === 56 || link?.linkID === 57 || link?.linkID === 58 || link?.linkID === 59) ?
+                          {(link?.linkID == 50 || link?.linkID == 51 || link?.linkID == 52 || link?.linkID == 53 || link?.linkID == 54
+                            || link?.linkID == 55 || link?.linkID == 56 || link?.linkID == 57 || link?.linkID == 58 || link?.linkID == 59) ?
                             (
                               <img
-                                src={link?.image ? link?.image : returnIconsByArray("Website 1")}
-                                style={{ width: "20px", height: "20px", margin: "0.25rem" }}
+                                src={link?.image ? appendBucketPath(link?.image) : returnIconsByArray("Website 1")}
+                                style={{ width: "20px", height: "20px", margin: "0.25rem 8px" }}
                                 alt={link?.name}
                               />
                             ) : (
                               <img
                                 src={returnIconsByArray(link?.name) ? returnIconsByArray(link?.name) : returnIconsByArray("Website 1")}
-                                style={{ width: "20px", height: "20px", margin: "0.25rem" }}
+                                style={{ width: "20px", height: "20px", margin: "0.25rem 8px" }}
                                 alt={link?.name}
                               />
                             )
@@ -367,7 +400,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
       {/* signature 2 */}
       <div style={{ display: "flex", width: "max-content", height: "max-content", marginTop: "3rem" }}>
         <div ref={divRef2} >
-          <p style={{ opacity: "0" }}>Email Signature</p>
+          
           <div
             id="signature"
 
@@ -384,7 +417,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
             }}
           >
             {/* Signature Content */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", width: "100%" }}>
+            <div style={{ display: "grid", gridTemplateRows: "auto auto auto", rowGap: "0.5rem", width: "100%" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <img
                   crossOrigin="anonymous"
@@ -392,7 +425,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                   alt="profile image"
                   style={{ width: "3.5rem", height: "3.5rem", borderRadius: "50%" }}
                 />
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ marginLeft: "10px", display: "grid", gridTemplateRows: "auto auto auto", }}>
                   <span style={{ fontWeight: "bold", fontSize: "20px", width: "300px", maxHeight: "55px", overflow: "hidden" }}>
                     {userData?.name || ""}
                   </span>
@@ -421,7 +454,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                 )
                 }
               </div>
-              <hr />
+              <hr style={{ border: "none",  borderTop: "1px solid #D1D5DB", width: "100%", margin: "0", }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: "0.5rem" }}>
                 <div style={{ color: "black", width: "48%" }}>
                   <div style={{ fontSize: "12px", fontWeight: "600" }}>{companyProfile?.name}</div>
@@ -430,23 +463,23 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                 </div>
                 {
                 Sign2links?.length > 0 && (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D1D5DB", height: "40px", borderRadius: "0.375rem", padding: "0.25rem", width: "max-content", maxWidth: "48%" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem", width: "95%" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D1D5DB", height: "35px", borderRadius: "0.375rem", padding: "0.25rem", width: "max-content", maxWidth: "48%" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", width: "95%" }}>
 
                     {Sign2links?.map((link) => (
                       <a href={link?.value || "#"} key={link?.linkID}>
-                        {(link?.linkID === 50 || link?.linkID === 51 || link?.linkID === 52 || link?.linkID === 53 || link?.linkID === 54
-                          || link?.linkID === 55 || link?.linkID === 56 || link?.linkID === 57 || link?.linkID === 58 || link?.linkID === 59) ?
+                        {(link?.linkID == 50 || link?.linkID == 51 || link?.linkID == 52 || link?.linkID == 53 || link?.linkID == 54
+                          || link?.linkID == 55 || link?.linkID == 56 || link?.linkID == 57 || link?.linkID == 58 || link?.linkID == 59) ?
                           (
                             <img
-                              src={link?.image ? link?.image : returnIconsByArray("Website 1")}
-                              style={{ width: "20px", height: "20px", margin: "0.25rem" }}
+                              src={link?.image ? appendBucketPath(link?.image) : returnIconsByArray("Website 1")}
+                              style={{ width: "20px", height: "20px", margin: "0.25rem 8px" }}
                               alt={link?.name}
                             />
                           ) : (
                             <img
                               src={returnIconsByArray(link?.name) ? returnIconsByArray(link?.name) : returnIconsByArray("Website 1")}
-                              style={{ width: "20px", height: "20px", margin: "0.25rem" }}
+                              style={{ width: "20px", height: "20px", margin: "0.25rem 8px" }}
                               alt={link?.name}
                             />
                           )
@@ -496,7 +529,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
             }}
             onClick={() => copySign(divRef2)}
           >
-            {t("Copy")}
+            {t("Copy Script")}
           </button>
           <button
             style={{

@@ -135,7 +135,7 @@ const Content = ({ uid }) => {
     }
   };
   const { t } = useTranslation();
-  // console.log(featuredImages);
+  console.log(links);
   const appendBucketPath = (path) => {
     let url = "";
     if (path !== "") {
@@ -309,9 +309,12 @@ const Content = ({ uid }) => {
                               <PiDotsSixBold className="text-2xl text-[#EDEDED] cursor-grab" />
                             </div>
                             <div className="w-[100%] flex flex-col justify-center items-center mt-4">
+                            {(elm?.linkID == 50 || elm?.linkID == 51 || elm?.linkID == 52 || elm?.linkID == 53 || elm?.linkID == 54
+                          || elm?.linkID == 55 || elm?.linkID == 56 || elm?.linkID == 57 || elm?.linkID == 58 || elm?.linkID == 59) ?
+                          (
                               <img
                                 src={
-                                  returnIcons(elm?.linkID)
+                                  elm?.image ?  appendBucketPath(elm?.image) : ""
                                 }
                                 alt=""
                                 className="h-[45px] w-[45px] object-cover"
@@ -319,6 +322,19 @@ const Content = ({ uid }) => {
                                   borderRadius: elm?.image ? "10px" : "0px",
                                 }}
                               />
+                          ) :
+                          (
+                            <img
+                              src={
+                                returnIcons(elm?.linkID)
+                              }
+                              alt=""
+                              className="h-[45px] w-[45px] object-cover"
+                              style={{
+                                borderRadius: elm?.image ? "10px" : "0px",
+                              }}
+                            />
+                        ) }
                               <h2 className="font-[500] text-[15px] mt-2">
                                 {t(elm?.name)}
                               </h2>
@@ -376,18 +392,32 @@ const Content = ({ uid }) => {
                                         <PiDotsSixBold className="text-2xl text-[#EDEDED] cursor-grab" />
                                       </div>
                                       <div className="w-[100%] flex flex-col justify-center items-center mt-4">
-                                        <img
-                                          src={
-                                            returnIcons(elm?.linkID)
-                                          }
-                                          style={{
-                                            borderRadius: elm?.image
-                                              ? "10px"
-                                              : "0px",
-                                          }}
-                                          alt=""
-                                          className="h-[45px] w-[45px] object-cover"
-                                        />
+                                      {(elm?.linkID == 50 || elm?.linkID == 51 || elm?.linkID == 52 || elm?.linkID == 53 || elm?.linkID == 54
+                          || elm?.linkID == 55 || elm?.linkID == 56 || elm?.linkID == 57 || elm?.linkID == 58 || elm?.linkID == 59) ?
+                          (
+                              <img
+                                src={
+                                  elm?.image ?  appendBucketPath(elm?.image) : ""
+                                }
+                                alt=""
+                                className="h-[45px] w-[45px] object-cover"
+                                style={{
+                                  borderRadius: elm?.image ? "10px" : "0px",
+                                }}
+                              />
+                          ) :
+                          (
+                            <img
+                              src={
+                                returnIcons(elm?.linkID)
+                              }
+                              alt=""
+                              className="h-[45px] w-[45px] object-cover"
+                              style={{
+                                borderRadius: elm?.image ? "10px" : "0px",
+                              }}
+                            />
+                        ) }
                                         <h2 className="font-[500] text-[15px] mt-2">
                                           {t(elm?.name)}
                                         </h2>

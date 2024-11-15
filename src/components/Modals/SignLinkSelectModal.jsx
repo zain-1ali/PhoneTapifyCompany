@@ -7,7 +7,7 @@ import prsnPlshldr from "../../imgs/prsnPlshldr.png";
 import Checkbox from "@mui/material/Checkbox";
 import { useTranslation } from "react-i18next";
 import { returnIconsByArray } from "../../assets/ReturnSocialIcons";
-import { updateSignLinks } from "../../Services";
+import { updateSignLinks, appendBucketPath } from "../../Services";
 
 const SignLinkSelectModal = ({
   userProfile,
@@ -76,6 +76,8 @@ const SignLinkSelectModal = ({
     handleCloseLinkModal();
   };
 
+
+
   const ifAdded = (link) => selectedLinks.some((el) => el.linkID === link.linkID);
 
   return (
@@ -110,11 +112,11 @@ const SignLinkSelectModal = ({
                     <div className="h-[100%] w-[250px] flex items-center">
                       <div className="h-[40px] w-[25%] ml-2">
                         {
-                          (elm?.linkID === 50 || elm?.linkID === 51 || elm?.linkID === 52 || elm?.linkID === 53 || elm?.linkID === 54
-                            || elm?.linkID === 55 || elm?.linkID === 56 || elm?.linkID === 57 || elm?.linkID === 58 || elm?.linkID === 59) ?
+                          (elm?.linkID == 50 || elm?.linkID == 51 || elm?.linkID == 52 || elm?.linkID == 53 || elm?.linkID == 54
+                            || elm?.linkID == 55 || elm?.linkID == 56 || elm?.linkID == 57 || elm?.linkID == 58 || elm?.linkID == 59) ?
                             (
                               <img
-                                src={elm?.image ? elm?.image : returnIconsByArray("Website 1")}
+                                src={elm?.image ? appendBucketPath(elm?.image) : returnIconsByArray("Website 1")}
                                 alt=""
                                 className="h-[40px] w-[40px] rounded-full"
                               />
@@ -123,7 +125,7 @@ const SignLinkSelectModal = ({
                             (
                               <img
                                 src={returnIconsByArray(elm?.name) ? returnIconsByArray(elm?.name) : returnIconsByArray("Website 1")}
-                                alt=""
+                                alt={elm?.name}
                                 className="h-[40px] w-[40px] rounded-full"
                               />
                             )
