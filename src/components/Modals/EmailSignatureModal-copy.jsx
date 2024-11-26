@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard"; // Import the library
-import SignLinkSelectModal from "./SignLinkSelectModal";
+import SignLinkSelectModal from "../Modals/SignLinkSelectModal";
 import { getSingleChild, appendBucketPath } from "../../Services";
 import prsnPlshldr from "../../imgs/prsnPlshldr.png";
 import lgoplchldr from "../../imgs/lgoplchldr.jpg";
@@ -398,157 +398,213 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
       </div>
 
       {/* signature 2 */}
-      <div style={{ display: "flex", width: "max-content", height: "max-content", marginTop: "3rem" }}>
-        <div ref={divRef2} >
-          
-          <div
-            id="signature"
+      <div style={{ marginTop: "3rem", width: "max-content" }}>
+  <div ref={divRef2}>
+    <table
+      id="signature"
+      style={{
+        border: "1px solid #D1D5DB",
+        borderRadius: "0.5rem",
+        padding: "1rem",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+        width: "420px",
+        fontFamily: "Arial, sans-serif",
+      }}
+      cellPadding="0"
+      cellSpacing="0"
+    >
+      <tbody>
+        {/* Profile Section */}
+        <tr>
+          <td style={{ verticalAlign: "top", paddingRight: "10px" }}>
+            <img
+              crossOrigin="anonymous"
+              src={userData?.profileUrl ? appendBucketPath(userData?.profileUrl) : prsnPlshldr}
+              alt="profile"
+              width={56}
+              height={56}
+              style={{
+                width: "3.5rem",
+                height: "3.5rem",
+                borderRadius: "50%",
+                display: "block",
+              }}
+            />
+          </td>
+          <td>
+            <div style={{ display: "block" }}>
+              <div style={{ fontWeight: "bold", fontSize: "20px", maxHeight: "55px", overflow: "hidden" }}>
+                {userData?.name || ""}
+              </div>
+              <div style={{ fontSize: "0.875rem", color: "black" }}>{userData?.job || ""}</div>
+            </div>
+          </td>
+        </tr>
 
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              border: "1px solid #D1D5DB", // gray-300
-              borderRadius: "0.5rem",
-              padding: "1rem",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              width: "420px",
-              backgroundColor: "white",
-            }}
-          >
-            {/* Signature Content */}
-            <div style={{ display: "grid", gridTemplateRows: "auto auto auto", rowGap: "0.5rem", width: "100%" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        {/* Logo Section */}
+        <tr>
+          <td colSpan="2" style={{ textAlign: "center", padding: "10px 0" }}>
+            {userData?.logoUrl ? (
+              <img
+                src={appendBucketPath(userData?.logoUrl)}
+                alt="logo"
+                maxWidth={200}
+                maxHeight={50}
+                style={{ maxWidth: "200px", maxHeight: "50px" }}
+              />
+            ) : (
+              companyProfile?.logoUrl && (
                 <img
-                  crossOrigin="anonymous"
-                  src={userData?.profileUrl ? appendBucketPath(userData?.profileUrl) : prsnPlshldr}
-                  alt="profile image"
-                  style={{ width: "3.5rem", height: "3.5rem", borderRadius: "50%" }}
+                  src={appendBucketPath(companyProfile?.logoUrl)}
+                  alt="company logo"
+                  style={{ maxWidth: "100px", maxHeight: "50px" }}
                 />
-                <div style={{ marginLeft: "10px", display: "grid", gridTemplateRows: "auto auto auto", }}>
-                  <span style={{ fontWeight: "bold", fontSize: "20px", width: "300px", maxHeight: "55px", overflow: "hidden" }}>
-                    {userData?.name || ""}
-                  </span>
-                  <span style={{ fontSize: "0.875rem", color: "black", width: "300px" }}>{userData?.job || ""}</span>
-                </div>
-              </div>
-              <div style={{ display: "flex", marginTop: "0.75rem", marginBottom: "0.75rem" }}>
-                {userData?.logoUrl ? (
-                  <img
-                    src={appendBucketPath(userData?.logoUrl)}
-                    alt="profile image"
-                    style={{ maxWidth: "200px", maxHeight: "50px" }}
-                  />
-                ) :
-                (
-                  companyProfile?.logoUrl && (
-                  <img
-                    src={appendBucketPath(companyProfile?.logoUrl)}
-                    alt="profile image"
-                    style={{
-                      maxWidth: "100px",
-                      maxHeight: "50px",
-                    }}
-                  />
-                  )
-                )
-                }
-              </div>
-              <hr style={{ border: "none",  borderTop: "1px solid #D1D5DB", width: "100%", margin: "0", }} />
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: "0.5rem" }}>
-                <div style={{ color: "black", width: "48%" }}>
-                  <div style={{ fontSize: "12px", fontWeight: "600" }}>{companyProfile?.name}</div>
-                  <div style={{ fontSize: "13px", fontWeight: "300" }}>{userData?.phone}</div>
-                  <a href={`mailto:${userData?.email}`} style={{ fontSize: "13px", fontWeight: "300" }}>{userData?.email}</a>
-                </div>
-                {
-                Sign2links?.length > 0 && (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #D1D5DB", height: "35px", borderRadius: "0.375rem", padding: "0.25rem", width: "max-content", maxWidth: "48%" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", width: "95%" }}>
+              )
+            )}
+          </td>
+        </tr>
 
+        {/* Divider */}
+        <tr>
+          <td colSpan="2">
+            <hr
+              style={{
+                border: "none",
+                borderTop: "1px solid #D1D5DB",
+                margin: "0",
+              }}
+            />
+          </td>
+        </tr>
+
+        {/* Contact Information */}
+        <tr>
+          <td style={{ padding: "10px 5px", width: "50%" }}>
+            <div style={{ fontSize: "12px", fontWeight: "600" }}>
+              {companyProfile?.name}
+            </div>
+            <div style={{ fontSize: "13px", fontWeight: "300" }}>
+              {userData?.phone}
+            </div>
+            <a
+              href={`mailto:${userData?.email}`}
+              style={{ fontSize: "13px", fontWeight: "300", color: "black", textDecoration: "none" }}
+            >
+              {userData?.email}
+            </a>
+          </td>
+          <td style={{ padding: "10px 5px", textAlign: "right" }}>
+            {Sign2links?.length > 0 && (
+              <table
+                style={{
+                  border: "1px solid #D1D5DB",
+                  borderRadius: "0.375rem",
+                  padding: "0.25rem",
+                  width: "100%",
+                }}
+              >
+                <tbody>
+                  <tr>
                     {Sign2links?.map((link) => (
-                      <a href={link?.value || "#"} key={link?.linkID}>
+                      <td key={link?.linkID} style={{ padding: "0 5px" }}>
+                        <a href={link?.value || "#"}>
                         {(link?.linkID == 50 || link?.linkID == 51 || link?.linkID == 52 || link?.linkID == 53 || link?.linkID == 54
-                          || link?.linkID == 55 || link?.linkID == 56 || link?.linkID == 57 || link?.linkID == 58 || link?.linkID == 59) ?
-                          (
-                            <img
-                              src={link?.image ? appendBucketPath(link?.image) : returnIconsByArray("Website 1")}
-                              style={{ width: "20px", height: "20px", margin: "0.25rem 8px" }}
-                              alt={link?.name}
-                            />
-                          ) : (
-                            <img
-                              src={returnIconsByArray(link?.name) ? returnIconsByArray(link?.name) : returnIconsByArray("Website 1")}
-                              style={{ width: "20px", height: "20px", margin: "0.25rem 8px" }}
-                              alt={link?.name}
-                            />
-                          )
-                        }
-                      </a>
+                            || link?.linkID == 55 || link?.linkID == 56 || link?.linkID == 57 || link?.linkID == 58 || link?.linkID == 59) ?
+                            (
+                          <img
+                            src={
+                              link?.image
+                                ? appendBucketPath(link?.image)
+                                : returnIconsByArray("Website 1")
+                            }
+                            alt={link?.name}
+                            style={{ width: "20px", height: "20px" }}
+                          /> ) : (
+<img
+                            src={returnIconsByArray(link?.name) ? returnIconsByArray(link?.name) : returnIconsByArray("Website 1")}
+                            alt={link?.name}
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                          )}
+                        </a>
+                      </td>
                     ))}
 
-                  </div>
-                </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Copy to Clipboard Button */}
-        <div style={{ width: "160px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: "1.25rem" }}>
-        <button
-            style={{
-              width: "120px",
-              height: "40px",
-              borderRadius: "15px",
-              marginBottom: "0.5rem",
-              fontWeight: "600",
-              fontSize: "12px",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              backgroundColor: "#000000",
-              color: "white",
-            }}
-            onClick={() => {
-              setLinkSelectModal(true);
-              setSignIndex(2);
-            }}
-          > {t("Select Links")}
-          </button>
-            <button
-            style={{
-              width: "120px",
-              height: "40px",
-              borderRadius: "15px",
-              marginBottom: "0.5rem",
-              fontWeight: "600",
-              fontSize: "12px",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              backgroundColor: "#000000",
-              color: "white",
-            }}
-            onClick={() => copySign(divRef2)}
-          >
-            {t("Copy Script")}
-          </button>
-          <button
-            style={{
-              width: "120px",
-              height: "40px",
-              borderRadius: "15px",
-              marginBottom: "0.5rem",
-              fontWeight: "600",
-              fontSize: "12px",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              backgroundColor: "#000000",
-              color: "white",
-            }}
-            onClick={() => handleDownload(divRef2, "email-signature2.png")}
-          >
-            {t("Download")}
-          </button>
-        </div>
-      </div>
+
+                  </tr>
+                </tbody>
+              </table>
+            )}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {/* Copy to Clipboard Buttons */}
+  <div
+    style={{
+      width: "160px",
+      marginTop: "1.25rem",
+      textAlign: "center",
+    }}
+  >
+    <button
+      style={{
+        width: "120px",
+        height: "40px",
+        borderRadius: "15px",
+        marginBottom: "0.5rem",
+        fontWeight: "600",
+        fontSize: "12px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#000000",
+        color: "white",
+      }}
+      onClick={() => {
+        setLinkSelectModal(true);
+        setSignIndex(2);
+      }}
+    >
+      {t("Select Links")}
+    </button>
+    <button
+      style={{
+        width: "120px",
+        height: "40px",
+        borderRadius: "15px",
+        marginBottom: "0.5rem",
+        fontWeight: "600",
+        fontSize: "12px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#000000",
+        color: "white",
+      }}
+      onClick={() => copySign(divRef2)}
+    >
+      {t("Copy Script")}
+    </button>
+    <button
+      style={{
+        width: "120px",
+        height: "40px",
+        borderRadius: "15px",
+        marginBottom: "0.5rem",
+        fontWeight: "600",
+        fontSize: "12px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#000000",
+        color: "white",
+      }}
+      onClick={() => handleDownload(divRef2, "email-signature2.png")}
+    >
+      {t("Download")}
+    </button>
+  </div>
+</div>
+
       <SignLinkSelectModal
         userProfile = {userData}
         linkSelectModal={linkSelectModal}

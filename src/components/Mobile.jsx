@@ -259,7 +259,7 @@ const Mobile = ({
         {!profilePictureLock ? (
           <img
             src={
-              profile ? appendBucketPath(profile) : organizationProfile ? organizationProfile : bgplhldr
+              organizationProfile ? organizationProfile : profile ? appendBucketPath(profile) :  bgplhldr
             }
             alt=""
             className="w-[100%] h-[200px] object-cover 2"
