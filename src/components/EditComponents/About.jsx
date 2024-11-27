@@ -429,8 +429,8 @@ const About = ({ uid, handleCancelAbout }) => {
       <SocialLinkModal modal={modal} handleClose={handleModal} uid={uid} />
       <div className="w-[100%] flex justify-between ">
         {conexParent != "superAdmin" ? (
-          <div className="sm:w-[55%] w-[70%] h-[50px]  rounded-[36px] shadow-lg flex justify-center items-center ">
-            <div className="flex w-[50%] items-center  justify-around ">
+          <div className="sm:w-[35%] w-[35%] h-[50px]  rounded-[36px] shadow-lg flex justify-center items-center ">
+            <div className="flex w-[100%] items-center  justify-around ">
               <p className="font-[500] sm:text-[14px] text-[10px] whitespace-nowrap ml-2">
                 {t("Lead Mode")} {"\u00A0"} {"\u00A0"} {"\u00A0"}
               </p>
@@ -444,7 +444,7 @@ const About = ({ uid, handleCancelAbout }) => {
               />
             </div>
 
-            <div className="flex w-[50%] items-center  justify-around ">
+            {/* <div className="flex w-[50%] items-center  justify-around ">
               <p className="font-[500]  sm:text-[14px] text-[10px] whitespace-nowrap ml-2">
                 {t("Direct Mode")} {"\u00A0"}
               </p>
@@ -457,7 +457,7 @@ const About = ({ uid, handleCancelAbout }) => {
                   />
                 }
               />
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="sm:w-[55%] w-[70%] h-[50px]  rounded-[36px] shadow-lg flex justify-between items-center border">

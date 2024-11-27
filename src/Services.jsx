@@ -1960,7 +1960,11 @@ export const updateLeadMode = (leadMode, id) => {
   update(ref(db, `Users/${id}/`), { leadMode: !leadMode });
 };
 export const handleChangeDarkMode = (darkTheme, id) => {
-  update(ref(db, `Users/${id}/`), { darkTheme: !darkTheme });
+  
+  update(ref(db, `Users/${id}/`), {
+     darkTheme: !darkTheme,
+     textColor: darkTheme ? "#000000" : "#ffffff",
+    });
 };
 
 // ---------------------------------------Handle to change direct mode----------------------------------
