@@ -116,14 +116,23 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
       />
 
       <div className="rounded-t-3xl h-[154px]  w-[100%] relative ">
+        
         <img
-          src={
-            appendBucketPath(profile?.logoUrl)
-              ? appendBucketPath(profile?.logoUrl)
-              : companyProfile?.logoUrl
+                        
+          src={!companyProfile?.logoLock ? (
+
+            companyProfile?.logoUrl
                 ? companyProfile?.logoUrl
-                : lgoplchldr
-          }
+                : appendBucketPath(profile?.logoUrl)
+              ? appendBucketPath(profile?.logoUrl)
+              : lgoplchldr
+          ) : (
+            appendBucketPath(profile?.logoUrl)
+            ? appendBucketPath(profile?.logoUrl)
+            : companyProfile?.logoUrl
+              ? companyProfile?.logoUrl
+              : lgoplchldr
+          )}
           alt="prfl"
           className="h-[42px] w-[42px] rounded-full absolute bottom-[10px] left-[18px]  object-cover "
           style={{ zIndex: "1" }}
@@ -132,11 +141,19 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
           <div className="h-[85px] w-[85px] relative">
             <img
               src={
-                appendBucketPath(profile?.profileUrl)
+                !companyProfile?.profilePictureLock ? (
+                  companyProfile?.profileUrl
+                  ? companyProfile?.profileUrl
+                  : appendBucketPath(profile?.profileUrl)
+                    ? appendBucketPath(profile?.profileUrl)
+                    : prsnPlshldr
+                ) : (
+                  appendBucketPath(profile?.profileUrl)
                   ? appendBucketPath(profile?.profileUrl)
                   : companyProfile?.profileUrl
                     ? companyProfile?.profileUrl
                     : prsnPlshldr
+                )
               }
               alt="prfl"
               className="h-[85px] w-[85px] rounded-full object-cover"
@@ -144,12 +161,19 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
           </div>
         </div>
         <img
-          src={
+          src={!companyProfile?.coverLock ? (            
+            companyProfile?.coverUrl
+                ? companyProfile?.coverUrl
+                : appendBucketPath(profile?.coverUrl)
+              ? appendBucketPath(profile?.coverUrl)
+              : bgplhldr
+          ) : (
             appendBucketPath(profile?.coverUrl)
               ? appendBucketPath(profile?.coverUrl)
               : companyProfile?.coverUrl
                 ? companyProfile?.coverUrl
                 : bgplhldr
+          )
           }
           alt="bg"
           className="h-[124px] w-[100%] object-cover rounded-t-3xl"

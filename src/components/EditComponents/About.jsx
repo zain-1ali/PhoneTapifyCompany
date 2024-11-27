@@ -7,6 +7,8 @@ import { PiUserRectangleFill } from "react-icons/pi";
 import { IoImageOutline } from "react-icons/io5";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { GrAddCircle } from "react-icons/gr";
+import bgplhldr from "../../imgs/bgplhldr.png";
+import lgoplchldr from "../../imgs/lgoplchldr.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setName,
@@ -293,7 +295,7 @@ const About = ({ uid, handleCancelAbout }) => {
     dispatch(setOrganizationCover(data?.[companyId]?.coverUrl));
     dispatch(setOrgLogo(data?.[companyId]?.logoUrl));
     dispatch(setOrganizationProfile(data?.[companyId]?.profileUrl));
-    setCompanyProfile(data);
+    setCompanyProfile(Object.values(data)[0]);
     // console.log(data);
   };
 
@@ -866,11 +868,18 @@ const About = ({ uid, handleCancelAbout }) => {
                     dispatch(setLogoUrl("")), dispatch(setOrgLogo(""));
                   }}
                 />
+                {!companyProfile?.logoLock ? (
                 <img
+                  src={organizationLogo ? organizationLogo : logo ? appendBucketPath(logo) : lgoplhldr}
+                  alt=""
+                  className="max-h-[100%] max-w-[100%] "
+                /> ) : (
+                  <img
                   src={logo ? appendBucketPath(logo) : organizationLogo}
                   alt=""
                   className="max-h-[100%] max-w-[100%] "
-                />
+                /> 
+                )}
               </div>
             ) : (
               <div className="sm:w-[120px] sm:h-[120px] m-w-[70px] m-h-[70px] border  bg-gray-100 flex justify-center items-center flex-col relative">
@@ -913,11 +922,18 @@ const About = ({ uid, handleCancelAbout }) => {
                       dispatch(setOrganizationProfile(""));
                   }}
                 />
+                {!companyProfile?.profilePictureLock ? (
                 <img
-                  src={profile ? appendBucketPath(profile) : organizationProfile}
+                  src={organizationProfile ? organizationProfile : profile ? appendBucketPath(profile) :  bgplhldr}
+                  alt=""
+                  className="h-[100%] w-[100%] object-cover"
+                /> ) : (
+                  <img
+                  src={profile ? appendBucketPath(profile) : organizationProfile ? organizationProfile : bgplhldr}
                   alt=""
                   className="h-[100%] w-[100%] object-cover"
                 />
+                )}
               </div>
             ) : (
               <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border bg-gray-100 flex justify-center items-center flex-col relative">
@@ -959,11 +975,19 @@ const About = ({ uid, handleCancelAbout }) => {
                       dispatch(setOrganizationCover(""));
                   }}
                 />
+                 {!companyProfile?.coverLock ? (
                 <img
+                  src={organizationCover ? organizationCover : cover ? appendBucketPath(cover) : bgplhldr}
+                  alt=""
+                  className="h-[100%] w-[100%] object-cover rounded-[36px]"
+                /> )
+                : (
+                  <img
                   src={cover ? appendBucketPath(cover) : organizationCover}
                   alt=""
                   className="h-[100%] w-[100%] object-cover rounded-[36px]"
-                />
+                /> 
+                )}
               </div>
             ) : (
               <div className="sm:w-[253px] w-[166px] sm:h-[150px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative">

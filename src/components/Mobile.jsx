@@ -266,7 +266,7 @@ const Mobile = ({
           />
         ) : (
           <img
-            src={profile ? appendBucketPath(profile) : bgplhldr}
+            src={profile ? appendBucketPath(profile) : organizationProfile ? organizationProfile : bgplhldr}
             alt=""
             className="w-[100%] h-[200px] object-cover 1"
           />
@@ -289,7 +289,7 @@ const Mobile = ({
             />
           ) : (
             <img
-              src={logo ? appendBucketPath(logo) : lgoplchldr}
+              src={logo ? appendBucketPath(logo) : organizationLogo ? organizationLogo : lgoplchldr}
               alt=""
               className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
             />
