@@ -256,7 +256,7 @@ const Mobile = ({
         </div>
       )}
       <div className="w-[100%] h-[200px] relative">
-        {!profilePictureLock ? (
+      {!companyProfile?.profilePictureLock ? (
           <img
             src={
               organizationProfile ? organizationProfile : profile ? appendBucketPath(profile) :  bgplhldr
@@ -281,7 +281,7 @@ const Mobile = ({
         >
 
 
-          {!logoLock ? (
+          {!companyProfile?.logoLock ? (
             <img
               className="max-w-[100px] max-h-[55px] z-[1] object-cover mt-2"
               alt=""

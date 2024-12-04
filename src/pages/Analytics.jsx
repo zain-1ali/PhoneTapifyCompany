@@ -794,25 +794,38 @@ const Analytics = () => {
                   :  // if other tag than reviews, show links clicks
                   analytics ? (
                     <div
-                      className="w-[95%] h-[100%] flex gap-x-4 flex-wrap"
-                      style={{ overflowY: "scroll" }}
-                    >
-                      {mergeDuplicates(Object.values(analytics)?.[0]?.links)?.map((elm) => {
-                        // Check if elm?.image is falsy and set a default if needed
+  className="w-[95%] h-[100%] flex gap-x-4 flex-wrap"
+  style={{ overflowY: "scroll" }}
+>
+  {mergeDuplicates(Object.values(analytics)?.[0]?.links)?.map((elm) => {
+    // Check if elm?.linkID is within the specified range
+    const isSpecificLinkID =
+      elm?.linkID >= 50 && elm?.linkID <= 59;
 
-                        return (
-                          <div key={elm?.name} className="w-[22%] min-w-max h-[45px] rounded-lg border mt-3 flex items-center justify-around">
-                            <img
-                              src={returnIconsByArray(elm?.name) ? returnIconsByArray(elm?.name) : returnIconsByArray("Website 1")}
-                              alt=""
-                              className="h-[30px] w-[30px]"
-                            />
-                            <p className="text-sm mx-1">{elm?.name}</p>
-                            <p className="mx-1">{elm?.clicks}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
+    // Determine the image source
+    const imageSource = isSpecificLinkID
+      ? elm?.image
+        ? appendBucketPath(elm?.image)
+        : returnIconsByArray("Website 1")
+      : returnIconsByArray(elm?.name) || returnIconsByArray("Website 1");
+
+    return (
+      <div
+        key={elm?.name}
+        className="w-[22%] min-w-max h-[45px] rounded-lg border mt-3 flex items-center justify-around"
+      >
+        <img
+          src={imageSource}
+          alt=""
+          className="h-[30px] w-[30px]"
+        />
+        <p className="text-sm mx-1">{elm?.name}</p>
+        <p className="mx-1">{elm?.clicks}</p>
+      </div>
+    );
+  })}
+</div>
+
 
                   ) : (
                     <p>{t("No links to show")}</p>

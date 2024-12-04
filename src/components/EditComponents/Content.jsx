@@ -137,8 +137,13 @@ const Content = ({ uid }) => {
   const { t } = useTranslation();
   console.log(links);
   const appendBucketPath = (path) => {
+    
     let url = "";
-    if (path !== "") {
+    if (path.startsWith("https://"))
+    {
+      url = path;
+    }
+    else if (path !== "") {
       const filterUrl = path?.replace("gs://phonetapify-c6c06.appspot.com/", "");
       url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filterUrl}?alt=media`;
     }

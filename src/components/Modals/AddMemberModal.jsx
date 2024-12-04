@@ -106,7 +106,19 @@ const AddMemberModal = ({ addModal, handleAddModal, singleTeam }) => {
       return false;
     }
   };
-
+  const appendBucketPath = (path) => {
+    
+    let url = "";
+    if (path.startsWith("https://"))
+    {
+      url = path;
+    }
+    else if (path !== "") {
+      const filterUrl = path?.replace("gs://phonetapify-c6c06.appspot.com/", "");
+      url = `https://firebasestorage.googleapis.com/v0/b/phonetapify-c6c06.appspot.com/o/${filterUrl}?alt=media`;
+    }
+    return url;
+  };
   return (
     <div>
       <Modal
@@ -139,7 +151,7 @@ const AddMemberModal = ({ addModal, handleAddModal, singleTeam }) => {
                         <div className="h-[40px] w-[25%] ml-2">
                           <img
                             src={
-                              elm?.profileUrl ? elm?.profileUrl : prsnPlshldr
+                              elm?.profileUrl ? appendBucketPath(elm?.profileUrl) : prsnPlshldr
                             }
                             alt=""
                             className="h-[40px] w-[40px] rounded-full"
