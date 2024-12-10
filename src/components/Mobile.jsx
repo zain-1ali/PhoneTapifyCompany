@@ -344,11 +344,16 @@ const Mobile = ({
                 }}
               >-</p>
             </div>
-            {!bioLock && (
+            {!bioLock ? (
               <p id="about_text" className={`w-[95%] break-word overflow-hidden mt-[10px] text-[#959595] text-[12px] mb-[1px] ${bioHidden ? 'hidden' : ''}`}>
-                {bio ? bio : companyProfile?.bio}
+                {companyProfile?.bio ? companyProfile?.bio : bio ? bio : ""}
               </p>
-            )}
+            ) : (
+              <p id="about_text" className={`w-[95%] break-word overflow-hidden mt-[10px] text-[#959595] text-[12px] mb-[1px] ${bioHidden ? 'hidden' : ''}`}>
+                {bio ? bio : ""}
+              </p>
+            )
+            }
           </div>
         </div>
       </div>

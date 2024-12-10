@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { IoIosCopy } from "react-icons/io";
 import { BiRefresh } from "react-icons/bi";
 import ApiAccessDoc from "../SettingsComponents/ApiAccessDoc";
+import ThirdPartZapier from "./ThirdPartZapier";
 
 
 const ApiAccess = ({ uid }) => {
@@ -16,7 +17,6 @@ const ApiAccess = ({ uid }) => {
   useEffect(() => {
    getSingleChild(uid, setCrntParent);
   }, []);
-
   let baseUrl = import.meta.env.VITE_APP_API_URL;
   let webhookUrl = baseUrl+"getConnections";
   let apiKey = Object.values(crntParent)?.[0]?.apiKey ?? "";
@@ -101,6 +101,8 @@ const ApiAccess = ({ uid }) => {
         <p className="font-[400] sm:text-[14px] text-[14px] mt-4 w-[96%] ml-[2%] text-[#707070]">Provides a list of 100 most recent connections created for your organization listed in descending order based on the date of creation</p>
 
         <ApiAccessDoc accessFrom = "dashboard"/>
+        
+        <ThirdPartZapier accessFrom = "dashboard" uid = {uid}/>
         <ToastContainer
           position="bottom-left"
           autoClose={1000}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { updataCompanyAbout } from "../../Services";
+import { updataCompanyAbout, handleLogout } from "../../Services";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 import { FormControlLabel, Switch, styled } from "@mui/material";
 import {
   setProfilePictureLock,
@@ -15,10 +16,12 @@ import {
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import DeleteModal from "../Modals/DeleteModal";
+import HelpModal from "../Modals/HelpModal";
 
 const AccountSettings = ({ companyProfile }) => {
   // -------------------------------------------------Mui customize switch-----------------------------------
-
+  let navigate = useNavigate();
   const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" {...props} />
   ))(({ theme }) => ({
@@ -71,6 +74,7 @@ const AccountSettings = ({ companyProfile }) => {
     },
   }));
 
+  let [tempData, setTempData] = useState("");
   let [data, setData] = useState({
     name: "",
     email: "",
@@ -88,7 +92,11 @@ const AccountSettings = ({ companyProfile }) => {
       bio: companyProfile?.bio,
     });
   }, [companyProfile]);
-  // console.log(companyProfile);
+  
+  useEffect(() => {
+    setTempData(companyProfile?.email);
+  }, []);
+
 
   const resetLockValues = () => {
     dispatch(setProfilePictureLock(companyProfile?.profilePictureLock));
@@ -117,6 +125,19 @@ const AccountSettings = ({ companyProfile }) => {
   //   locationLock
   // );
 
+  let [emailCheckModal, setEmailCheckModal] = useState(false);
+  const handleEmailCheckModal = () => {
+    setEmailCheckModal(!emailCheckModal);
+    handleLogout(navigate("/signin"))
+  };
+  const loginAgain = () => {
+  };
+  let handleEmailChangeCheck =() => {
+   if(tempData != data?.email)
+   {
+    setEmailCheckModal(true);
+   }
+  }
   return (
     <div className="h-[300px] sm:w-[600px] mt-7">
       <div className="w-[100%] flex justify-between">
@@ -262,6 +283,7 @@ const AccountSettings = ({ companyProfile }) => {
           <div
             className="w-[25%] h-[100%] rounded-[36px] bg-[#000000] flex justify-center items-center text-white cursor-pointer sm:text-[16px] text-[12px]"
             onClick={() =>
+              {
               updataCompanyAbout(
                 companyProfile?.id,
                 {
@@ -272,8 +294,14 @@ const AccountSettings = ({ companyProfile }) => {
                   bioLock,
                   resetLockValues,
                 },
+            
+              
+                
+                // (tempData != data?.email) ? 
                 t("Information updated sucessfuly")
-              )
+              );
+              handleEmailChangeCheck();
+              }
             }
           >
             {t("Save")}
@@ -287,6 +315,13 @@ const AccountSettings = ({ companyProfile }) => {
         hideProgressBar
       />
       <br />
+      {/* <HelpModal helpModal={helpModal} handlehelpModal={handlehelpModal} /> */}
+      <HelpModal
+    helpModal={emailCheckModal}
+    handlehelpModal={handleEmailCheckModal} 
+    text="Please log in again to view your updated data."
+    
+/>
     </div>
   );
 };

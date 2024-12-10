@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { RxCross2 } from "react-icons/rx";
 import { deleteContact } from "../../Services";
 
-const HelpModal = ({ helpModal, handlehelpModal }) => {
+const HelpModal = ({ helpModal, handlehelpModal, text }) => {
   // --------------------------------------------------Create Single self profile----------------------------------
 
   const style2 = {
@@ -36,7 +36,7 @@ const HelpModal = ({ helpModal, handlehelpModal }) => {
         <Box sx={style2}>
           <div className="h-[100%] w-[100%]">
             <p className="text-center font-[500] mt-[30px]">
-              Some helping text...
+              {text}
             </p>
             <div className="w-[100%] flex justify-center items-center mt-2">
               <div

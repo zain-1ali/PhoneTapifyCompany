@@ -668,7 +668,6 @@ export const fetchCompanyTags = async (callBackFunc, setloading, cb) => {
 
 export const getAllChilds = async (callBackFunc, setloading) => {
   setloading(true);
-  
   try {
     // Fetch users based on parentID
     const starCountRef = query(
@@ -2169,7 +2168,7 @@ export const updataCompanyAbout = async (id, data, success) => {
       token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
     })
     .then((res) => {
-      console.log("the response", res);
+      // console.log("the response", res);
     })
     .catch((err) => {
       console.log(err);
