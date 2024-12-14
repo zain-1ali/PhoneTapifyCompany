@@ -281,8 +281,41 @@ const generateUniqueKey = async () => {
 // ------------------------------------------------Create new card-----------------------------------------------
 
 export const createNewCard = async (data, callBack, companyProfile) => {
-  if (data.name && data.email && data.password && data.tagId) {
+  if (data.name && data.email && data.password && (data.tagId || data.newTag)) {
     try {
+
+      if (data.newTag) {
+        const tagsRef = ref(db, `Tag`);
+        const snapshot = await get(tagsRef);
+        const allTags = snapshot.val();
+        console.log(allTags);
+        const isDuplicate = Object.values(allTags || {}).some(
+          (tag) => tag.tagId === data.newTag
+        );
+        console.log(isDuplicate);
+        if (isDuplicate) {
+          toast.error("Tag with this name already exists");
+          return;
+        }
+
+        const newTagRef = push(tagsRef, {
+          tagId: data.newTag,
+          type: "Digital Card",
+          status: false,
+        });
+        const tagPushKey = newTagRef.key;
+
+        await update(ref(db, `Tag/${tagPushKey}`), {
+          tagId: data.newTag,
+          type: "Digital Card",
+          status: false,
+          id: tagPushKey,
+        });
+
+        data.tagId = tagPushKey;
+      }
+
+// return;
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -292,7 +325,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
 
       // Generate a unique API key
       const newApiKey = await generateUniqueKey();
-      console.log("Generated API key:", newApiKey);
+      // console.log("Generated API key:", newApiKey);
 
       let cnxId = localStorage.getItem("connexUid");
       let conexParent = localStorage.getItem("conexParent");
@@ -450,15 +483,18 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           toast.success("New user created successfully");
           handleTeamModal();
         });
-      } else {
-        let tagType = "Digital Card";
-        let tag = ref(db, `Tag/${data.tagId}`);
-        onValue(tag, (snapshot) => {
-          const tagData = snapshot.val();
-          if (tagData) {
-            tagType = tagData.type ?? "Digital Card";
-          }
-        });
+      } 
+      else {
+          let tagType = "Digital Card";
+         
+          let tag = ref(db, `Tag/${data.tagId}`);
+          onValue(tag, (snapshot) => {
+            const tagData = snapshot.val();
+            if (tagData) {
+              tagType = tagData.type ?? "Digital Card";
+            }
+          });
+
 
         let newAccountData = {
           platform: "web",
