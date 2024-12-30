@@ -39,7 +39,6 @@ const ShareCardModal = ({ shareModal, handleShareModal, profileTag, vizzRole }) 
     justifyContent: "center",
     alignItems: "center",
   };
-
   let sliceString = (str) => {
     if (str?.length > 40) {
       return str?.slice(0, 40) + "...";

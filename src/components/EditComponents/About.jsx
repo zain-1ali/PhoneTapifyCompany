@@ -147,9 +147,6 @@ const About = ({ uid, handleCancelAbout }) => {
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
-
-  console.log(darkTheme);
-
   darkTheme = (darkTheme == "0" || darkTheme == 0 || darkTheme == false) ? false : true;
 
   let [prflKey, setPrflKey] = useState(0);

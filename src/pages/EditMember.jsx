@@ -16,7 +16,7 @@ import Content from "../components/EditComponents/Content";
 import Qr from "../components/EditComponents/Qr";
 import Lead from "../components/EditComponents/Lead";
 import { RiShareFill } from "react-icons/ri";
-import { getSingleChild } from "../Services";
+import { getSingleChild, FetchProfileTag } from "../Services";
 import { PiWebhooksLogoBold } from "react-icons/pi";
 import { TbMailCode } from "react-icons/tb";
 import {
@@ -281,6 +281,16 @@ const EditMember = () => {
     return path; // Return the same path if it doesn't start with "gs://"
   };
 
+  const [profileTag, setProfileTag] = useState(null);
+  let getProfileTag = (obj) => {
+    if (obj) {
+      setProfileTag(Object.values(obj)[0]);
+    }
+  };
+  useEffect(() => {
+    FetchProfileTag(uid, getProfileTag);
+  }, []);
+
   return (
     <div
       className="w-[100%] flex bg-[#F8F8F8] h-[100vh] max-h-[100vh]"
@@ -291,7 +301,7 @@ const EditMember = () => {
         <ShareCardModal
           shareModal={shareModal}
           handleShareModal={handleShareModal}
-          userId={uid}
+          profileTag={profileTag?.tagId ?? uid}
         />
         <div className="sm:w-[90%] w-[100%] ">
           <div className="w-[100%] flex justify-between   mt-[30px]  items-center">
@@ -356,9 +366,9 @@ const EditMember = () => {
                     <IoMdMenu className="text-[16px] ml-2 " />
                     <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
                       {screen <= 450 && route?.isContent === true
-                        ? t("Content")
+                        ? t("Links")
                         : null}
-                      {screen >= 450 ? t("Content") : null}
+                      {screen >= 450 ? t("Links") : null}
                     </p>
                   </div>
                   <div
@@ -446,9 +456,9 @@ const EditMember = () => {
                   <IoMdMenu className="text-[16px] ml-2 " />
                   <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
                     {screen <= 450 && route?.isContent === true
-                      ? t("Content")
+                      ? t("Links")
                       : null}
-                    {screen >= 450 ? t("Content") : null}
+                    {screen >= 450 ? t("Links") : null}
                   </p>
                 </div>
                 <div
