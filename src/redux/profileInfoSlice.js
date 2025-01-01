@@ -27,7 +27,8 @@ const initialState = {
   locationLock: false,
   bioLock: false,
   directMode: false,
-
+  shareLinkToggle: false,
+  walletReferel: false,
   formHeader: "",
   nameVisible: false,
   emailVisible: false,
@@ -173,6 +174,12 @@ export const profileInfoSlice = createSlice({
     setLead: (state, action) => {
       state.leadMode = action.payload;
     },
+    setShareToggle: (state, action) => {
+      state.shareLinkToggle = action.payload;
+    },
+    setWalletReferel: (state, action) => {
+      state.walletReferel = action.payload;
+    },
     setDark: (state, action) => {
       state.darkTheme = action.payload;
     },
@@ -301,6 +308,8 @@ export const {
   setphoneLock,
   setbioLock,
   setlocationLock,
+  setWalletReferel,
+  setShareToggle
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

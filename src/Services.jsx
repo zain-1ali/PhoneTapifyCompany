@@ -1994,6 +1994,14 @@ export const updateLeadMode = (leadMode, id) => {
   
   update(ref(db, `Users/${id}/`), { leadMode: !leadMode });
 };
+export const updateShareLinkToggle = (shareLinkToggle, id) => {
+  
+  update(ref(db, `Users/${id}/`), { shareLinkToggle: !shareLinkToggle });
+};
+export const updateWalletReferel = (walletReferel, id) => {
+  
+  update(ref(db, `Users/${id}/`), { walletReferel: !walletReferel });
+};
 export const handleChangeDarkMode = (darkTheme, id) => {
   
   update(ref(db, `Users/${id}/`), {

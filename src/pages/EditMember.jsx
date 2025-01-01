@@ -59,6 +59,8 @@ import {
   setlocationLock,
   setFeaturedImages,
   setFeaturedVideos,
+  setWalletReferel,
+  setShareToggle,
 } from "../redux/profileInfoSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -203,6 +205,8 @@ const EditMember = () => {
     dispatch(setQrLogo(singleProfile?.[uid]?.qrLogoUrl));
     dispatch(setQrColor(singleProfile?.[uid]?.qrColor));
     dispatch(setLead(singleProfile?.[uid]?.leadMode));
+    dispatch(setShareToggle(singleProfile?.[uid]?.shareLinkToggle));
+    dispatch(setWalletReferel(singleProfile?.[uid]?.walletReferel));
     dispatch(setDark(singleProfile?.[uid]?.darkTheme));
     dispatch(setFormHeader(singleProfile?.[uid]?.formHeader));
     dispatch(setNameVisible(singleProfile?.[uid]?.leadForm?.Fname));

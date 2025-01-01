@@ -43,18 +43,92 @@ import {
   renoveLink,
   splitString,
   updateNewLink,
-  appendBucketPath
+  appendBucketPath,
+  updateShareLinkToggle,
+  updateWalletReferel
 } from "../../Services";
+import {
+  setWalletReferel,
+  setShareToggle
+} from "../../redux/profileInfoSlice.js";
 import Mobile from "../Mobile";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Cropper from "../Cropper";
 import { useTranslation } from "react-i18next";
 import { FiMinusCircle } from "react-icons/fi";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { RiShareFill } from "react-icons/ri";
+import styled from "@emotion/styled";
+import { FormControlLabel, Switch } from "@mui/material";
+import { ClimbingBoxLoader } from "react-spinners";
+import { HiMiniWallet } from "react-icons/hi2";
 // import { removeLink } from "../Redux/Singlelinkslice";
 
 const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
+
+
+
+  const IOSSwitch = styled((props) => (
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      // disableRipple
+
+      {...props}
+    />
+  ))(({ theme }) => ({
+    width: 38,
+    height: 22,
+    padding: 0,
+    // position: "relative",
+    // right: 0,
+    // marginLeft: "50px",
+    // border: "1px solid black",
+
+    "& .MuiSwitch-switchBase": {
+      padding: 0,
+      margin: 2,
+      transitionDuration: "300ms",
+      "&.Mui-checked": {
+        transform: "translateX(16px)",
+        color: "#fff",
+        "& + .MuiSwitch-track": {
+          backgroundColor:
+            theme?.palette?.mode === "dark" ? "#2ECA45" : "#65C466",
+          opacity: 1,
+          border: 0,
+        },
+        "&.Mui-disabled + .MuiSwitch-track": {
+          opacity: 0.5,
+        },
+      },
+      "&.Mui-focusVisible .MuiSwitch-thumb": {
+        color: "#33cf4d",
+        border: "6px solid #fff",
+      },
+      "&.Mui-disabled .MuiSwitch-thumb": {
+        color:
+          theme?.palette?.mode === "light"
+            ? theme?.palette?.grey[100]
+            : theme?.palette?.grey[600],
+      },
+      "&.Mui-disabled + .MuiSwitch-track": {
+        opacity: theme?.palette?.mode === "light" ? 0.7 : 0.3,
+      },
+    },
+    "& .MuiSwitch-thumb": {
+      boxSizing: "border-box",
+      width: 18,
+      height: 18,
+    },
+    "& .MuiSwitch-track": {
+      borderRadius: 26 / 2,
+      backgroundColor: theme?.palette?.mode === "light" ? "#E9E9EA" : "#BBBBBB",
+      opacity: 1,
+      transition: theme?.transitions?.create(["background-color"], {
+        duration: 500,
+      }),
+    },
+  }));
   const dispatch = useDispatch();
 
   // console.log(contactIcons);
@@ -62,6 +136,8 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
+  const shareLinkToggle = useSelector((state) => state.profileInfoSlice.shareLinkToggle);
+  const walletReferel = useSelector((state) => state.profileInfoSlice.walletReferel);
 
   const links = useSelector((state) => state.profileInfoSlice.links);
   const featuredImages = useSelector(
@@ -70,7 +146,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   const featuredVideos = useSelector(
     (state) => state.profileInfoSlice.featuredVideos
   );
-
+  
   // console.log(links);
 
   const [photoValue, setPhotoValue] = useState({
@@ -80,6 +156,15 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     id: "",
   });
 
+  let updateShareState = (shareLinkToggle, uid) => {
+      updateShareLinkToggle(shareLinkToggle, uid);
+      dispatch(setShareToggle(!shareLinkToggle));
+  }
+  let updateWalletState = (walletReferel, uid) => {
+    updateWalletReferel(walletReferel, uid);
+    dispatch(setWalletReferel(!walletReferel));
+}
+  
   //--------------------------------------------------------handle video state-----------------------------------------
 
   const [videoValue, setVideoValue] = useState({
@@ -1072,6 +1157,60 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                     "Select from our wide variety of links and contact info below"
                   )}
                 </p>
+                <div className="grid sm:grid-cols-3 grid-cols-1 gap-x-4 ">
+                  
+                  <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative">
+                      <div className="flex justify-between items-center w-[100%]">
+                        <div className="flex h-[100%] items-center">
+                        <div
+                          className="sm:h-[47px] h-[30px] w-[149px] bg-[white] rounded-[36px] cursor-pointer flex items-center shadow-xl  justify-center"
+                          style={screen <= 450 ? { marginTop: "8px" } : null}
+                          onClick={() => handleShareModal()}
+                        >
+                          <p className="sm:text-[17px] text-[12px] ">{t("Share")}</p>
+                          {"\u00A0"}{" "}
+                          <RiShareFill
+                            style={screen <= 450 ? { fontSize: "12px" } : null}
+                          />
+                        </div>
+                        </div>
+                        <FormControlLabel
+                          control={
+                            <IOSSwitch
+                              checked={shareLinkToggle}
+                              onChange={() => updateShareState(shareLinkToggle, uid)}
+                            />
+                          }
+                        />
+                      </div>
+                    </div>
+                 
+                    <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative">
+                      <div className="flex justify-between items-center w-[100%]">
+                        <div className="flex h-[100%] items-center">
+                        <div
+                          className="sm:h-[47px] h-[30px] w-[160px] bg-[white] rounded-[36px] cursor-pointer flex items-center shadow-xl  justify-center"
+                          style={screen <= 450 ? { marginTop: "8px" } : null}
+                          onClick={() => handleShareModal()}
+                        >
+                          <p className="sm:text-[17px] text-[12px] ">{t("Wallet Referral")}</p>
+                          {"\u00A0"}{" "}
+                          <HiMiniWallet
+                            style={screen <= 450 ? { fontSize: "12px" } : null}
+                          />
+                        </div>
+                        </div>
+                        <FormControlLabel
+                          control={
+                            <IOSSwitch
+                              checked={walletReferel}
+                              onChange={() => updateWalletState(walletReferel, uid)}
+                            />
+                          }
+                        />
+                      </div>
+                    </div> 
+                </div>
                 <div className="mt-10">
                   <h2 className="font-medium text-[#4F4F4F]">{t("Contact")}</h2>
                   <div className="grid sm:grid-cols-3 grid-cols-1 gap-x-4 ">
