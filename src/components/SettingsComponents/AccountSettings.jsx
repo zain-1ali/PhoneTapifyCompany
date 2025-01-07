@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updataCompanyAbout, handleLogout } from "../../Services";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { FormControlLabel, Switch, styled } from "@mui/material";
@@ -130,6 +130,32 @@ const AccountSettings = ({ companyProfile }) => {
     setEmailCheckModal(!emailCheckModal);
     handleLogout(navigate("/signin"))
   };
+
+  // const [emailDuplicateCheck, setEmailDuplicateCheck] = useState(false);
+  const emailDuplicateCheck = (duplicateStatus) => {
+    
+    if (duplicateStatus == false) {
+      toast.success(t("Information updated successfully"));
+      handleEmailChangeCheck();
+    }
+  }
+
+  const saveSetting = async () => {
+    await updataCompanyAbout(
+      companyProfile?.id,
+      {
+        ...data,
+        nameLock,
+        phoneLock,
+        locationLock,
+        bioLock,
+        resetLockValues,
+      },
+      emailDuplicateCheck
+    );
+
+  };
+
   const loginAgain = () => {
   };
   let handleEmailChangeCheck =() => {
@@ -282,27 +308,7 @@ const AccountSettings = ({ companyProfile }) => {
         <div className="w-[99%] pl-[4%] sm:h-[46px] h-[30px] outline-none bg-white rounded-[36px] mt-1 flex justify-end">
           <div
             className="w-[25%] h-[100%] rounded-[36px] bg-[#000000] flex justify-center items-center text-white cursor-pointer sm:text-[16px] text-[12px]"
-            onClick={() =>
-              {
-              updataCompanyAbout(
-                companyProfile?.id,
-                {
-                  ...data,
-                  nameLock,
-                  phoneLock,
-                  locationLock,
-                  bioLock,
-                  resetLockValues,
-                },
-            
-              
-                
-                // (tempData != data?.email) ? 
-                t("Information updated sucessfuly")
-              );
-              handleEmailChangeCheck();
-              }
-            }
+            onClick={saveSetting}
           >
             {t("Save")}
           </div>

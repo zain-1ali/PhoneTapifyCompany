@@ -2156,7 +2156,7 @@ export const deleteReview = (id, cb) => {
   });
 };
 
-export const updataCompanyAbout = async (id, data, success) => {
+export const updataCompanyAbout = async (id, data, duplicateCallback) => {
   let {
     name,
     email,
@@ -2168,6 +2168,20 @@ export const updataCompanyAbout = async (id, data, success) => {
     locationLock,
     bioLock,
   } = data;
+
+  const emailQuery = query(ref(db, "Users"), orderByChild("email"), equalTo(email));
+    const snapshot = await get(emailQuery);
+
+    // If email exists and doesn't belong to the current user, throw an error
+    if (snapshot.exists()) {
+      const existingUser = Object.keys(snapshot.val())[0];
+      if (existingUser !== id) {
+        duplicateCallback(true);
+        toast.error("Email already in use by another user.");
+        return;
+      }
+    }
+
   update(ref(db, `Users/${id}`), {
     name,
     email,
@@ -2218,8 +2232,8 @@ export const updataCompanyAbout = async (id, data, success) => {
       console.log(err);
     });
 
-
-    toast.success(success);
+    duplicateCallback(false);
+    // toast.success(success);
   });
 
   // }
