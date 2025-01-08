@@ -30,15 +30,15 @@ import {
   setOrganizationCover,
   setOrgLogo,
   setOrganizationProfile,
+  setLead,
+  setDark,
 } from "../../redux/profileInfoSlice.js";
 import Cropper from "../Cropper.jsx";
 import {
   getSingleChild,
   handleChangeDirect,
   removeSubscription,
-  updataAbout,
-  updateLeadMode,
-  handleChangeDarkMode,
+  updataAbout
 } from "../../Services.jsx";
 import SocialLinkModal from "../Modals/SocialLinkModal.jsx";
 import { useTranslation } from "react-i18next";
@@ -152,6 +152,16 @@ const About = ({ uid, handleCancelAbout }) => {
   let [prflKey, setPrflKey] = useState(0);
   let [logoKey, setLogoKey] = useState(0);
   let [coverKey, setCoverKey] = useState(0);
+
+  const handleDarkModeChange = () => {
+    try {
+      dispatch(setDark(!darkTheme )); // Update Redux store
+      dispatch(setTextColor(darkTheme ? "#000000" : "#ffffff"))
+    } catch (error) {
+      console.error("Failed to update lead mode:", error);
+    }
+  };
+
 
   // ----------------------------------------------------State setup for profile img crop---------------------------------------------
   let [prflimg, setprflimg] = useState(null);
@@ -269,6 +279,8 @@ const About = ({ uid, handleCancelAbout }) => {
     logoUrl: logo,
     backgroundColor: color,
     textColor,
+    leadMode: leadMode,
+    darkTheme: darkTheme,
   };
 
   let [modal, setModal] = useState(false);
@@ -437,7 +449,7 @@ const About = ({ uid, handleCancelAbout }) => {
                 control={
                   <IOSSwitch
                     checked={leadMode}
-                    onChange={() => updateLeadMode(leadMode, uid)}
+                    onChange={ () => dispatch(setLead(!leadMode ))}
                   />
                 }
               />
@@ -842,7 +854,7 @@ const About = ({ uid, handleCancelAbout }) => {
                 control={
                   <IOSSwitch
                     checked={darkTheme}
-                    onChange={() => handleChangeDarkMode(darkTheme, uid)}
+                    onChange={handleDarkModeChange}
                   />
                 }
               />

@@ -1003,6 +1003,8 @@ export const updataAbout = async (id, data, t) => {
     logoUrl,
     backgroundColor,
     textColor,
+    leadMode,
+    darkTheme,
   } = data;
   // if (name || location || job || company || bio || colorCode) {
   const colorOfText = textColor ? textColor : "#000000";
@@ -1030,6 +1032,8 @@ export const updataAbout = async (id, data, t) => {
     // colorCode,
     // job,
     // company,
+    darkTheme,
+    leadMode,
     bio,
     profileUrl,
     logoUrl,
@@ -2003,10 +2007,10 @@ export const updateWalletReferel = (walletReferel, id) => {
   update(ref(db, `Users/${id}/`), { walletReferel: !walletReferel });
 };
 export const handleChangeDarkMode = (darkTheme, id) => {
-  
+  console.log(darkTheme,id)
   update(ref(db, `Users/${id}/`), {
-     darkTheme: !darkTheme,
-     textColor: darkTheme ? "#000000" : "#ffffff",
+     darkTheme: darkTheme,
+     textColor: darkTheme ? "#ffffff" : "#000000",
     });
 };
 
