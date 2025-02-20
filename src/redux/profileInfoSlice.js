@@ -11,6 +11,8 @@ const initialState = {
   phone: "",
   color: "",
   links: [],
+  visibleMembers: [],
+  leadDropOptions: [],
   featuredImages: [],
   featuredVideos: [],
   direct: {
@@ -30,11 +32,17 @@ const initialState = {
   shareLinkToggle: false,
   walletReferel: false,
   formHeader: "",
+  leadDropLabel: "",
+  leadTextLabel: "",
   nameVisible: false,
   emailVisible: false,
   companyVisible: false,
   jobVisible: false,
   noteVisible: false,
+  dateVisible: false,
+  dropdownVisible: false,
+  fileVisible: false,
+  shortTextVisible: false,
   phoneVisible: false,
   qrLogo: "",
   qrColor: "#000000",
@@ -103,6 +111,12 @@ export const profileInfoSlice = createSlice({
     setLinks: (state, action) => {
       state.links = action.payload;
     },
+    setVisibleMembers: (state, action) => {
+      state.visibleMembers = action.payload;
+    },
+    setLeadDropOptions: (state, action) => {
+      state.leadDropOptions = action.payload;
+    },
     setFeaturedImages: (state, action) => {
       state.featuredImages = action.payload;
     },
@@ -132,6 +146,12 @@ export const profileInfoSlice = createSlice({
     setFormHeader: (state, action) => {
       state.formHeader = action.payload;
     },
+    setLeadDropLabel: (state, action) => {
+      state.leadDropLabel = action.payload;
+    },
+    setLeadTextLabel: (state, action) => {
+      state.leadTextLabel = action.payload;
+    },
     setNameVisible: (state, action) => {
       state.nameVisible = action.payload;
     },
@@ -143,6 +163,18 @@ export const profileInfoSlice = createSlice({
     },
     setNoteVisible: (state, action) => {
       state.noteVisible = action.payload;
+    },
+    setDateVisible: (state, action) => {
+      state.dateVisible = action.payload;
+    },
+    setFileVisible: (state, action) => {
+      state.fileVisible = action.payload;
+    },
+    setDropdownVisible: (state, action) => {
+      state.dropdownVisible = action.payload;
+    },
+    setShortTextVisible: (state, action) => {
+      state.shortTextVisible = action.payload;
     },
     setJobVisible: (state, action) => {
       state.jobVisible = action.payload;
@@ -270,16 +302,24 @@ export const {
   setAddress,
   setBio,
   setLinks,
+  setVisibleMembers,
+  setLeadDropOptions,
   setFeaturedImages,
   setFeaturedVideos,
   setAllNull,
   setDirect,
   setDirectMode,
   setFormHeader,
+  setLeadDropLabel,
+  setLeadTextLabel,
   setNameVisible,
   setEmailVisible,
   setCompanyVisible,
   setNoteVisible,
+  setShortTextVisible,
+  setDateVisible,
+  setFileVisible,
+  setDropdownVisible,
   setJobVisible,
   setPhoneVisible,
   setQrColor,

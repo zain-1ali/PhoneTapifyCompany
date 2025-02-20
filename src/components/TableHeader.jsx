@@ -24,7 +24,8 @@ const TableHeader = () => {
     let [resetFilter, setResetFilter] = useState(false);
     let [downloadCsv, setDownloadCsv] = useState(false);
     let [filtered, setFiltered] = useState(null);
-    
+    let [spaceUsed, setSpaceUsed] = useState(0);
+    console.log(spaceUsed);
     
     // console.log(resetFilter)
     let getTeams = (value) => {
@@ -298,7 +299,9 @@ const TableHeader = () => {
             ) : null}
           </div>
         </div>
+        
       </div>
+      <div className="w-[100%] text-end font-bold mr-6">{spaceUsed > 100 && <span className="bg-[#3fb621] text-[12px] text-white text-center px-2 py-1 rounded-md cursor-pointer mr-2">Upgrade to 100GB</span>} Space Used: {spaceUsed}MBs / 100.0MBs</div>
       {
         selectedModule == "leads" ? (
           <Leads search = {search}
@@ -309,6 +312,8 @@ const TableHeader = () => {
           endDate = {endDate} 
           resetFilterVal = {resetFilter}
           filteredDataCallback = {filteredDataCallback}
+          spaceUsed = {spaceUsed}
+          setSpaceUsed = {setSpaceUsed}
         />
         ) :
         (

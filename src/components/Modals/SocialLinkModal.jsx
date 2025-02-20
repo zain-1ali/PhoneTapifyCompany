@@ -16,6 +16,8 @@ import { useSelector, useDispatch } from "react-redux";
 // } from "../Redux/Modalslice";
 // import { addLink, changeLinkName, removeLink } from "../Redux/Singlelinkslice";
 import { Box } from "@mui/material";
+import prsnPlshldr from "../../imgs/prsnPlshldr.png";
+
 import {
   contactIcons,
   socialIcons,
@@ -45,11 +47,15 @@ import {
   updateNewLink,
   appendBucketPath,
   updateShareLinkToggle,
-  updateWalletReferel
+  updateWalletReferel,
+  updateVisibleMembers,
+  getAllChilds,
+  getSingleChild
 } from "../../Services";
 import {
   setWalletReferel,
-  setShareToggle
+  setShareToggle,
+  setVisibleMembers
 } from "../../redux/profileInfoSlice.js";
 import Mobile from "../Mobile";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -138,8 +144,8 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   });
   const shareLinkToggle = useSelector((state) => state.profileInfoSlice.shareLinkToggle);
   const walletReferel = useSelector((state) => state.profileInfoSlice.walletReferel);
-
   const links = useSelector((state) => state.profileInfoSlice.links);
+  const visibleMembers = useSelector((state) => state.profileInfoSlice.visibleMembers) || [];
   const featuredImages = useSelector(
     (state) => state.profileInfoSlice.featuredImages
   );
@@ -420,6 +426,14 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
     setCustomPhoto(result);
   };
 
+  let switchMemberVisibility = (id) => {
+     const updatedMembers = visibleMembers?.includes(id)
+      ? visibleMembers.filter((memberId) => memberId !== id) // Remove the ID
+      : [...visibleMembers, id];
+
+      dispatch(setVisibleMembers(updatedMembers));
+      updateVisibleMembers(updatedMembers, uid);
+  };
   // ----------------------------------------------------State setup for logo img crop---------------------------------------------
   let [logoimg, setlogoimg] = useState(null);
   let [cropLogoModal, setcroplogoModal] = useState(false);
@@ -477,13 +491,23 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   let [companyId, setCompanyId] = useState("");
   let conexParent = localStorage.getItem("conexParent");
   let connexUid = localStorage.getItem("connexUid");
-  let [companyProfile, setCompanyProfile] = useState({});
+  
+
+  let [teamMembers, setTeamMembers] = useState([]);
+  let getTeamMembers = (obj) => {
+    setTeamMembers(Object.values(obj));
+  };
+
+// console.log(teamMembers);
   useEffect(() => {
     if (conexParent) {
       setCompanyId(conexParent);
     } else {
       setCompanyId(connexUid);
     }
+    conexParent != "superAdmin"  ? getAllChilds(getTeamMembers, setloading) : getAllChilds(getTeamMembers, setloading, uid);
+    
+    
   }, []);
 
   const ifCompany = (uid) => {
@@ -914,6 +938,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           <MdAddCircleOutline className="text-2xl" />
                           <input
                             type="file"
+                            accept="image/*"
                             name="qrimg"
                             id="qrimg"
                             className="opacity-0 w-[0px] h-[0px]"
@@ -1467,6 +1492,46 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                               </div>
                             </div>
                           </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                   {/* ------------------------------------------More icons------------------------------------  */}
+                   <div className="mt-10">
+                    <h2 className="font-medium text-[#4F4F4F]">{t("Team Members Profile Link")}</h2>
+                    <div className="  grid sm:grid-cols-3 grid-cols-1 gap-x-4">
+                      {/* flex justify-around flex-wrap */}
+                      {teamMembers?.map((member, i) => {
+                        
+                        return (
+                          member?.id != uid && (
+                          <div
+                            className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative"
+                          >
+
+                            <div className="flex justify-between items-center w-[100%]">
+                              <div className="flex h-[100%] items-center">
+                              <img
+                                    src={member?.profileUrl ? appendBucketPath(member?.profileUrl) : prsnPlshldr}
+                                    className="h-[45px] w-[45px] rounded-full object-cover"
+                                  />
+                                <p className="text-sm font-medium ml-[11px]">
+                                  {
+                                    member?.name != "" ? member?.name : "N/A"
+                                  }
+                                </p>
+                              </div>
+                              <FormControlLabel
+                                control={
+                                  <IOSSwitch
+                                    checked={visibleMembers?.some((mem) => mem === member?.id)} // Use `some` for cleaner logic
+                                    onChange={() => switchMemberVisibility(member?.id)}
+                                  />
+                                }
+                              />
+                            </div>
+                          </div> )
                         );
                       })}
                     </div>

@@ -3,6 +3,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { BiHelpCircle } from "react-icons/bi";
 import { LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { RiAdminFill } from "react-icons/ri";
 import { BsBox2Fill } from "react-icons/bs";
 import logo from "../imgs/logoWhite.png";
 import { FaKey } from "react-icons/fa6";
@@ -13,7 +14,7 @@ import { SiGoogleanalytics } from "react-icons/si";
 import { BsFillBuildingsFill } from "react-icons/bs";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { BiSolidMessageRoundedDots } from "react-icons/bi";
-import { handleLogout } from "../Services";
+import { handleLogout, existToAdmin } from "../Services";
 import DeleteModal from "./Modals/DeleteModal";
 import { BsBuildingsFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +27,7 @@ const Sidebar = () => {
   let [user, setuser] = useState({});
   let [modal, setModal] = useState(false);
   let conexParent = localStorage.getItem("conexParent");
+  let loginBy = localStorage.getItem("loginBy");
   let connexUid = localStorage.getItem("connexUid");
 
   let handleModal = () => {
@@ -79,7 +81,7 @@ const Sidebar = () => {
         func={() => handleLogout(navigate("/signin"))}
       />
       <div className="h-[94vh]  w-[100%] flex flex-col justify-between items-center">
-        <div className="h-[75%]  w-[90%] flex flex-col">
+        <div className="h-[85%]  w-[90%] flex flex-col">
           <div className="h-[15%]  w-[100%] flex items-center justify-center mt-3">
             <img src={logo} alt="conex" className="h-[30px] w-[160px]" />
             {/* <h2 class=" text-xl font-medium ml-2 text-black">Inventory</h2> */}
@@ -207,6 +209,23 @@ const Sidebar = () => {
                     </p>
                   </div>
                 </div>
+                {(conexParent != "superAdmin" && loginBy == "admin") && (
+                <div
+                  className="hover:bg-[#40483e] text-[#8F8E8E] hover:text-[white] h-[55px]  w-[100%] rounded-[18px] flex items-center cursor-pointer mt-4"
+                  onClick={() => existToAdmin(navigate)}
+                 
+                >
+                  <div className=" flex items-center rounded-md   ml-2 w-[100%]">
+                    <div className="w-[19%]  ">
+                      <RiAdminFill className=" text-xl ml-2 " />
+                    </div>
+
+                    <p className="ml-[10px] text-[13px] font-[600]">
+                      {t("Exit to Admin")}
+                    </p>
+                  </div>
+                </div> 
+                )}
               </>
             )}
           </div>

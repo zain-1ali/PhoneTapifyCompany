@@ -12,8 +12,11 @@ const DownloadCsv = ({ data }) => {
       Date: item?.date,
       Job: item?.job,
       Company: item?.company,
-      phone: item?.phone,
-      note: item?.message,
+      Phone: item?.phone,
+      Note: item?.message,
+      Dropdown: item?.dropdown,
+      date: item?.date,
+      shortText: item?.short_text,
     };
   });
 

@@ -264,38 +264,6 @@ const Mobile = ({
                   {t("Note")}
                 </div>
               )}
-              {dropdownVisible && (
-                <div
-                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
-                    } rounded-lg flex items-center`}
-                >
-                  {t("select option")}
-                </div>
-              )}
-              {dateVisible && (
-                <div
-                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
-                    } rounded-lg flex items-center`}
-                >
-                  {t("Date")}
-                </div>
-              )}
-              {fileVisible && (
-                <div
-                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
-                    } rounded-lg flex items-center`}
-                >
-                  {t("Upload File")}
-                </div>
-              )}
-              {shortTextVisible && (
-                <div
-                  className={`mt-[10px] h-[37px] w-[97%] pl-[3%] text-[12px] border ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
-                    } rounded-lg flex items-center`}
-                >
-                  {t("Short Text")}
-                </div>
-              )}
               <div className="w-[100%] flex justify-center items-center mt-2">
                 <div className={`w-[70px] h-[30px] border rounded-full flex justify-center items-center text-xs mr-1 ${darkTheme ? 'border-gray text-gray-100' : 'border-black text-black'
                   } `}>

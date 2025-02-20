@@ -8,12 +8,13 @@ import { CiLock, CiUnlock } from "react-icons/ci";
 import { IoMdPricetags } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import { FiShare2 } from "react-icons/fi";
+import { TbLogin } from "react-icons/tb";
 import { IoTrashOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import bgplhldr from "../imgs/bgplhldr.png";
 import prsnPlshldr from "../imgs/prsnPlshldr.png";
 import lgoplchldr from "../imgs/lgoplchldr.jpg";
-import { changeProfileStatus, deleteSingleChild, updateCompanyToken, FetchProfileTag } from "../Services";
+import { changeProfileStatus, deleteSingleChild, updateCompanyToken, FetchProfileTag, loginAsTeam } from "../Services";
 
 import ShareCardModal from "./Modals/ShareCardModal";
 import DeleteModal from "./Modals/DeleteModal";
@@ -42,6 +43,8 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let handleShareModal = () => {
     setshareModal(!shareModal);
   };
+
+
 
   let [deleteModal, setdeleteModal] = useState(false);
   let handledeleteModal = () => {
@@ -86,7 +89,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
   let conexParent = localStorage.getItem("conexParent");
   const { t } = useTranslation();
   return (
-    <div className="sm:w-[265px] w-[100%] sm:h-[310px] h-[300px]  rounded-3xl mt-[20px] bg-[white]">
+    <div className={`sm:w-[265px] w-[100%] ${conexParent == "superAdmin" ? "sm:h-[345px]" : "sm:h-[300px]"} h-[300px]  rounded-3xl mt-[20px] bg-[white]`}>
       <ShareCardModal
         shareModal={shareModal}
         handleShareModal={handleShareModal}
@@ -182,7 +185,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
 
       <div className="w-[100%] flex justify-center   mt-3">
         <div className="w-[90%] flex justify-between">
-          <div className="h-[130px] w-[48%]  rounded-[7px] bg-[#FBFBFB] flex justify-center items-center">
+          <div className={` ${conexParent == "superAdmin" ? "h-[170px]" : "h-[120px]"} w-[48%]  rounded-[7px] bg-[#FBFBFB] flex justify-center items-center`}>
             <div className="h-[85%] w-[86%]">
               <h2 className="font-[500] text-[12px] line-clamp-2 w-[99%]">
                 {profile?.name}
@@ -229,7 +232,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
               </div>
             </div>
           </div>
-          <div className="h-[114px] w-[48%]  flex justify-center items-center">
+          <div className={` ${conexParent == "superAdmin" ? "h-[170px]" : "h-[120px]"}  w-[48%]  flex justify-center items-center`}>
             <div className="h-[100%] w-[90%] flex flex-col justify-between">
               <div className="w-[100%] flex justify-between">
                 <div
@@ -261,7 +264,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
                   </div>
                 ) : (
                   <div
-                    className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center"
+                    className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
                     onClick={() => {
                       handleShareModal(), setuserId(profile?.id);
                     }}
@@ -277,7 +280,7 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
               <div className="w-[100%] flex justify-between">
                 {conexParent != "superAdmin2" ? (
                   <div
-                    className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center"
+                    className="h-[53px] w-[46%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
                     onClick={() => {
                       handleShareModal(), setuserId(profile?.id);
                     }}
@@ -319,6 +322,23 @@ const MemberCard = ({ profile, companyProfile, updateChildList }) => {
                   </div>
                 )}
               </div>
+              {conexParent == "superAdmin" && (
+              <div className="w-[100%] flex justify-between">
+                  <div
+                    className="h-[53px] w-[100%] bg-[#FBFBFB] rounded-[6px] flex flex-col justify-center items-center cursor-pointer"
+                    onClick={() => 
+                      loginAsTeam(profile?.id, navigate)
+                    }
+                  >
+                    
+                    <TbLogin className="text-[#3D3C3C] sm:text-[16px] text-[21px]" />
+                    <p className="font-[500] sm:text-[9px] text-[12px] text-[#3D3C3C]">
+                      {t("Login As Admin")}
+                    </p>
+                  </div>
+              </div>
+              )}
+              
             </div>
           </div>
         </div>

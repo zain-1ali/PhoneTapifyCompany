@@ -142,6 +142,7 @@ const CreateNewTeam = ({ modal, handleModal, singleTeam }) => {
 
                     <input
                       type="file"
+                      accept="image/*"
                       id="prflImg"
                       style={{ opacity: 0, width: "0px", height: "0px" }}
                       onChange={handlebgImageChange}

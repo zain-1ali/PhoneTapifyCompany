@@ -34,12 +34,18 @@ import {
   setQrLogo,
   setQrColor,
   setFormHeader,
+  setLeadDropLabel,
+  setLeadTextLabel,
   setNameVisible,
   setEmailVisible,
   setPhoneVisible,
   setJobVisible,
   setCompanyVisible,
   setNoteVisible,
+  setDateVisible,
+  setDropdownVisible,
+  setFileVisible,
+  setShortTextVisible,
   setLead,
   setDark,
   setPoweredVizz,
@@ -61,6 +67,8 @@ import {
   setFeaturedVideos,
   setWalletReferel,
   setShareToggle,
+  setVisibleMembers,
+  setLeadDropOptions,
 } from "../redux/profileInfoSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -167,6 +175,8 @@ const EditMember = () => {
     dispatch(setAddress(singleProfile[uid]?.address));
     dispatch(setBio(singleProfile[uid]?.bio));
     dispatch(setProfilePictureLock(singleProfile[uid]?.profilePictureLock));
+    dispatch(setVisibleMembers(singleProfile[uid]?.visibleMembers));
+    dispatch(setLeadDropOptions(singleProfile[uid]?.leadDropOptions || []));
     // dispatch(setlogoLock(singleProfile[uid]?.logoLock));
     // dispatch(setcoverLock(singleProfile[uid]?.coverLock));
     // dispatch(setnameLock(singleProfile[uid]?.nameLock));
@@ -209,12 +219,18 @@ const EditMember = () => {
     dispatch(setWalletReferel(singleProfile?.[uid]?.walletReferel));
     dispatch(setDark(singleProfile?.[uid]?.darkTheme));
     dispatch(setFormHeader(singleProfile?.[uid]?.formHeader));
+    dispatch(setLeadDropLabel(singleProfile?.[uid]?.leadDropLabel));
+    dispatch(setLeadTextLabel(singleProfile?.[uid]?.leadTextLabel));
     dispatch(setNameVisible(singleProfile?.[uid]?.leadForm?.Fname));
     dispatch(setEmailVisible(singleProfile?.[uid]?.leadForm?.email));
     dispatch(setPhoneVisible(singleProfile?.[uid]?.leadForm?.phone));
     dispatch(setJobVisible(singleProfile?.[uid]?.leadForm?.job));
     dispatch(setCompanyVisible(singleProfile?.[uid]?.leadForm?.company));
     dispatch(setNoteVisible(singleProfile?.[uid]?.leadForm?.note));
+    dispatch(setDateVisible(singleProfile?.[uid]?.leadForm?.date));
+    dispatch(setDropdownVisible(singleProfile?.[uid]?.leadForm?.dropdown));
+    dispatch(setFileVisible(singleProfile?.[uid]?.leadForm?.file));
+    dispatch(setShortTextVisible(singleProfile?.[uid]?.leadForm?.shortText));
     // dispatch(setPoweredVizz(singleProfile?.data?.poweredVizz));
     // dispatch(setTextColor(singleProfile?.data?.textColor));
     // dispatch(setbtnColor(singleProfile?.data?.saveBtnColor));

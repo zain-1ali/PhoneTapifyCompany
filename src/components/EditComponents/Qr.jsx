@@ -114,6 +114,7 @@ const Qr = ({ uid, handleCancelQr }) => {
             <input
               type="file"
               name="qrimg"
+              accept="image/*"
               id="qrimg"
               class="opacity-0 w-[0px] h-[0px]"
               onChange={handleLogoImageChange}

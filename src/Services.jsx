@@ -23,6 +23,7 @@ import {
   ref as sRef,
   uploadBytes,
   uploadBytesResumable,
+  deleteObject
 } from "firebase/storage";
 import axios from "axios";
 // import { useTranslation } from "react-i18next";
@@ -77,6 +78,7 @@ export const handleLogin = async (data, navigate) => {
                     console.log(2)
                     localStorage.setItem("connexUid", "superAdmin");
                     localStorage.setItem("conexParent", "superAdmin");
+                    localStorage.setItem("loginBy", "admin");
                     navigate("/home");
                     window.location.reload();
                   } 
@@ -96,6 +98,7 @@ export const handleLogin = async (data, navigate) => {
                 if (dataArray?.isAdmin === true) {
                   localStorage.setItem("connexUid", user?.uid);
                   localStorage.setItem("conexParent", dataArray?.parentID);
+                  localStorage.setItem("loginBy", "company");
                   navigate("/home");
                   window.location.reload();
                 } else {
@@ -132,6 +135,39 @@ export const handleLogin = async (data, navigate) => {
   }
 };
 
+export const loginAsTeam = (companyId, navigate) => {
+  console.log(companyId);
+
+  const starCountRef = query(
+    ref(db, "/Users"),
+    orderByChild("id"),
+    equalTo(companyId)
+  );
+  onValue(starCountRef, async (snapshot) => {
+    const data = await snapshot.val();
+    console.log("data", data);
+    let dataArray = Object.values(data)?.[0];
+ 
+      localStorage.setItem("proStatus", dataArray?.isActiveCompany);
+      localStorage.setItem("connexUid", companyId);
+      localStorage.setItem("conexParent", dataArray?.parentID);
+      localStorage.setItem("loginBy", "admin");
+      navigate("/home");
+      window.location.reload();
+    MediaKeyStatusMap;
+
+  });
+};
+
+export const existToAdmin = (navigate) => {
+
+      localStorage.setItem("connexUid", "superAdmin");
+      localStorage.setItem("conexParent", "superAdmin");
+      localStorage.setItem("loginBy", "admin");
+      navigate("/home");
+      window.location.reload();
+
+};
 
 // ------------------------------------------------Forget Password-----------------------------------------------
 
@@ -702,15 +738,27 @@ export const fetchCompanyTags = async (callBackFunc, setloading, cb) => {
 };
 // ------------------------------------------------Get all child profiles-----------------------------------------------
 
-export const getAllChilds = async (callBackFunc, setloading) => {
-  setloading(true);
+export const getAllChilds = async (callBackFunc, setloading, parentId) => { // parentId is optional
+  // setloading(true);
   try {
+    // console.log(cnxId);
+    // console.log(parentId);
+    let starCountRef = [];
     // Fetch users based on parentID
-    const starCountRef = query(
+    if(parentId){
+     starCountRef = query(
+        ref(db, "/Users"),
+        orderByChild("parentID"),
+        equalTo(parentId)
+      );
+    }
+   else{
+   starCountRef = query(
       ref(db, "/Users"),
       orderByChild("parentID"),
       equalTo(cnxId)
     );
+   }
 
     const snapshot = await get(starCountRef);
 
@@ -1201,10 +1249,10 @@ export const appendBucketPath = (path) => {
 
 // ------------------------------------------------Update lead Data-----------------------------------------------
 
-export const updateLead = async (id, formHeader, leadForm, success) => {
+export const updateLead = async (id, formHeader, leadDropLabel, leadTextLabel, leadForm, leadDropOptions, success) => {
 
 
-    update(ref(db, `Users/${id}`), { formHeader, leadForm }).then(() => {
+    update(ref(db, `Users/${id}`), { formHeader, leadDropLabel, leadTextLabel, leadForm, leadDropOptions }).then(() => {
       toast.success(success ?? "");
     });
   
@@ -2006,6 +2054,11 @@ export const updateWalletReferel = (walletReferel, id) => {
   
   update(ref(db, `Users/${id}/`), { walletReferel: !walletReferel });
 };
+export const updateVisibleMembers = (updatedMembers, id) => {
+  
+  update(ref(db, `Users/${id}/`), { visibleMembers: updatedMembers });
+};
+
 export const handleChangeDarkMode = (darkTheme, id) => {
   console.log(darkTheme,id)
   update(ref(db, `Users/${id}/`), {
@@ -2112,20 +2165,50 @@ export const changeProfileStatus = (status, id) => {
 // ------------------------------------------------Get single child profile-----------------------------------------------
 
 export const getContacts = (id, cb) => {
-  console.log()
   const starCountRef = query(
     ref(db, "/Contacts"),
     orderByChild("parentId"),
     equalTo(id)
   );
+
   onValue(starCountRef, async (snapshot) => {
     const data = await snapshot.val();
-    cb(Object.values(data));
-    console.log("my data", data);
-
-    MediaKeyStatusMap;
+    
+    if (data) {
+      const sortedContacts = Object.values(data).sort(
+        (a, b) => (b.timestamp || 0) - (a.timestamp || 0) // Sort latest first
+      );
+      cb(sortedContacts);
+    } else {
+      cb([]); // Return empty array if no data
+    }
   });
 };
+
+
+// ------------------------------------------------delete contact file-----------------------------------------------
+
+export const deleteContactFileDb = (id, path, cb) => {
+  
+  const fileRef = sRef(storage, path);
+  const contactRef = ref(db, "/Contacts/" + id);
+  
+  deleteObject(fileRef).then(() => {
+    console.log("File deleted from Firebase Storage");
+    update(contactRef, {
+      file: "",
+      fileSizeKb: ""
+    }).catch((error) => {
+      console.error("Error updating Realtime Database: ", error);
+    });
+
+  }).catch((error) => {
+    console.error("Error deleting file from Firebase Storage: ", error);
+  });
+
+  cb();
+};
+
 
 // ------------------------------------------------Get single child reviews-----------------------------------------------
 

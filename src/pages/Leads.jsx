@@ -21,16 +21,24 @@ import DownloadCsv from "../components/DownloadCsv";
 import { useTranslation } from "react-i18next";
 import { combineSlices } from "@reduxjs/toolkit";
 
-const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFilterVal, filteredDataCallback}) => {
+const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFilterVal, filteredDataCallback, spaceUsed, setSpaceUsed}) => {
   let [leads, setLeads] = useState([]);
   var screen = window.innerWidth;
   const { t } = useTranslation();
 
+  let calculateSpace = () => {
+    let space = 0;
+    leads.forEach((item) => {
+      if (item?.fileSizeKb) {
+        space += item?.fileSizeKb / 1024;
+      }
+    });
+    setSpaceUsed(space.toFixed(1));
+  };
   let connexUid = localStorage.getItem("connexUid");
   useEffect(() => {
     getContacts(connexUid, setLeads);
   }, []);
-
 
 
   let [leadModal, setleadModal] = useState(false);
@@ -47,6 +55,7 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
   let [filtered, setfiltered] = useState([{}]);
   useEffect(() => {
     setfiltered(leads);
+    calculateSpace();
   }, [leads]);
 
   useEffect(() => {
@@ -199,9 +208,9 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
       />
 
 
-      <div className="sm:w-[100%] w-[100%] flex justify-center overflow-y-scroll">
+      <div className="sm:w-[100%] sm:h-[78%] w-[100%] h-[78%] flex justify-center overflow-y-scroll">
         <div className="w-[97%] ">
-          <div className="w-[100%] flex flex-col items-center">
+          <div className="w-[150%] flex flex-col items-center overflow-x-scroll pb-8">
             <div className="w-[95%] h-[47px] rounded-[36px] bg-[#ECEBEA] mt-[50px] flex justify-around items-center">
               {/* <div className="w-[5%]">
               <Checkbox defaultChecked color="default" />
@@ -213,11 +222,11 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
                 </p>
               </div>
               {screen >= 450 ? (
-                <div className="w-[15%] ">
+                <div className="w-[20%] ">
                   <p className="font-[500] text-[16px]"> {t("Email")}</p>
                 </div>
               ) : null}
-              <div className="w-[15%] ">
+              <div className="w-[18%] ">
                 <p
                   className="font-[500] sm:text-[16px] text-[12px]"
                   style={
@@ -231,7 +240,22 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
               </div>
               {screen >= 450 ? (
                 <div className="w-[15%] ">
+                  <p className="font-[500] text-[16px]">{t("Lead Date")}</p>
+                </div>
+              ) : null}
+              {screen >= 450 ? (
+                <div className="w-[14%] ">
                   <p className="font-[500] text-[16px]">{t("Date")}</p>
+                </div>
+              ) : null}
+              {screen >= 450 ? (
+                <div className="w-[16%] ">
+                  <p className="font-[500] text-[16px]">{t("Dropdown Option")}</p>
+                </div>
+              ) : null}
+              {screen >= 450 ? (
+                <div className="w-[15%] ">
+                  <p className="font-[500] text-[16px]">{t("File")}</p>
                 </div>
               ) : null}
               <div className="w-[15%] flex">
@@ -252,7 +276,7 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
                     })
                   }
                 >
-                  <div className="flex items-center w-[16%]">
+                  <div className="flex items-center w-[15%] ml-2">
                     <img
                       src={
                         contact?.image
@@ -267,13 +291,13 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
                     </p>
                   </div>
                   {screen >= 450 ? (
-                    <div className="w-[16%] ml-2">
+                    <div className="w-[20%] ml-2">
                       <p className="font-[500] text-[12px] w-[100%] break-all">
                         {contact?.email}
                       </p>
                     </div>
                   ) : null}
-                  <div className="flex items-center w-[16%] ">
+                  <div className="flex items-center w-[18%] ">
                     <img
                       src={
                         getMemberbyId(contact?.userid)?.profileUrl
@@ -294,6 +318,31 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
                       </p>
                     </div>
                   ) : null}
+                  {screen >= 450 ? (
+                    <div className="w-[15%]">
+                      <p className="font-[500] text-[12px]">
+                        {contact?.date ?? ""}
+                      </p>
+                    </div>
+                  ) : null}
+                   {screen >= 450 ? (
+                    <div className="w-[15%]">
+                      <p className="font-[500] text-[12px]">
+                        {contact?.dropdown ?? ""}
+                      </p>
+                    </div>
+                  ) : null}
+                  {screen >= 450 ? (
+                    <div className="w-[15%]">
+                      {(contact?.file && contact?.file!="") && 
+                      <a
+                      href={contact?.file && contact?.file !== "" ? appendBucketPath(contact?.file) : "#"}
+                      target="_blank"
+                      className="font-[500] text-[12px] w-[50%] bg-[#3fb621] text-white text-center px-2 py-1 rounded-md"
+                      >View</a>
+                      }
+                    </div>
+                  ) : null}
                   <div className="flex w-[15%]">
                     <div onClick={() => handleDeleteModal()}>
                       <FaRegTrashCan className="text-2xl ml-3" />
@@ -306,7 +355,7 @@ const Leads = ({search, userId, teamId, allProfiles, startDate, endDate, resetFi
               );
             })}
           </div>
-          <br />
+          
         </div>
         <ToastContainer position="top-center" autoClose={2000} />
       </div>

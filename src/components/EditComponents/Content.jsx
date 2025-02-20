@@ -135,7 +135,7 @@ const Content = ({ uid }) => {
     }
   };
   const { t } = useTranslation();
-  console.log(links);
+  
   const appendBucketPath = (path) => {
     
     let url = "";

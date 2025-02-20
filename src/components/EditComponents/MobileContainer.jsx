@@ -33,7 +33,7 @@ const MobileContainer = ({ id }) => {
       >
         {t("View Card")}
       </button>
-      <Mobile />
+      <Mobile id={id} />
     </div>
   );
 };
