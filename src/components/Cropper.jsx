@@ -47,7 +47,7 @@ const Cropper = ({
     );
 
     // Converting to base64
-    const base64Image = canvas.toDataURL("image/jpeg");
+    const base64Image = canvas.toDataURL("image/png");
     // setprofileImagePath(base64Image)
     if (isNotRedux) {
       setReduxState(base64Image);

@@ -30,6 +30,8 @@ import { BiLockAlt } from "react-icons/bi";
 import { FormControlLabel, Switch, styled } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { FiMinusCircle } from "react-icons/fi";
+import { LuDivideSquare } from "react-icons/lu";
+import DeleteModal from "../Modals/DeleteModal";
 
 const CompanyProfile = ({ uid }) => {
   var screen = window.innerWidth;
@@ -212,11 +214,17 @@ const CompanyProfile = ({ uid }) => {
   const logoLock = useSelector((state) => state.profileInfoSlice.logoLock);
   const coverLock = useSelector((state) => state.profileInfoSlice.coverLock);
 
-  let [modal, setModal] = useState(false);
+  let [removeImgModal, setRemoveImgModal] = useState(false);
+  let [warnText, setWarnText] = useState("");
+  let [delImg, setDelImg] = useState("");
 
+  let [modal, setModal] = useState(false);
   let handleModal = () => {
     setModal(!modal);
   };
+
+  let [imgToggleModal, setImgToggleModal] = useState(false);
+  let [toggleImg, setToggleImg] = useState("");
 
   // let shareUrl = `test.connexcard.com/${uid}`;
   let shareUrl = import.meta.env.VITE_APP_PROFILE_URL+uid;
@@ -292,7 +300,12 @@ const CompanyProfile = ({ uid }) => {
                 control={
                   <IOSSwitch
                     checked={!logoLock}
-                    onChange={() => dispatch(setlogoLock(!logoLock))}
+                    onChange={() => {
+                      setToggleImg("logo");
+                      setWarnText(!logoLock ? "Are you sure to remove logo image from team members profile?" : 
+                      "Are you sure to add logo image on team members profile?");
+                      setImgToggleModal(true);
+                    }}
                     className="ml-5"
                   />
                 }
@@ -303,7 +316,11 @@ const CompanyProfile = ({ uid }) => {
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
                   className="absolute right-[0px] top-0 text-red-500"
-                  onClick={() => dispatch(setLogoUrl(""))}
+                  onClick={() => {
+                    setDelImg("logo");
+                    setWarnText("Are you sure to remove logo image?");
+                    setRemoveImgModal(true);
+                  }}
                 />
                 <img
                   src={logo}
@@ -312,9 +329,8 @@ const CompanyProfile = ({ uid }) => {
                 />
               </div>
             ) : (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  bg-gray-100 flex justify-center items-center flex-col relative">
-                <label
-                  htmlFor="logoImg"
+              <label htmlFor="logoImg" className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  bg-gray-100 flex justify-center items-center flex-col cursor-pointer relative">
+                <div
                   className="absolute right-[0px] top-0"
                 >
                   <GrAddCircle style={{ fontSize: "20px" }} />
@@ -327,12 +343,12 @@ const CompanyProfile = ({ uid }) => {
                     onChange={handleLogoImageChange}
                     key={logoKey}
                   />
-                </label>
+                </div>
                 <BiImage
                   className="sm:text-[30px] text-[20px] "
                   style={{ color: "8F8E8E" }}
                 />
-              </div>
+              </label>
             )}
           </div>
           {"\u00A0"}
@@ -353,9 +369,12 @@ const CompanyProfile = ({ uid }) => {
                 control={
                   <IOSSwitch
                     checked={!profilePictureLock}
-                    onChange={() =>
-                      dispatch(setProfilePictureLock(!profilePictureLock))
-                    }
+                    onChange={() => {
+                      setToggleImg("profile");
+                      setWarnText(!profilePictureLock ? "Are you sure to remove profile image from team members profile?" : 
+                      "Are you sure to add profile image on team members profile?");
+                      setImgToggleModal(true);
+                    }}
                     className="ml-5"
                   />
                 }
@@ -368,7 +387,11 @@ const CompanyProfile = ({ uid }) => {
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
                   className="absolute right-[0px] top-0 text-red-500"
-                  onClick={() => dispatch(setProfileurl(""))}
+                  onClick={() => {
+                    setDelImg("profile");
+                    setWarnText("Are you sure to remove profile image?");
+                    setRemoveImgModal(true);
+                  }}
                 />
                 <img
                   src={profile}
@@ -377,9 +400,8 @@ const CompanyProfile = ({ uid }) => {
                 />
               </div>
             ) : (
-              <div className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  bg-gray-100 flex justify-center items-center flex-col relative">
-                <label
-                  htmlFor="prflImg"
+              <label htmlFor="prflImg" className="sm:w-[120px] sm:h-[120px] w-[70px] h-[70px] border  bg-gray-100 flex justify-center items-center flex-col cursor-pointer relative">
+                <div
                   className="absolute right-[0px] top-0"
                 >
                   <GrAddCircle style={{ fontSize: "20px" }} />
@@ -392,12 +414,12 @@ const CompanyProfile = ({ uid }) => {
                     onChange={handlePrflImageChange}
                     key={prflKey}
                   />
-                </label>
+                </div>
                 <PiUserRectangleFill
                   className="sm:text-[30px] text-[20px]"
                   style={{ color: "8F8E8E" }}
                 />
-              </div>
+              </label>
             )}
           </div>
           {"\u00A0"}
@@ -413,7 +435,12 @@ const CompanyProfile = ({ uid }) => {
                 control={
                   <IOSSwitch
                     checked={!coverLock}
-                    onChange={() => dispatch(setcoverLock(!coverLock))}
+                    onChange={() => {
+                      setToggleImg("cover");
+                      setWarnText(!coverLock ? "Are you sure to remove cover image from team members profile?" : 
+                      "Are you sure to add cover image on team members profile?");
+                      setImgToggleModal(true);
+                    }}
                     className="ml-5"
                   />
                 }
@@ -425,7 +452,11 @@ const CompanyProfile = ({ uid }) => {
                 <FiMinusCircle
                   style={{ fontSize: "25px" }}
                   className="absolute right-[0px] top-[-3px] text-red-500"
-                  onClick={() => dispatch(setCoverUrl(""))}
+                  onClick={() => {
+                    setDelImg("cover");
+                    setWarnText("Are you sure to remove cover image?");
+                    setRemoveImgModal(true);
+                  }}
                 />
                 <img
                   src={cover}
@@ -434,8 +465,8 @@ const CompanyProfile = ({ uid }) => {
                 />
               </div>
             ) : (
-              <div className="sm:w-[253px] w-[166px] sm:h-[150px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative">
-                <label htmlFor="cvrImg" className="absolute right-[3px] top-0">
+              <label htmlFor="cvrImg" className="sm:w-[253px] w-[166px] sm:h-[150px] h-[65px] rounded-[36px]  bg-gray-100 flex justify-center items-center flex-col relative cursor-pointer ">
+                <div className="absolute right-[3px] top-0">
                   <GrAddCircle style={{ fontSize: "20px" }} />
 
                   <input
@@ -446,12 +477,12 @@ const CompanyProfile = ({ uid }) => {
                     onChange={handlebgImageChange}
                     key={coverKey}
                   />
-                </label>
+                </div>
                 <IoImageOutline
                   className="sm:text-[30px] text-[20px]"
                   style={{ color: "8F8E8E" }}
                 />
-              </div>
+              </label>
             )}
           </div>
         </div>
@@ -661,6 +692,34 @@ const CompanyProfile = ({ uid }) => {
         <br />
         <br />
       </div>
+      <DeleteModal
+        deleteModal={removeImgModal}
+        handledeleteModal={() => setRemoveImgModal(false)}
+        text={warnText}
+        func={() => {
+          if (delImg === "logo") {
+            return dispatch(setLogoUrl(""));
+          } else if (delImg === "cover") {
+            return dispatch(setCoverUrl(""));
+          } else if (delImg === "profile") {
+            return dispatch(setProfileurl(""));
+          }
+        }}
+      />
+      <DeleteModal
+        deleteModal={imgToggleModal}
+        handledeleteModal={() => setImgToggleModal(false)}
+        text={warnText}
+        func={() => {
+          if (toggleImg === "logo") {
+            return dispatch(setlogoLock(!logoLock));
+          } else if (toggleImg === "profile") {
+            return dispatch(setProfilePictureLock(!profilePictureLock));
+          } else if (toggleImg === "cover") {
+            return dispatch(setcoverLock(!coverLock));
+          }
+        }}
+      />
     </div>
   );
 };

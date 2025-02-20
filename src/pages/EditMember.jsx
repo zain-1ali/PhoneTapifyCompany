@@ -415,6 +415,19 @@ const EditMember = () => {
                       {screen >= 450 ? t("Qr Code") : null}
                     </p>
                   </div>
+                  
+                  <div
+                    className="w-[25%] h-[55px] sm:rounded-[0px] rounded-[44px] sm:border-r cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                    onClick={() => handleRoute("lead")}
+                  >
+                    <FaFilter className="text-[16px] ml-2 " />
+                    <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
+                      {screen <= 450 && route?.isLead === true
+                        ? t("Forms")
+                        : null}
+                      {screen >= 450 ? t("Forms") : null}
+                    </p>
+                  </div>
                   <div
                     className="w-[25%] h-[55px] sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
                     onClick={() => handleRoute("webhook")}
@@ -422,21 +435,9 @@ const EditMember = () => {
                     <FaFilter className="text-[16px] ml-2 " />
                     <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
                       {screen <= 450 && route?.isLead === true
-                        ? t("Api Access")
+                        ? t("Settings")
                         : null}
-                      {screen >= 450 ? t("Api Access") : null}
-                    </p>
-                  </div>
-                  <div
-                    className="w-[25%] h-[55px] sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
-                    onClick={() => handleRoute("lead")}
-                  >
-                    <FaFilter className="text-[16px] ml-2 " />
-                    <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
-                      {screen <= 450 && route?.isLead === true
-                        ? t("Leads")
-                        : null}
-                      {screen >= 450 ? t("Leads") : null}
+                      {screen >= 450 ? t("Settings") : null}
                     </p>
                   </div>
                   
@@ -515,25 +516,9 @@ const EditMember = () => {
                     {screen >= 450 ? t("Qr Code") : null}
                   </p>
                 </div>
+                
                 <div
-                  className="w-[25%] h-[55px]  sm:rounded-[0px] rounded-[44px]   sm:border-r cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
-                  onClick={() => handleRoute("webhook")}
-                  style={
-                    route?.isWebhook
-                      ? { backgroundColor: "#000000", color: "white" }
-                      : null
-                  }
-                >
-                  <PiWebhooksLogoBold className="text-[16px] ml-1 " />
-                  <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
-                    {screen <= 450 && route?.isWebhook === true
-                      ? t("Api Access")
-                      : null}
-                    {screen >= 450 ? t("Api Access") : null}
-                  </p>
-                </div>
-                <div
-                  className="w-[25%] h-[55px] sm:rounded-tr-[35px] sm:rounded-[0px] rounded-[44px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                  className="w-[25%] h-[55px] sm:rounded-[0px] rounded-[44px] sm:border-r  cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
                   onClick={() => handleRoute("lead")}
                   style={
                     route?.isLead
@@ -544,9 +529,26 @@ const EditMember = () => {
                   <FaFilter className="text-[16px] ml-2 " />
                   <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
                     {screen <= 450 && route?.isLead === true
-                      ? t("Leads")
+                      ? t("Forms")
                       : null}
-                    {screen >= 450 ? t("Leads") : null}
+                    {screen >= 450 ? t("Forms") : null}
+                  </p>
+                </div>
+                <div
+                  className="w-[25%] h-[55px]  sm:rounded-[0px] rounded-[44px] sm:rounded-tr-[35px] cursor-pointer hover:bg-[#000000] flex items-center justify-center hover:text-white text-black"
+                  onClick={() => handleRoute("webhook")}
+                  style={
+                    route?.isWebhook
+                      ? { backgroundColor: "#000000", color: "white" }
+                      : null
+                  }
+                >
+                  <PiWebhooksLogoBold className="text-[16px] ml-1 " />
+                  <p className="font-[600] sm:text-[16px] text-[10px] ml-1">
+                    {screen <= 450 && route?.isWebhook === true
+                      ? t("Settings")
+                      : null}
+                    {screen >= 450 ? t("Settings") : null}
                   </p>
                 </div>
                 

@@ -121,26 +121,35 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
   };
   
 
-  const handleDownload = (ref) => {
+  const handleDownload = async (ref) => {
     if (ref.current) {
+      await document.fonts.ready; // Ensure fonts are fully loaded
+  
+      const scale = 2; // Increase scale for higher resolution
       const options = {
-        width: ref.current.offsetWidth * 2, // Double the size for better resolution
-        height: ref.current.offsetHeight * 2, // Double the size for better resolution
+        quality: 1,
+        useCORS: true,
+        width: ref.current.offsetWidth * scale,
+        height: ref.current.offsetHeight * scale,
+        style: {
+          transform: `scale(${scale})`, 
+          transformOrigin: "top left",
+          width: `${ref.current.offsetWidth}px`,
+          height: `${ref.current.offsetHeight}px`,
+        },
       };
-
-      // Capture the div with higher quality
-      domtoimage.toPng(ref.current, { quality: 1 })
+  
+      domtoimage.toPng(ref.current, options)
         .then((dataUrl) => {
           const link = document.createElement("a");
           link.href = dataUrl;
-          link.download = "div-image.png"; // Set the name of the downloaded image
+          link.download = "signature-image.png";
           link.click();
         })
-        .catch((error) => {
-          console.error("Error capturing div as image:", error);
-        });
+        .catch((error) => console.error("Error capturing div as image:", error));
     }
   };
+  
 
 
   const appendBucketPath = (path) => {
@@ -182,7 +191,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
       <div style={{ display: "flex", width: "max-content", height: "max-content", marginTop: "2rem" }}>
 
         <div ref={divRef} style={{width: "420px",
-              height: "265px",}}>
+              height: "265px",fontFamily: "'Inter', sans-serif"}} >
          
           <div
             id="signature"
@@ -224,30 +233,36 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                 borderLeft: "1px solid #9CA3AF",
               }}
             >
-              <div style={{ display: "flex", height: "50px" }}>
-                {userData?.logoUrl ? (
-                  <img
-                    src={appendBucketPath(userData?.logoUrl)}
-                    alt="profile image"
-                    style={{
-                      maxWidth: "100px",
-                      maxHeight: "50px",
-                    }}
-                  />
+              
+                {!companyProfile?.logoLock ? (
+                  (companyProfile?.logoUrl || userData?.logoUrl) && (
+                    <div style={{ display: "flex", height: "50px" }}>
+                      <img
+                        src={companyProfile?.logoUrl ? companyProfile?.logoUrl : userData?.logoUrl ? appendBucketPath(userData?.logoUrl) :  lgoplchldr}
+                        alt="profile image"
+                        style={{
+                          maxWidth: "150px",
+                          maxHeight: "50px",
+                        }}
+                      />
+                    </div>
+                  )
                 ) :
                 (
-                  companyProfile?.logoUrl && (
+                  userData?.logoUrl && (
+                    <div style={{ display: "flex", height: "50px" }}>
                   <img
-                    src={appendBucketPath(companyProfile?.logoUrl)}
+                  src={userData?.logoUrl ? appendBucketPath(userData?.logoUrl) :  lgoplchldr}
                     alt="profile image"
                     style={{
-                      maxWidth: "100px",
+                      maxWidth: "150px",
                       maxHeight: "50px",
                     }}
                   />
+                  </div>
                   )
                 )}
-              </div>
+              
 
               <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
                 <div style={{  display: "grid",
@@ -433,18 +448,20 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
                 </div>
               </div>
               <div style={{ display: "flex", marginTop: "0.75rem", marginBottom: "0.75rem" }}>
-                {userData?.logoUrl ? (
-                  <img
-                    src={appendBucketPath(userData?.logoUrl)}
-                    alt="profile image"
+                {!companyProfile?.logoLock ? (
+                 (companyProfile?.logoUrl || userData?.logoUrl) && (
+                    <img
+                  src={companyProfile?.logoUrl ? companyProfile?.logoUrl : userData?.logoUrl ? appendBucketPath(userData?.logoUrl) :  ""}
+                    alt="logo"
                     style={{ maxWidth: "200px", maxHeight: "50px" }}
                   />
+                  )
                 ) :
                 (
-                  companyProfile?.logoUrl && (
+                  userData?.logoUrl && (
                   <img
-                    src={appendBucketPath(companyProfile?.logoUrl)}
-                    alt="profile image"
+                    src={userData?.logoUrl ? appendBucketPath(userData?.logoUrl) :  lgoplchldr}
+                    alt="logo"
                     style={{
                       maxWidth: "100px",
                       maxHeight: "50px",
@@ -545,7 +562,7 @@ const EmailSignatureModal = ({ uid, signatureModal, handleclosesignature }) => {
             }}
             onClick={() => handleDownload(divRef2, "email-signature2.png")}
           >
-            {t("Download")}
+            {t("Download Image")}
           </button>
         </div>
       </div>

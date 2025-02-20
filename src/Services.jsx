@@ -425,13 +425,18 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           username: data?.name + randNum(),
           workPlace: "",
           formHeader: "Contact me!",
+          leadTextLabel: "Message",
           leadForm: {
             Fname: true,
-            company: true,
+            company: false,
             email: true,
-            job: true,
-            note: true,
+            job: false,
+            note: false,
             phone: true,
+            date: false,
+            file: false,
+            dropdown: false,
+            shortText: true,
           },
           isAdmin: false,
           companyId: cnxId,
@@ -2354,7 +2359,7 @@ export const updateCompanyProfile = async (id, data, success) => {
     if (returnIfHttps(profileUrl) === false) {
       let name = new Date().getTime() + id;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, profileUrl.slice(23), "base64", {
+      uploadString(storageRef, profileUrl.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
@@ -2379,7 +2384,7 @@ export const updateCompanyProfile = async (id, data, success) => {
     if (returnIfHttps(coverUrl) === false) {
       let name = new Date().getTime() + id;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, coverUrl.slice(23), "base64", {
+      uploadString(storageRef, coverUrl.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
@@ -2404,7 +2409,7 @@ export const updateCompanyProfile = async (id, data, success) => {
     if (returnIfHttps(logoUrl) === false) {
       let name = new Date().getTime() + id;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, logoUrl.slice(23), "base64", {
+      uploadString(storageRef, logoUrl.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
