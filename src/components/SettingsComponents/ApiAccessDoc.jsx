@@ -7,7 +7,7 @@ import { IoIosCopy } from "react-icons/io";
 
 
 const ApiAccessDoc = ({ accessFrom }) => {
-  console.log(accessFrom)
+  
   const { t } = useTranslation();
   let [docExpand, setDocExpand] = useState(false);
 

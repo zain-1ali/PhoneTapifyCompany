@@ -19,6 +19,7 @@ import {
   setDesignation,
   setDirect,
   setDirectMode,
+  setAnalyticsTracking,
   setEmail,
   setEmailVisible,
   setFeaturedImages,
@@ -136,6 +137,15 @@ const Company = () => {
           linkID: companyProfile[companyId]?.direct?.linkID,
         })
       );
+
+      dispatch(
+        setAnalyticsTracking({
+          ga4: companyProfile[companyId]?.analyticTrackingData?.ga4 || "",
+          fbPixel: companyProfile[companyId]?.analyticTrackingData?.fbPixel || "",
+          gtm: companyProfile[companyId]?.analyticTrackingData?.gtm || "",
+        })
+      );
+
       dispatch(setDirectMode(companyProfile[companyId]?.directMode));
       dispatch(setQrLogo(companyProfile[companyId]?.qrLogoUrl));
       dispatch(setQrColor(companyProfile[companyId]?.qrColor));

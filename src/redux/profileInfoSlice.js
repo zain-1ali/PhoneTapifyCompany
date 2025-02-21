@@ -139,6 +139,13 @@ export const profileInfoSlice = createSlice({
         image: action.payload?.image,
       };
     },
+    setAnalyticsTracking: (state, action) => {
+      state.analyticsTracking = {
+        ga4: action.payload?.ga4,
+        fbPixel: action.payload?.fbPixel,
+        gtm: action.payload?.gtm,
+      };
+    },
     setDirectMode: (state, action) => {
       state.directMode = action.payload;
     },
@@ -308,6 +315,7 @@ export const {
   setFeaturedVideos,
   setAllNull,
   setDirect,
+  setAnalyticsTracking,
   setDirectMode,
   setFormHeader,
   setLeadDropLabel,

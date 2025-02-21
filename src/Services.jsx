@@ -1173,6 +1173,18 @@ export const updataAbout = async (id, data, t) => {
   // }
 };
 
+
+// ------------------------------------------------Update Tracking analytics-----------------------------------------------
+
+export const updateAnalyticsTraking = async (id, trackingData) => {
+
+  update(ref(db, `Users/${id}`), {
+    analyticTrackingData: trackingData,
+  }).then(() => {
+    toast.success("Information updated sucessfuly");
+  });
+};
+
 // ------------------------------------------------Update Qr Data-----------------------------------------------
 
 export const updateQrInfo = async (id, qrColor, logoimg, success) => {

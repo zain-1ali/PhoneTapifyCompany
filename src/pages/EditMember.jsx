@@ -31,6 +31,7 @@ import {
   setBio,
   setLinks,
   setDirect,
+  setAnalyticsTracking,
   setQrLogo,
   setQrColor,
   setFormHeader,
@@ -211,6 +212,16 @@ const EditMember = () => {
         linkID: singleProfile[uid]?.direct?.linkID,
       })
     );
+
+    dispatch(
+      setAnalyticsTracking({
+        ga4: singleProfile[uid]?.analyticTrackingData?.ga4 || "",
+        fbPixel: singleProfile[uid]?.analyticTrackingData?.fbPixel || "",
+        gtm: singleProfile[uid]?.analyticTrackingData?.gtm || "",
+      })
+    );
+
+
     dispatch(setDirectMode(singleProfile?.[uid]?.directMode));
     dispatch(setQrLogo(singleProfile?.[uid]?.qrLogoUrl));
     dispatch(setQrColor(singleProfile?.[uid]?.qrColor));
