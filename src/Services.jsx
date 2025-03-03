@@ -1097,7 +1097,7 @@ export const updataAbout = async (id, data, t) => {
     if (returnIfHttps(profileUrl) === false) {
       let name = new Date().getTime() + id;
       const storageRef1 = sRef(storage, name);
-      uploadString(storageRef1, profileUrl.slice(23), "base64", {
+      uploadString(storageRef1, profileUrl.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
@@ -1122,7 +1122,7 @@ export const updataAbout = async (id, data, t) => {
     if (returnIfHttps(coverUrl) === false) {
       let name = new Date().getTime() + id;
       const storageRef2 = sRef(storage, name);
-      uploadString(storageRef2, coverUrl.slice(23), "base64", {
+      uploadString(storageRef2, coverUrl.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
@@ -1147,7 +1147,7 @@ export const updataAbout = async (id, data, t) => {
     if (returnIfHttps(logoUrl) === false) {
       let name = new Date().getTime() + id;
       const storageRef3 = sRef(storage, name);
-      uploadString(storageRef3, logoUrl.slice(23), "base64", {
+      uploadString(storageRef3, logoUrl.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
@@ -1200,7 +1200,7 @@ export const updateQrInfo = async (id, qrColor, logoimg, success) => {
     if (returnIfHttps(logoimg) === false) {
       let name = new Date().getTime() + id;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, logoimg.slice(23), "base64", {
+      uploadString(storageRef, logoimg.split(",")[1], "base64", {
         contentType: "image/png",
       })
         .then(() => {
@@ -1296,7 +1296,7 @@ export const createTeam = async (
       if (returnIfHttps(data?.img) === false) {
         let name = new Date().getTime() + pushKey;
         const storageRef = sRef(storage, name);
-        uploadString(storageRef, data?.img.slice(23), "base64", {
+        uploadString(storageRef, data?.img.split(",")[1], "base64", {
           contentType: "image/png",
         })
           .then(() => {
@@ -1529,7 +1529,7 @@ export const addNewLink = async (
       const storageRef = sRef(storage, name);
       
       try {
-        await uploadString(storageRef, linkData?.image.slice(23), "base64", {
+        await uploadString(storageRef, linkData?.image.split(",")[1], "base64", {
           contentType: "image/png",
         });
         imageUrl = await getDownloadURL(storageRef);
@@ -1634,7 +1634,7 @@ export const addFeaturedImg = (
         imgData?.id
       )}:${id}.png`;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, imgData?.image.slice(23), "base64", {
+      uploadString(storageRef, imgData?.image.split(",")[1], "base64", {
         contentType: "image/png",
       }).then(() => {
         update(ref(db, `Users/${id}/featuredImages/${index}`), {
@@ -1672,7 +1672,7 @@ export const addFeaturedImg = (
         imgData?.id
       )}:${id}.png`;
       const storageRef = sRef(storage, name);
-      uploadString(storageRef, imgData?.image.slice(23), "base64", {
+      uploadString(storageRef, imgData?.image.split(",")[1], "base64", {
         contentType: "image/png",
       }).then(() => {
         set(ref(db, `Users/${id}/featuredImages/`), [
@@ -1809,7 +1809,7 @@ export const updateNewLink = async (
       const storageRef = sRef(storage, name);
 
       try {
-        await uploadString(storageRef, linkData?.image.slice(23), "base64", { contentType: "image/png" });
+        await uploadString(storageRef, linkData?.image.split(",")[1], "base64", { contentType: "image/png" });
         const URL = await getDownloadURL(storageRef);
 
         if (allLinks) {
@@ -1881,7 +1881,8 @@ export const updateNewLink = async (
       const storageRef = sRef(storage, name);
 
       try {
-        await uploadString(storageRef, linkData?.image.slice(23), "base64", { contentType: "image/png" });
+        
+        await uploadString(storageRef, linkData?.image.split(",")[1], "base64", { contentType: "image/png" });
         const URL = await getDownloadURL(storageRef);
 
         if (allLinks) {
@@ -2466,7 +2467,7 @@ export const updateTeam = async (
       if (returnIfHttps(data?.img) === false) {
         let name = new Date().getTime() + teamId;
         const storageRef = sRef(storage, name);
-        uploadString(storageRef, data?.img.slice(23), "base64", {
+        uploadString(storageRef, data?.img.split(",")[1], "base64", {
           contentType: "image/png",
         })
           .then(() => {

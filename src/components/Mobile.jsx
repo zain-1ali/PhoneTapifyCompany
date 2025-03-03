@@ -494,7 +494,9 @@ const Mobile = ({
         </div>
         {
           teamMembers?.length > 0 &&
-              <p className="w-[82%] border-b border-gray-400 mb-2">Team</p>
+              <p className="w-[82%] border-b border-gray-400 mb-2" style={{
+                color: textColor ? textColor : "#000000",
+              }}>Team</p>
           }
           <div className="w-[90%] grid grid-cols-4 ml-6 gap-y-3 mb-3">
           {teamMembers?.map((member) => {

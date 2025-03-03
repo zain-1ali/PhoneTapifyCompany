@@ -323,7 +323,7 @@ const Company = () => {
               }}
             />
             <Tab
-              label={t("API ACCESS")}
+              label={t("API SETTINGS")}
               sx={{
                 fontSize: "16px",
                 fontWeight: "600",
