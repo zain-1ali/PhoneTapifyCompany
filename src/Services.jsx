@@ -426,6 +426,7 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           workPlace: "",
           formHeader: "Contact me!",
           leadTextLabel: "Message",
+          dateLabel: "Date",
           leadForm: {
             Fname: true,
             company: false,
@@ -582,13 +583,19 @@ export const createNewCard = async (data, callBack, companyProfile) => {
           website: "",
           workPlace: "",
           formHeader: "Contact me!",
+          leadTextLabel: "Message",
+          dateLabel: "Date",
           leadForm: {
             Fname: true,
-            company: true,
+            company: false,
             email: true,
-            job: true,
-            note: true,
+            job: false,
+            note: false,
             phone: true,
+            date: false,
+            file: false,
+            dropdown: false,
+            shortText: true,
           },
           isAdmin: true,
           companyId: user.uid,
@@ -1266,10 +1273,10 @@ export const appendBucketPath = (path) => {
 
 // ------------------------------------------------Update lead Data-----------------------------------------------
 
-export const updateLead = async (id, formHeader, leadDropLabel, leadTextLabel, leadForm, leadDropOptions, success) => {
+export const updateLead = async (id, formHeader, leadDropLabel, leadTextLabel, dateLabel, leadForm, leadDropOptions, success) => {
 
 
-    update(ref(db, `Users/${id}`), { formHeader, leadDropLabel, leadTextLabel, leadForm, leadDropOptions }).then(() => {
+    update(ref(db, `Users/${id}`), { formHeader, leadDropLabel, leadTextLabel, dateLabel, leadForm, leadDropOptions }).then(() => {
       toast.success(success ?? "");
     });
   

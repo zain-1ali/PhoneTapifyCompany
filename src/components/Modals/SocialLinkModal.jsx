@@ -358,7 +358,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   let checkAdded = (linkid) => {
     if (links) {
       let ifAdded = links?.some((elm) => {
-        return parseInt(elm?.linkID) == linkid;
+        return parseInt(elm?.linkID) == parseInt(linkid);
       });
       return ifAdded;
     }
@@ -367,7 +367,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   let checkIfCstmAdded = (linkid) => {
     if (links) {
       let ifAdded = links?.find((elm) => {
-        return elm?.linkID == linkid;
+        return parseInt(elm?.linkID) == parseInt(linkid);
       });
 
       return ifAdded;
@@ -388,7 +388,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
   let addAlreadyExist = (link, index) => {
     setLinkValue({ value: "", shareable: true });
     let addedLink = links.find((elm) => {
-      return elm?.linkID === link?.linkID;
+      return parseInt(elm?.linkID) === link?.linkID;
     });
 
     if (addedLink) {
@@ -403,7 +403,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
       });
       setLinkInfo({
         name: addedLink?.name,
-        image: addedLink?.image ? addedLink?.image : link?.img,
+        image: (addedLink?.linkID > 49 && addedLink?.linkID < 60) ? addedLink?.image ? appendBucketPath(addedLink?.image) : link?.img :  link?.img,
         linkID: link?.linkID,
         placeholder: link?.placeholder,
         baseUrl: link?.baseUrl,
@@ -1260,7 +1260,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                         //       }
                         // }
                         >
-                          {checkAdded(elm?.linkID) && (
+                          {checkAdded(parseInt(elm?.linkID)) && (
                             <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
                           )}
                           <div className="flex justify-between items-center w-[100%]">
@@ -1309,7 +1309,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           //         }
                           //   }
                           >
-                            {checkAdded(elm?.linkID) && (
+                            {checkAdded(parseInt(elm?.linkID)) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
                             )}
 
@@ -1360,7 +1360,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           //         }
                           //   }
                           >
-                            {checkAdded(elm?.linkID) && (
+                            {checkAdded(parseInt(elm?.linkID)) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
                             )}
 
@@ -1410,7 +1410,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           //         }
                           //   }
                           >
-                            {checkAdded(elm?.linkID) && (
+                            {checkAdded(parseInt(elm?.linkID)) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
                             )}
 
@@ -1458,7 +1458,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                           //         }
                           //   }
                           >
-                            {checkAdded(elm?.linkID) && (
+                            {checkAdded(parseInt(elm?.linkID)) && (
                               <HiBadgeCheck className="absolute right-[-4px] top-[-7px] text-green-500 text-2xl" />
                             )}
 
@@ -1466,10 +1466,10 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                               <div className="flex h-[100%] items-center">
                                 <img
                                   src={
-                                    ifCustom(elm?.linkID) &&
-                                      checkAdded(elm?.linkID) &&
-                                      checkIfCstmAdded(elm?.linkID)?.image
-                                      ? appendBucketPath(checkIfCstmAdded(elm?.linkID)?.image)
+                                    ifCustom(parseInt(elm?.linkID)) &&
+                                      checkAdded(parseInt(elm?.linkID)) &&
+                                      checkIfCstmAdded(parseInt(elm?.linkID))?.image
+                                      ? appendBucketPath(checkIfCstmAdded(parseInt(elm?.linkID))?.image)
                                       : elm.img
                                   }
                                   className="h-[45px] w-[45px] rounded-lg object-cover"
@@ -1497,7 +1497,7 @@ const SocialLinkModal = ({ modal, handleClose, uid, allProfiles }) => {
                     </div>
                   </div>
 
-                   {/* ------------------------------------------More icons------------------------------------  */}
+                   {/* ------------------------------------------members links------------------------------------  */}
                    <div className="mt-10">
                     <h2 className="font-medium text-[#4F4F4F]">{t("Team Members Profile Link")}</h2>
                     <div className="  grid sm:grid-cols-3 grid-cols-1 gap-x-4">

@@ -16,6 +16,7 @@ import {
   setPhoneVisible,
   setLead,
   setLeadDropOptions,
+  setDateLabel,
   setLeadDropLabel,
   setLeadTextLabel
 } from "../../redux/profileInfoSlice";
@@ -89,7 +90,8 @@ const Lead = ({ uid }) => {
   let dispatch = useDispatch();
   const formHeader = useSelector((state) => state.profileInfoSlice.formHeader) ?? "Join Network";
   const leadDropLabel = useSelector((state) => state.profileInfoSlice.leadDropLabel) ?? "";
-  const leadTextLabel = useSelector((state) => state.profileInfoSlice.leadTextLabel) ?? "";
+  const leadTextLabel = useSelector((state) => state.profileInfoSlice.leadTextLabel) ?? "Message";
+  const dateLabel = useSelector((state) => state.profileInfoSlice.dateLabel) ?? "";
 
   const nameVisible = useSelector(
     (state) => state.profileInfoSlice.nameVisible
@@ -360,13 +362,33 @@ const handleRemoveOption = (optionToRemove) => {
             {/* Add Custom dropdown Option */}
             <div className="mt-4 w-[95%]">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Add Label for message
+                    Label Title
                 </label>
                 <div className="flex items-center gap-2">
                     <input
                         type="text"
                         value={leadTextLabel}
                         onChange={(e) => dispatch(setLeadTextLabel(e.target.value))}
+                        placeholder="Enter Label"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none"
+                    />
+                </div>
+            </div>
+            </>
+            )
+          }
+          {dateVisible && (
+            <>
+            {/* Add Custom dropdown Option */}
+            <div className="mt-4 w-[95%]">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Add Label for Date
+                </label>
+                <div className="flex items-center gap-2">
+                    <input
+                        type="text"
+                        value={dateLabel}
+                        onChange={(e) => dispatch(setDateLabel(e.target.value))}
                         placeholder="Enter Label"
                         className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none"
                     />
@@ -449,13 +471,14 @@ const handleRemoveOption = (optionToRemove) => {
         <button
           className="w-[120px] h-[40px] rounded-[15px] ml-2 font-[600] text-[12px]  shadow-md bg-[#000000] text-white"
           onClick={ 
-            (dropdownVisible && options.length == 0) ? () => toast.error('Add Atleast one dropdown option') : 
+            (dropdownVisible && options.length == 0) ? () => toast.error('Add atleast one dropdown option') : 
             () =>
             updateLead(
               uid,
               formHeader,
               leadDropLabel,
               leadTextLabel,
+              dateLabel,
               leadForm,
               options,
               t("Information updated sucessfuly")

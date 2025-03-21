@@ -34,6 +34,7 @@ const initialState = {
   formHeader: "",
   leadDropLabel: "",
   leadTextLabel: "",
+  dateLabel: "",
   nameVisible: false,
   emailVisible: false,
   companyVisible: false,
@@ -158,6 +159,9 @@ export const profileInfoSlice = createSlice({
     },
     setLeadTextLabel: (state, action) => {
       state.leadTextLabel = action.payload;
+    },
+    setDateLabel: (state, action) => {
+      state.dateLabel = action.payload;
     },
     setNameVisible: (state, action) => {
       state.nameVisible = action.payload;
@@ -320,6 +324,7 @@ export const {
   setFormHeader,
   setLeadDropLabel,
   setLeadTextLabel,
+  setDateLabel,
   setNameVisible,
   setEmailVisible,
   setCompanyVisible,

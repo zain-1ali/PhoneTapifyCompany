@@ -37,6 +37,7 @@ import {
   setFormHeader,
   setLeadDropLabel,
   setLeadTextLabel,
+  setDateLabel,
   setNameVisible,
   setEmailVisible,
   setPhoneVisible,
@@ -232,6 +233,7 @@ const EditMember = () => {
     dispatch(setFormHeader(singleProfile?.[uid]?.formHeader));
     dispatch(setLeadDropLabel(singleProfile?.[uid]?.leadDropLabel));
     dispatch(setLeadTextLabel(singleProfile?.[uid]?.leadTextLabel));
+    dispatch(setDateLabel(singleProfile?.[uid]?.dateLabel));
     dispatch(setNameVisible(singleProfile?.[uid]?.leadForm?.Fname));
     dispatch(setEmailVisible(singleProfile?.[uid]?.leadForm?.email));
     dispatch(setPhoneVisible(singleProfile?.[uid]?.leadForm?.phone));
