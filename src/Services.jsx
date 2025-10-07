@@ -1095,7 +1095,7 @@ export const updataAbout = async (id, data, t) => {
     darkTheme,
     leadMode,
     bio,
-    profileUrl,
+    // profileUrl,
     logoUrl,
     coverUrl,
     backgroundColor,
@@ -1124,6 +1124,10 @@ export const updataAbout = async (id, data, t) => {
         .catch((error) => {
           console.log(error);
         });
+    }
+    else
+    {
+      update(ref(db, `Users/${id}`), { profileUrl: profileUrl });
     }
 
     if (returnIfHttps(coverUrl) === false) {
